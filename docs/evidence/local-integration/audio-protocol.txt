@@ -1,0 +1,1 @@
+PASS independent actual-hook protocol: ready gate, PCM order, flush/finish, retained final, no business send, edit/discard protection, duration drain, sent generation, unmount release

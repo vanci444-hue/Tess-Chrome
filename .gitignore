@@ -1,0 +1,21 @@
+.env
+.env.local
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+backend/data/
+node_modules/
+dist/
+*.log
+.DS_Store
+
+# Local orchestration state and raw dependency installation output.
+.sdd/status.json
+.sdd/tasks.json
+.sdd/work-log.md
+docs/evidence/local-integration/build.txt

@@ -1,0 +1,2816 @@
+{
+  "schema_version": 1,
+  "project": "Tess-Chrome",
+  "reviewed_at": "2026-09-20",
+  "purpose": "按真实页面追踪销售操作、接口、确定性计算和 Agent 工具。此页只读，无业务或付费请求。",
+  "evidence_boundary": "T001真实官网Capture已独立验证；T002–T007本地代码/协议/HTTP阶段通过。T008真实Qwen/ASR/高德已独立核对为BLOCKED（缺Key），T010最终dist安装、窄侧栏/桌面视觉与真实麦克风已独立核对为BLOCKED（浏览器工具不可用）。configured不代表服务可用。",
+  "differences": [
+    "设计目录曾列sidepanel.html/public manifest；最终实现共用frontend/index.html，由构建脚本生成dist/manifest.json并复制冻结extension脚本。",
+    "部分接口标题写SSE，但最终运行摘要为GET轮询JSON；WS仅用于音频。",
+    "已实现受限工具观察循环；没有独立多层风控模型、向量RAG或通用Plan-execute框架。",
+    "模型与地图/ASR适配器是真实传输代码，T007使用显式协议替身；不能据此宣称真实供应商已调用成功。"
+  ],
+  "sources": [
+    {
+      "id": "src-router",
+      "name": "frontend/src/router/index.tsx",
+      "path": "frontend/src/router/index.tsx",
+      "locator": "export const appRoutes",
+      "reviewed_sha256": "3b5fb7ebf68140d48e9d6720f7e5d4fd282d6accc32a4c447414723ad9bbb95d",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-customers-ui",
+      "name": "frontend/src/pages/Customers.tsx",
+      "path": "frontend/src/pages/Customers.tsx",
+      "locator": "export default function Customers",
+      "reviewed_sha256": "527ecbcadeed230010431aa178d08bfa10870299d04d9a25e9aac334a3d7c06e",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-new-ui",
+      "name": "frontend/src/pages/NewCustomer.tsx",
+      "path": "frontend/src/pages/NewCustomer.tsx",
+      "locator": "export default function NewCustomer",
+      "reviewed_sha256": "f3b16a52831f63b478a4967ba476f5d822d0de7b9bce88321a2976807c390ec7",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-session-ui",
+      "name": "frontend/src/pages/Session.tsx",
+      "path": "frontend/src/pages/Session.tsx",
+      "locator": "async function send",
+      "reviewed_sha256": "48203e6e4c1589d3c258455e3fd10fd48d28d57cdc505fe02603f5a48e7f1bd0",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-history-ui",
+      "name": "frontend/src/pages/History.tsx",
+      "path": "frontend/src/pages/History.tsx",
+      "locator": "export default function History",
+      "reviewed_sha256": "40a622503c01ceab3c731e1295424866cbfbe5c48ad6dd152f167abbd4d5fc23",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-report-ui",
+      "name": "frontend/src/pages/Report.tsx",
+      "path": "frontend/src/pages/Report.tsx",
+      "locator": "export default function Report",
+      "reviewed_sha256": "2bb1121e1edcb75456df3d3b518fe698182570bf5099bf0a56e0042a5413080f",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-modules-ui",
+      "name": "frontend/src/components/ReportModules.tsx",
+      "path": "frontend/src/components/ReportModules.tsx",
+      "locator": "export function FinanceModule",
+      "reviewed_sha256": "6578b15ebe05a9ec641590d357a2fae5904b91638bcbb88bca3c6233e3db7949",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-charts-ui",
+      "name": "frontend/src/components/ReportCharts.tsx",
+      "path": "frontend/src/components/ReportCharts.tsx",
+      "locator": "export function",
+      "reviewed_sha256": "9e0f9bbea8cc7db48c2008554ae766d9ec36b1754338dcc86945eb45280ca00e",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-review-ui",
+      "name": "frontend/src/components/ReviewCard.tsx",
+      "path": "frontend/src/components/ReviewCard.tsx",
+      "locator": "export default",
+      "reviewed_sha256": "4388f054a5e5462117d362fa131cc2530cc071f9890193a32a13d95a04a70333",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-facts-ui",
+      "name": "frontend/src/utils/facts.ts",
+      "path": "frontend/src/utils/facts.ts",
+      "locator": "currentFacts",
+      "reviewed_sha256": "637191e8e9ed047ae3c620a11884bbccd1d1286abd054be48c00d5a704dc66ec",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-tess",
+      "name": "frontend/src/services/tess.ts",
+      "path": "frontend/src/services/tess.ts",
+      "locator": "export const tess",
+      "reviewed_sha256": "3a0f14c1c4be1fa1670e41ed6f9e177cc9064384d204ee761aa4c13b30d8f055",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-client",
+      "name": "frontend/src/services/api.ts",
+      "path": "frontend/src/services/api.ts",
+      "locator": "export async function request",
+      "reviewed_sha256": "52e13ccbe336cd4b075f4ed581258f6dfea5bef53be1a4b23aadf1af3c8f7765",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-poll",
+      "name": "frontend/src/hooks/useSession.ts",
+      "path": "frontend/src/hooks/useSession.ts",
+      "locator": "export function useSession",
+      "reviewed_sha256": "2b49285cb45b4a2851abe47008f7c14b10b38379de4aa8a511cdd0c0476adfa7",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-capture-ui",
+      "name": "frontend/src/services/capture.ts",
+      "path": "frontend/src/services/capture.ts",
+      "locator": "export async function captureCurrent",
+      "reviewed_sha256": "f568478c03e6f7bfd39ac857dac86853ab3694ae61168e6ca3420fbe53a2a480",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-worker",
+      "name": "extension/service-worker.js",
+      "path": "extension/service-worker.js",
+      "locator": "chrome.runtime.onMessage.addListener",
+      "reviewed_sha256": "d17cff4d55446a2524d53d1722894e0f13e33a5068bc3b4b717ceb9df7ba1985",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-capture",
+      "name": "extension/capture.js",
+      "path": "extension/capture.js",
+      "locator": "async function capture",
+      "reviewed_sha256": "98dc7661ebbd35de59ae99c1ea04ff90c0c70ae8f6776fef7778f8971430187b",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-asr-ui",
+      "name": "frontend/src/hooks/useRealtimeAsr.ts",
+      "path": "frontend/src/hooks/useRealtimeAsr.ts",
+      "locator": "export function useRealtimeAsr",
+      "reviewed_sha256": "4688b5830a6bd00e7df682edab8c3cfbac3769b8d679065ef5d9c4c333217447",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-pcm",
+      "name": "frontend/src/audio/pcm.ts",
+      "path": "frontend/src/audio/pcm.ts",
+      "locator": "export class Pcm16Encoder",
+      "reviewed_sha256": "f71e91d8b3baa76c81550d13f8b52c5b615153a295c41d98a8ab18501478ad74",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-transcript",
+      "name": "frontend/src/audio/transcript.ts",
+      "path": "frontend/src/audio/transcript.ts",
+      "locator": "export class TranscriptBuffer",
+      "reviewed_sha256": "725df59a221eca520a4f60ccce36332349e2b0652662c9d10e582ef46f89f6e5",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-api-customers",
+      "name": "backend/src/api/routes/customers.py",
+      "path": "backend/src/api/routes/customers.py",
+      "locator": "router = APIRouter",
+      "reviewed_sha256": "32162d8e395491c8e6a787d4411fbf51e3b688c8a5fe03b14309a00489d9f7f0",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-api-sessions",
+      "name": "backend/src/api/routes/sessions.py",
+      "path": "backend/src/api/routes/sessions.py",
+      "locator": "router = APIRouter",
+      "reviewed_sha256": "2bf514fd04e440f01faa6ace8c881874b1f44fe91c835d4636bb918ae72172a0",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-api-reports",
+      "name": "backend/src/api/routes/reports.py",
+      "path": "backend/src/api/routes/reports.py",
+      "locator": "router = APIRouter",
+      "reviewed_sha256": "5633a3fa8302c3fae2a34b1e49a1d46a039a735479ce26cf1afb9a7dda06abc9",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-api-runs",
+      "name": "backend/src/api/routes/runs.py",
+      "path": "backend/src/api/routes/runs.py",
+      "locator": "async def submit",
+      "reviewed_sha256": "eb93d4776166e0d912a74cb176a9619f6b1ecd0bfd14b56af5b16eb6d73b8d0c",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-api-audio",
+      "name": "backend/src/api/routes/audio.py",
+      "path": "backend/src/api/routes/audio.py",
+      "locator": "async def create_audio",
+      "reviewed_sha256": "835d7eb078bffc4d2a06b8484426d2f1048afd0cf849117b1aece7f5a70a8481",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-api-health",
+      "name": "backend/src/api/routes/health.py",
+      "path": "backend/src/api/routes/health.py",
+      "locator": "async def health",
+      "reviewed_sha256": "64c68da2183e2ed3a5d577b260da2468444a712388e026359f314cd484f44da0",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-contracts",
+      "name": "backend/src/models/contracts.py",
+      "path": "backend/src/models/contracts.py",
+      "locator": "class Contract",
+      "reviewed_sha256": "b70f083faf55a7c1b399f7f5ff0adb326c571fc1b176ac225fb2216a72109edc",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-customers",
+      "name": "backend/src/services/customers.py",
+      "path": "backend/src/services/customers.py",
+      "locator": "def clean_identity",
+      "reviewed_sha256": "0c18a724a64ecda5afee96ec3b91b9029ead31b7b49bae51226d5c3ffabf6d57",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-sessions",
+      "name": "backend/src/services/sessions.py",
+      "path": "backend/src/services/sessions.py",
+      "locator": "class SessionService",
+      "reviewed_sha256": "b2521d357bfb1626372fe7e1068d4aaf77045a34f9d7f31d196e04ed576c66ba",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-captures",
+      "name": "backend/src/services/captures.py",
+      "path": "backend/src/services/captures.py",
+      "locator": "class CaptureService",
+      "reviewed_sha256": "54fe674104bb78013d1990e93b107dce35141e7665b7ef0018f155ad8f43dfd1",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-facts",
+      "name": "backend/src/services/facts.py",
+      "path": "backend/src/services/facts.py",
+      "locator": "def current_facts",
+      "reviewed_sha256": "3211c3f5d0e2608c2f6505597f2454a55bf9e186517b79444f41cdf37618e1ea",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-events",
+      "name": "backend/src/services/events.py",
+      "path": "backend/src/services/events.py",
+      "locator": "class EventService",
+      "reviewed_sha256": "8c1b12ddbc39042231a9b0f8fe48c5dc9bb649537b3c07cdc0ed491cc4952411",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-report",
+      "name": "backend/src/services/reports.py",
+      "path": "backend/src/services/reports.py",
+      "locator": "class ReportService",
+      "reviewed_sha256": "02dd7180a1a386a59c95fbd2dcbe633c377d2bbc9a9ffc4ef71556fc242543d3",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-runtime",
+      "name": "backend/src/services/agent/runtime.py",
+      "path": "backend/src/services/agent/runtime.py",
+      "locator": "class AgentRunner",
+      "reviewed_sha256": "349c759f0769470cad609870bfb232c207872b461a2a2b8c0df36a7f98c46e6a",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-agent-contracts",
+      "name": "backend/src/services/agent/contracts.py",
+      "path": "backend/src/services/agent/contracts.py",
+      "locator": "class Submission",
+      "reviewed_sha256": "02bcf6103a0e03ae21edc9bcaf6a39f317588559bbdd7b5ea55d6a2c40a19001",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-submissions",
+      "name": "backend/src/services/agent/submissions.py",
+      "path": "backend/src/services/agent/submissions.py",
+      "locator": "async def accept_submission",
+      "reviewed_sha256": "e46251497fb97ff8debb23fade44aff193d9537cb32c9d91c9c91fd8e774efe4",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-context",
+      "name": "backend/src/services/agent/context.py",
+      "path": "backend/src/services/agent/context.py",
+      "locator": "async def context_snapshot",
+      "reviewed_sha256": "d036da2303be376ecc6c74bac9f1dc10d33e9fb39f37394ada168a34a2bd4dc1",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-crm",
+      "name": "backend/src/services/agent/crm.py",
+      "path": "backend/src/services/agent/crm.py",
+      "locator": "async def extract_crm",
+      "reviewed_sha256": "d3d8d7bc7a0de30c41e781f03509528dd308eaab54753e3e0b723e47e111f1df",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-registry",
+      "name": "backend/src/tools/registry.py",
+      "path": "backend/src/tools/registry.py",
+      "locator": "class ToolRegistry",
+      "reviewed_sha256": "0f586f93250a279353b9cc186f1196c6b833d93c758fd674f2bdbaf675bfe2a9",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-finance",
+      "name": "backend/src/tools/finance.py",
+      "path": "backend/src/tools/finance.py",
+      "locator": "def calculate_finance",
+      "reviewed_sha256": "c729ddcb9197ba4593c7d36df1afb74f314401ca68a1debb3a53f0135b7ee1a2",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-energy",
+      "name": "backend/src/tools/energy.py",
+      "path": "backend/src/tools/energy.py",
+      "locator": "def calculate_energy",
+      "reviewed_sha256": "82dc83047f3d786446949c12d0f5d6dd977f94c97cf85c08a6d71f98cabf1310",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-amap",
+      "name": "backend/src/adapters/amap.py",
+      "path": "backend/src/adapters/amap.py",
+      "locator": "class AmapProvider",
+      "reviewed_sha256": "f352b155715237a35636a262b59be53ed828684bc00f3510c2da5012ababfd4c",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-asr",
+      "name": "backend/src/services/asr.py",
+      "path": "backend/src/services/asr.py",
+      "locator": "async def stream_audio",
+      "reviewed_sha256": "0579a0398851ead6fd4bb14e645c92c2fe4d85b9db0517b0cd8166cfdfed5a76",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-asr-provider",
+      "name": "backend/src/adapters/asr.py",
+      "path": "backend/src/adapters/asr.py",
+      "locator": "class BailianASRProvider",
+      "reviewed_sha256": "e3697d9576e2fd62d74015a58a0c7b4b488379b2a3d0a7cea7e586e29ae9a3fc",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-llm",
+      "name": "backend/src/adapters/llm.py",
+      "path": "backend/src/adapters/llm.py",
+      "locator": "class BailianLLMProvider",
+      "reviewed_sha256": "fa8adafa588ed3778fe6a65ab9e367594cab07bfd26fbeb2054cd66a7e07ce65",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-settings",
+      "name": "backend/src/config/settings.py",
+      "path": "backend/src/config/settings.py",
+      "locator": "class Settings",
+      "reviewed_sha256": "3643e63ed0cf4b4654a844ab385eae952e312be6922135f676699c3a084c1cc5",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-main",
+      "name": "backend/src/main.py",
+      "path": "backend/src/main.py",
+      "locator": "def create_demo_app",
+      "reviewed_sha256": "00a1200bbd6a7132a3516d760bef8391bbf82f5820538ecbf2d63c1cf3567d18",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-agent-prompt",
+      "name": "backend/src/prompts/agent.txt",
+      "path": "backend/src/prompts/agent.txt",
+      "locator": "你是 Tess",
+      "reviewed_sha256": "27bf5161ae9c4ec44ed9b5834a5239ee32ee4429e5f102a49f4af48e4975f491",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-route-prompt",
+      "name": "backend/src/prompts/route.txt",
+      "path": "backend/src/prompts/route.txt",
+      "locator": "只返回 RouteDecision",
+      "reviewed_sha256": "a44b89f553bfb4118928726c6e20602990246c2e5b505356289c31a706fd12de",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-report-prompt",
+      "name": "backend/src/prompts/report.txt",
+      "path": "backend/src/prompts/report.txt",
+      "locator": "根据此前工具观察",
+      "reviewed_sha256": "c9848c50e42af80113cd83ef4e108923530231ef226e288ed2a3cbcbb2176418",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-extract-prompt",
+      "name": "backend/src/prompts/context_extract.txt",
+      "path": "backend/src/prompts/context_extract.txt",
+      "locator": "从销售原文提取",
+      "reviewed_sha256": "2cec95c46f5e52a4ab309e4c7c99c358e60e5818c9cfdc4683de457fba49cc8b",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-followup-prompt",
+      "name": "backend/src/prompts/followup.txt",
+      "path": "backend/src/prompts/followup.txt",
+      "locator": "为销售准备",
+      "reviewed_sha256": "eca54d203f2a31e403f65ebc1bf2cf47ab0e0f21bcbcae7163fb416968f9b2c6",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-build",
+      "name": "scripts/build-demo.sh",
+      "path": "scripts/build-demo.sh",
+      "locator": "TESS_ROOT=",
+      "reviewed_sha256": "7233ef4e89a4b5beaba82a9d87b72cf5fc65be95ae89969b591245e50261f020",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-run",
+      "name": "scripts/run-demo.sh",
+      "path": "scripts/run-demo.sh",
+      "locator": "TESS_ROOT=",
+      "reviewed_sha256": "f5ca23edeaede6de9d794ce051ec3969f8d464a4edef8606a367848d6f2b7370",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-handoff",
+      "name": "docs/evidence/local-integration/T007-handoff.md",
+      "path": "docs/evidence/local-integration/T007-handoff.md",
+      "locator": "## 未验与交接边界",
+      "reviewed_sha256": "5fe78fb2e7d5da2005d1f1357c224132c505566c0e783852f9f8fdfb9dc760fb",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-test7",
+      "name": ".sdd/test-reports/test-T-007.md",
+      "path": ".sdd/test-reports/test-T-007.md",
+      "locator": "**结果：PASS",
+      "reviewed_sha256": "31912ff49aec256573ab90dbf5474f588356a89f054dc7a2197736377d253587",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-prd",
+      "name": "docs/PRD.md",
+      "path": "docs/PRD.md",
+      "locator": "## 本次范围",
+      "reviewed_sha256": "da6781d12a20ff17580ed4db4c558824dc31ab2b06f3e66faafac55d0cdbc5ec",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-tech",
+      "name": "docs/tech-spec.md",
+      "path": "docs/tech-spec.md",
+      "locator": "## 七、项目本地层级设计",
+      "reviewed_sha256": "786764caac8f8c26c6e6809c3ca09bd3475a5c4f08b865016ac51032a0ac5989",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-test8",
+      "name": ".sdd/test-reports/test-T-008.md",
+      "path": ".sdd/test-reports/test-T-008.md",
+      "locator": "**结果：BLOCKED",
+      "reviewed_sha256": "148f597e098a07cc1443481f75a01b22b2dbf392b839425bdc9c7df417ea1a23",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-test10",
+      "name": ".sdd/test-reports/test-T-010.md",
+      "path": ".sdd/test-reports/test-T-010.md",
+      "locator": "**结果：BLOCKED",
+      "reviewed_sha256": "0a7c92867fcaa336fda02102a730e112fa6911388182dc7d6b3e4f2935606205",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    },
+    {
+      "id": "src-envelope",
+      "name": "pycore/api/responses.py",
+      "path": "pycore/api/responses.py",
+      "locator": "class APIResponse",
+      "reviewed_sha256": "f3a049928de975944d7de64629ba2e04671874d9ef8f4f0d9b131cb349ea5940",
+      "reviewed_at": "2026-09-20",
+      "implementation_status": "checked"
+    }
+  ],
+  "pages": [
+    {
+      "id": "page-customers",
+      "name": "客户列表",
+      "route": "/#/",
+      "purpose": "窄侧栏外层入口，固定 Alex Demo 身份，不做登录。",
+      "features": [
+        {
+          "id": "feature-search",
+          "name": "查找与进入客户",
+          "trigger": "搜索或点击客户行",
+          "input": "称呼/手机号/邮箱搜索词",
+          "output": "掩码客户列表与最近会话",
+          "flow": [
+            {
+              "actor": "前端",
+              "action": "输入关键词请求客户列表",
+              "data": "q/cursor",
+              "branch": "正常则进入下一步；失败保留输入并显示明确原因。"
+            },
+            {
+              "actor": "后端",
+              "action": "规范化检索并分页返回",
+              "data": "CustomerSummary[]，只显示contact_mask",
+              "branch": "正常则进入下一步；失败保留输入并显示明确原因。"
+            },
+            {
+              "actor": "前端",
+              "action": "进入最近会话；无会话先创建一次",
+              "data": "latest_session_id / customer_id",
+              "branch": "同一人再次试驾在会话内显式新建，不重建档案。"
+            }
+          ],
+          "api_ids": [
+            "API-002",
+            "API-004",
+            "API-019"
+          ],
+          "module_ids": [
+            "mod-identity",
+            "mod-runtime"
+          ],
+          "sources": [
+            "src-customers-ui"
+          ],
+          "implementation_status": "checked"
+        }
+      ],
+      "sources": [
+        "src-customers-ui",
+        "src-router"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "page-new",
+      "name": "新增客户 / CRM 粘贴",
+      "route": "/#/customers/new",
+      "purpose": "称呼与联系方式先确认，再进入本次复盘。",
+      "features": [
+        {
+          "id": "feature-create",
+          "name": "手填、CRM预览与软查重",
+          "trigger": "新增客户；可展开CRM提取预览",
+          "input": "称呼、手机号或邮箱；可选CRM原文",
+          "output": "确认后的客户与新会话",
+          "flow": [
+            {
+              "actor": "销售",
+              "action": "手填或粘贴CRM并请求预览",
+              "data": "必要信息，不主动连接Tesla CRM",
+              "branch": "正常则进入下一步；失败保留输入并显示明确原因。"
+            },
+            {
+              "actor": "后端",
+              "action": "脱敏模型提取或确定性身份校验",
+              "data": "proposed/historical_facts",
+              "branch": "LLM缺配置可直接改手填。"
+            },
+            {
+              "actor": "销售",
+              "action": "核对称呼联系方式并勾选确认",
+              "data": "identity_confirmed:true",
+              "branch": "重复联系信息时选择旧客户，或确认不同人独立建档。"
+            },
+            {
+              "actor": "前端/后端",
+              "action": "建档成功再创建报告会话",
+              "data": "customer_id → session_id",
+              "branch": "正常则进入下一步；失败保留输入并显示明确原因。"
+            }
+          ],
+          "api_ids": [
+            "API-001",
+            "API-003",
+            "API-004",
+            "API-005A"
+          ],
+          "module_ids": [
+            "mod-identity"
+          ],
+          "sources": [
+            "src-new-ui"
+          ],
+          "implementation_status": "checked"
+        }
+      ],
+      "sources": [
+        "src-new-ui",
+        "src-router"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "page-session",
+      "name": "客户会话 / 销售复盘",
+      "route": "/#/sessions/:sessionId",
+      "purpose": "主要工作空间：候选、自然语言复盘、确认卡、审核草稿与报告卡。",
+      "features": [
+        {
+          "id": "feature-session",
+          "name": "恢复会话、身份纠正与复访",
+          "trigger": "进入客户或点击新建试驾/身份编辑",
+          "input": "sessionId；客户或会话expected_revision",
+          "output": "本次候选与未发送草稿保持隔离",
+          "flow": [
+            {
+              "actor": "前端",
+              "action": "按session ID恢复上下文和本地未发送文字",
+              "data": "SessionDetail + 独立draftKey",
+              "branch": "正常则进入下一步；失败保留输入并显示明确原因。"
+            },
+            {
+              "actor": "销售/后端",
+              "action": "需要时确认身份纠正或创建复访会话",
+              "data": "CustomerUpdate / SessionCreate",
+              "branch": "历史事实只作参考；采用时新增本次事实。"
+            }
+          ],
+          "api_ids": [
+            "API-006",
+            "API-020",
+            "API-004"
+          ],
+          "module_ids": [
+            "mod-identity",
+            "mod-facts"
+          ],
+          "sources": [
+            "src-session-ui",
+            "src-facts-ui"
+          ],
+          "implementation_status": "checked"
+        },
+        {
+          "id": "feature-capture",
+          "name": "Capture 当前官网候选",
+          "trigger": "切到官网选配后点击Capture",
+          "input": "当前官方页面选中项",
+          "output": "最多三个不可变候选",
+          "flow": [
+            {
+              "actor": "前端",
+              "action": "检查候选上限并发扩展消息",
+              "data": "CAPTURE_CURRENT_CONFIGURATION",
+              "branch": "Web普通预览只能提示到插件使用。"
+            },
+            {
+              "actor": "扩展",
+              "action": "官方主frame读取两次可见投影",
+              "data": "500ms与SHA256",
+              "branch": "不稳定则拒绝保存；金融不可见留缺失。"
+            },
+            {
+              "actor": "后端",
+              "action": "校验来源与金额，保存快照并递增revision",
+              "data": "CaptureInput",
+              "branch": "第四候选409；修改偏好或移除不改原payload。"
+            }
+          ],
+          "api_ids": [
+            "API-007",
+            "API-008"
+          ],
+          "module_ids": [
+            "mod-capture"
+          ],
+          "sources": [
+            "src-session-ui",
+            "src-capture-ui"
+          ],
+          "implementation_status": "checked"
+        },
+        {
+          "id": "feature-audio",
+          "name": "实时语音复盘",
+          "trigger": "点击录音、停止、手动发送",
+          "input": "麦克风；已有文字；本次ASR会话",
+          "output": "可编辑草稿，发送后才进入Agent",
+          "flow": [
+            {
+              "actor": "前后端",
+              "action": "创建一次性音频连接，取得权限和上游ready",
+              "data": "AudioCreated/WS",
+              "branch": "拒绝权限或缺配置时可文字输入。"
+            },
+            {
+              "actor": "音频层",
+              "action": "重采样PCM并实时替换同item字幕",
+              "data": "16k/mono/100ms",
+              "branch": "背压/断流停采音，文字保留并提示尾句。"
+            },
+            {
+              "actor": "销售",
+              "action": "停止后检查、更正并点发送",
+              "data": "source:asr_corrected + asr_session_id",
+              "branch": "停止、导航收尾、finished事件都不会自动提交。"
+            }
+          ],
+          "api_ids": [
+            "API-009",
+            "API-022",
+            "API-021"
+          ],
+          "module_ids": [
+            "mod-asr"
+          ],
+          "sources": [
+            "src-asr-ui",
+            "src-session-ui"
+          ],
+          "implementation_status": "checked"
+        },
+        {
+          "id": "feature-agent",
+          "name": "追问、查询、分析与准备报告",
+          "trigger": "发送文字，或点击分析/准备报告/继续",
+          "input": "本次事实、候选与明确目标",
+          "output": "执行摘要、澄清卡、部分完成或报告草稿",
+          "flow": [
+            {
+              "actor": "后端",
+              "action": "持久化文字与queued run后202返回",
+              "data": "Submission/RunSubmission",
+              "branch": "缺LLM时原文保留且run失败，不生成假报告。"
+            },
+            {
+              "actor": "Agent",
+              "action": "路由、按需提取、检查冲突并调用工具观察结果",
+              "data": "RouteDecision + ToolObservation",
+              "branch": "关键疑点停等确认；Unknown不猜测。"
+            },
+            {
+              "actor": "前端",
+              "action": "轮询只读运行状态并恢复会话",
+              "data": "events/result",
+              "branch": "达到上限明确继续，轮询本身不再次执行任务。"
+            }
+          ],
+          "api_ids": [
+            "API-021",
+            "API-012",
+            "API-013",
+            "API-006"
+          ],
+          "module_ids": [
+            "mod-agent",
+            "mod-finance",
+            "mod-energy",
+            "mod-maps",
+            "mod-knowledge"
+          ],
+          "sources": [
+            "src-session-ui",
+            "src-poll"
+          ],
+          "implementation_status": "checked"
+        },
+        {
+          "id": "feature-confirm",
+          "name": "二次确认与不知道",
+          "trigger": "确认卡修改、确认或选择不知道/停止可选追问",
+          "input": "changes、替代关系与session revision",
+          "output": "当前事实、失效计算与必要追问",
+          "flow": [
+            {
+              "actor": "销售",
+              "action": "确认原文歧义与预算；不确定选择Unknown",
+              "data": "confirmed/unknown",
+              "branch": "正常则进入下一步；失败保留输入并显示明确原因。"
+            },
+            {
+              "actor": "后端",
+              "action": "追加事实并标明完整替代链",
+              "data": "supersedes",
+              "branch": "保留旧证据；跨会话ID不可修改。"
+            },
+            {
+              "actor": "前端",
+              "action": "刷新结果；必要时显式继续原目标",
+              "data": "continuation",
+              "branch": "停止可选追问不绕过关键冲突。"
+            }
+          ],
+          "api_ids": [
+            "API-011",
+            "API-012"
+          ],
+          "module_ids": [
+            "mod-facts"
+          ],
+          "sources": [
+            "src-session-ui",
+            "src-facts-ui"
+          ],
+          "implementation_status": "checked"
+        },
+        {
+          "id": "feature-review",
+          "name": "审核、预览与发布链接",
+          "trigger": "检查草稿，勾选审核并点击发布",
+          "input": "draft_revision、客户与会话revision；纯措辞调整",
+          "output": "固定报告链接和会话卡片",
+          "flow": [
+            {
+              "actor": "销售",
+              "action": "查看三问摘要、缺失与来源；仅编辑允许的措辞",
+              "data": "summary",
+              "branch": "数字事实句只读，需改输入并重新生成。"
+            },
+            {
+              "actor": "后端",
+              "action": "检查审核与依据revision及阻塞项",
+              "data": "PublishInput",
+              "branch": "过期或关键冲突拒绝，不静默发布。"
+            },
+            {
+              "actor": "后端/前端",
+              "action": "原子写快照及同ID报告卡，打开本机页面",
+              "data": "ReportPublished",
+              "branch": "同草稿重复提交复用ID；旧链接内容不变。"
+            }
+          ],
+          "api_ids": [
+            "API-014",
+            "API-015",
+            "API-016"
+          ],
+          "module_ids": [
+            "mod-report"
+          ],
+          "sources": [
+            "src-review-ui",
+            "src-session-ui"
+          ],
+          "implementation_status": "checked"
+        },
+        {
+          "id": "feature-followup",
+          "name": "演示后续客户互动摘要",
+          "trigger": "选择Mock事件，再点击整理跟进",
+          "input": "fixture_id + followup目标",
+          "output": "来源明确的待确认事项与销售下一步",
+          "flow": [
+            {
+              "actor": "销售/后端",
+              "action": "显式注入允许的Mock事件",
+              "data": "API017",
+              "branch": "不读取真实客户私人聊天。"
+            },
+            {
+              "actor": "Agent",
+              "action": "引用产品话题事件和本次报告整理摘要",
+              "data": "source_event_id/证据",
+              "branch": "无客户确认不标已解决，不根据浏览活跃度推断购买意愿。"
+            }
+          ],
+          "api_ids": [
+            "API-017",
+            "API-012"
+          ],
+          "module_ids": [
+            "mod-followup"
+          ],
+          "sources": [
+            "src-session-ui"
+          ],
+          "implementation_status": "checked"
+        }
+      ],
+      "sources": [
+        "src-session-ui",
+        "src-router"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "page-history",
+      "name": "历史报告与历次会话",
+      "route": "/#/customers/:customerId/history/:sessionId",
+      "purpose": "从独立历史入口找回同一客户的既有报告和复盘。",
+      "features": [
+        {
+          "id": "feature-history",
+          "name": "查看固定旧报告或切换会话",
+          "trigger": "点击历史报告卡/历次会话",
+          "input": "customerId、cursor",
+          "output": "原链接原快照或原会话",
+          "flow": [
+            {
+              "actor": "前端",
+              "action": "并行查询报告与会话列表",
+              "data": "API005A/B",
+              "branch": "正常则进入下一步；失败保留输入并显示明确原因。"
+            },
+            {
+              "actor": "后端",
+              "action": "只返回指定客户资源并分页",
+              "data": "固定url/published_at",
+              "branch": "其他客户资源不进入列表。"
+            },
+            {
+              "actor": "销售",
+              "action": "新标签打开报告或进入旧session",
+              "data": "report_id/session_id",
+              "branch": "新报告不覆盖旧报告，无版本比较/回滚界面。"
+            }
+          ],
+          "api_ids": [
+            "API-005A",
+            "API-005B",
+            "API-016"
+          ],
+          "module_ids": [
+            "mod-report"
+          ],
+          "sources": [
+            "src-history-ui"
+          ],
+          "implementation_status": "checked"
+        }
+      ],
+      "sources": [
+        "src-history-ui",
+        "src-router"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "page-preview",
+      "name": "报告草稿预览",
+      "route": "/#/preview/:sessionId",
+      "purpose": "销售预览，清楚标明未发布或草稿待更新。",
+      "features": [
+        {
+          "id": "feature-preview",
+          "name": "审核前查看完整图文",
+          "trigger": "审核卡打开预览",
+          "input": "SessionDetail.draft.report_data",
+          "output": "完整预览，无发布链接伪装",
+          "flow": [
+            {
+              "actor": "前端",
+              "action": "读取本会话草稿及stale/source_revision",
+              "data": "API006",
+              "branch": "没有草稿明确提示；过期显示待更新。"
+            },
+            {
+              "actor": "前端",
+              "action": "用与固定报告同一组件渲染",
+              "data": "ReportSnapshot/模块",
+              "branch": "地图读取session资产；按钮静态。"
+            }
+          ],
+          "api_ids": [
+            "API-006",
+            "API-018B"
+          ],
+          "module_ids": [
+            "mod-report"
+          ],
+          "sources": [
+            "src-report-ui",
+            "src-modules-ui"
+          ],
+          "implementation_status": "checked"
+        }
+      ],
+      "sources": [
+        "src-report-ui",
+        "src-router"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "page-report",
+      "name": "桌面固定 Report",
+      "route": "/reports/:reportId",
+      "purpose": "面向客户复盘，首屏回答比较什么、已明确什么、还需确认什么。",
+      "features": [
+        {
+          "id": "feature-report",
+          "name": "图表、来源与地图外链",
+          "trigger": "销售发出本机链接后在该电脑打开",
+          "input": "固定ReportSnapshot和地图asset",
+          "output": "车型比较、月供预算、能源估算、充电与待确认事项",
+          "flow": [
+            {
+              "actor": "前端/后端",
+              "action": "按报告ID读取不可变快照",
+              "data": "API016",
+              "branch": "不会拿最新客户信息改变旧报告。"
+            },
+            {
+              "actor": "前端",
+              "action": "从同一分单位数据生成正文与图表",
+              "data": "options/finance/energy",
+              "branch": "Unknown、Missing不画成0；Mock/Estimate不升级成官方结论。"
+            },
+            {
+              "actor": "客户",
+              "action": "查看来源及静态Prototype操作",
+              "data": "Ask/分享/联系按钮均静态",
+              "branch": "地图及高德搜索是可用外链例外；站点状态非实时，真实外链操作尚未验。"
+            }
+          ],
+          "api_ids": [
+            "API-016",
+            "API-018A"
+          ],
+          "module_ids": [
+            "mod-report",
+            "mod-maps",
+            "mod-energy",
+            "mod-finance"
+          ],
+          "sources": [
+            "src-report-ui",
+            "src-modules-ui",
+            "src-charts-ui"
+          ],
+          "implementation_status": "checked"
+        }
+      ],
+      "sources": [
+        "src-report-ui",
+        "src-router"
+      ],
+      "implementation_status": "checked"
+    }
+  ],
+  "apis": [
+    {
+      "id": "API-001",
+      "name": "CRM提取预览",
+      "method": "POST",
+      "url": "/api/customers/extract",
+      "request": "Header Idempotency-Key:UUID；Body CRMExtractInput{text:string}。",
+      "response": "200 JSON data:CRMExtractRead；extraction_id、proposed、historical_facts、missing。缺LLM→503。",
+      "models": [
+        "CRMExtractInput",
+        "CRMExtractRead",
+        "CRMProposed"
+      ],
+      "module_ids": [
+        "mod-identity"
+      ],
+      "sources": [
+        "src-api-customers",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "CRM提取预览",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-customers",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-002",
+      "name": "客户列表",
+      "method": "GET",
+      "url": "/api/customers",
+      "request": "Query q:string?、cursor:string?、limit:int(1..50，默认20)。",
+      "response": "200 JSON data:CustomerPage；items掩码联系方式，next_cursor:string|null。",
+      "models": [
+        "CustomerPage",
+        "CustomerSummary"
+      ],
+      "module_ids": [
+        "mod-identity"
+      ],
+      "sources": [
+        "src-api-customers",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "客户列表",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-customers",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-003",
+      "name": "确认建档",
+      "method": "POST",
+      "url": "/api/customers",
+      "request": "Body CustomerCreate；nickname、phone/email至少一项、identity_confirmed:true；可选extraction_id、allow_duplicate。",
+      "response": "201 JSON data:CustomerRead；重复联系方式409提示候选，不自动合并。",
+      "models": [
+        "CustomerCreate",
+        "CustomerRead"
+      ],
+      "module_ids": [
+        "mod-identity"
+      ],
+      "sources": [
+        "src-api-customers",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "确认建档",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-customers",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-004",
+      "name": "新建本次试驾",
+      "method": "POST",
+      "url": "/api/sessions",
+      "request": "Body SessionCreate{customer_id:UUID,title:string,visit_at:datetime|null}。",
+      "response": "201 JSON data:SessionRead，新session_id/revision。",
+      "models": [
+        "SessionCreate",
+        "SessionRead"
+      ],
+      "module_ids": [
+        "mod-identity"
+      ],
+      "sources": [
+        "src-api-sessions",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "新建本次试驾",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-sessions",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-005A",
+      "name": "历次会话列表",
+      "method": "GET",
+      "url": "/api/sessions",
+      "request": "Query customer_id:UUID、cursor:string?、limit:int。",
+      "response": "200 JSON data:SessionPage，items:SessionSummary[]。",
+      "models": [
+        "SessionPage",
+        "SessionSummary"
+      ],
+      "module_ids": [
+        "mod-identity"
+      ],
+      "sources": [
+        "src-api-sessions",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "历次会话列表",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-sessions",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-005B",
+      "name": "客户历史报告",
+      "method": "GET",
+      "url": "/api/customers/{customer_id}/reports",
+      "request": "Path customer_id:UUID；Query cursor:string?、limit:int。",
+      "response": "200 JSON data:ReportPage，items含固定url与published_at。",
+      "models": [
+        "ReportPage",
+        "ReportSummary"
+      ],
+      "module_ids": [
+        "mod-report"
+      ],
+      "sources": [
+        "src-api-customers",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "客户历史报告",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-customers",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-006",
+      "name": "恢复会话",
+      "method": "GET",
+      "url": "/api/sessions/{session_id}",
+      "request": "Path session_id:UUID。",
+      "response": "200 JSON data:SessionDetail；客户身份revision、候选、事实、问题、run、草稿、报告卡、timeline与followup。历史scope标注参考。",
+      "models": [
+        "SessionDetail",
+        "SessionCustomerRead",
+        "FactRead",
+        "QuestionRead",
+        "CaptureRead",
+        "DraftRead",
+        "TimelineRead",
+        "TrialVehicle"
+      ],
+      "module_ids": [
+        "mod-facts",
+        "mod-report"
+      ],
+      "sources": [
+        "src-api-sessions",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "恢复会话",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-sessions",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-007",
+      "name": "保存真实Capture",
+      "method": "POST",
+      "url": "/api/sessions/{session_id}/captures",
+      "request": "Path session_id:UUID；Body CaptureCreate{expected_revision:int,capture:CaptureInput}。",
+      "response": "201 JSON data:CaptureSaved，validity:valid|incomplete|conflict，issues、revision。",
+      "models": [
+        "CaptureCreate",
+        "CaptureInput",
+        "CapturedField",
+        "CapturedEvidence",
+        "CaptureSaved",
+        "Issue"
+      ],
+      "module_ids": [
+        "mod-capture"
+      ],
+      "sources": [
+        "src-api-sessions",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "保存真实Capture",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-sessions",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-008",
+      "name": "移除候选或标记偏好",
+      "method": "PATCH",
+      "url": "/api/sessions/{session_id}/captures/{capture_id}",
+      "request": "Path session_id/capture_id:UUID；Body CaptureUpdate{expected_revision,active?:false,preference?:string|null}。",
+      "response": "200 JSON data:CaptureUpdated；原immutable_payload保持不变。",
+      "models": [
+        "CaptureUpdate",
+        "CaptureUpdated"
+      ],
+      "module_ids": [
+        "mod-capture"
+      ],
+      "sources": [
+        "src-api-sessions",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "移除候选或标记偏好",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-sessions",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-009",
+      "name": "创建录音会话",
+      "method": "POST",
+      "url": "/api/sessions/{session_id}/audio",
+      "request": "Path session_id:UUID；Body AudioCreate{expected_revision:int,language:string|null}。",
+      "response": "201 JSON data:AudioCreated，ws_path相对路径、expires_in_seconds；重复活动录音409，缺配置503。",
+      "models": [
+        "AudioCreate",
+        "AudioCreated"
+      ],
+      "module_ids": [
+        "mod-asr"
+      ],
+      "sources": [
+        "src-api-audio",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "创建录音会话",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-audio",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-022",
+      "name": "实时音频流",
+      "method": "WebSocket",
+      "url": "/ws/sessions/{session_id}/audio/{asr_session_id}",
+      "request": "Path两个会话ID；允许Origin；ready后发送binary PCM16LE 16kHz mono 100ms帧；JSON {type:finish|discard}。",
+      "response": "专用JSON事件（非PyCore信封）：type、asr_session_id、seq:int；partial加item_id/text/stash:string；final加transcript:string；finished加complete:bool；error加code/message:string、incomplete:bool。",
+      "models": [],
+      "module_ids": [
+        "mod-asr"
+      ],
+      "sources": [
+        "src-api-audio",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "实时音频流",
+        "steps": [
+          "创建仅一次可连接的ASR会话，验证归属和有效期；上游配置成功才ready。",
+          "二进制传输不提交业务；finish后依次输出尾句与finished。"
+        ],
+        "branches": [
+          "ready前不发PCM；弃置/断开终止上游；无自动重连。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-audio",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-010",
+      "name": "仅提取事实入口（当前UI未直接调用）",
+      "method": "POST",
+      "url": "/api/sessions/{session_id}/inputs",
+      "request": "Body Submission{text,source,expected_revision,asr_session_id?等}。",
+      "response": "202 JSON data:{message_id:string|null,run_id:string,session_id:string,status:queued,kind:extract_context}。",
+      "models": [
+        "Submission"
+      ],
+      "module_ids": [
+        "mod-agent"
+      ],
+      "sources": [
+        "src-api-runs",
+        "src-contracts",
+        "src-tess",
+        "src-agent-contracts",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "仅提取事实入口（当前UI未直接调用）",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-runs",
+          "src-contracts",
+          "src-tess",
+          "src-agent-contracts"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-011",
+      "name": "确认本次Context",
+      "method": "PATCH",
+      "url": "/api/sessions/{session_id}/context",
+      "request": "Body ContextUpdate{expected_revision:int,changes:FactChange[],skip_optional_questions:bool,reply_to_run_id?,reply_to_question_ids?}。",
+      "response": "200 JSON data:ContextUpdated；revision、blocking_issues、invalidated_artifact_ids、optional_questions_stopped、continuation_hint。",
+      "models": [
+        "ContextUpdate",
+        "FactChange",
+        "ContextUpdated"
+      ],
+      "module_ids": [
+        "mod-facts"
+      ],
+      "sources": [
+        "src-api-sessions",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "确认本次Context",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-sessions",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-012",
+      "name": "显式Agent目标或继续",
+      "method": "POST",
+      "url": "/api/sessions/{session_id}/runs",
+      "request": "Body RunSubmission{intent:analyze|prepare_report|followup,message:string|null,expected_revision:int,continue_run_id?:UUID}。",
+      "response": "202 JSON data:{message_id:string|null,run_id:string,session_id:string,status:queued,kind:string}；后续读取API013。",
+      "models": [
+        "RunSubmission"
+      ],
+      "module_ids": [
+        "mod-agent"
+      ],
+      "sources": [
+        "src-api-runs",
+        "src-contracts",
+        "src-tess",
+        "src-agent-contracts",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "显式Agent目标或继续",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-runs",
+          "src-contracts",
+          "src-tess",
+          "src-agent-contracts"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-013",
+      "name": "运行摘要轮询",
+      "method": "GET",
+      "url": "/api/sessions/{session_id}/runs/{run_id}",
+      "request": "Path两个UUID；Query after_seq:int≥0默认0；只读。",
+      "response": "200 JSON data:{run_id,session_id,status:string,events:[{seq:int,type,label,tool_name,artifact_id}],last_seq:int,result:object|null,error:object|null,lineage:{parent_run_id,root_run_id,effective_intent},continuation:object|null}。没有SSE。",
+      "models": [],
+      "module_ids": [
+        "mod-agent"
+      ],
+      "sources": [
+        "src-api-runs",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "运行摘要轮询",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-runs",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-014",
+      "name": "修改审核草稿",
+      "method": "PATCH",
+      "url": "/api/sessions/{session_id}/drafts/{draft_id}",
+      "request": "Body DraftUpdate：expected_revision、draft_revision:int；summary:ReportSummaryText或change_request:string二选一。自然语言分支另需Header Idempotency-Key。当前UI直接编辑summary。",
+      "response": "summary分支200 JSON data:DraftUpdated；自然语言修改202 run引用；数字句变更400 READONLY_RESULT，旧revision409。",
+      "models": [
+        "DraftUpdate",
+        "ReportSummaryText",
+        "DraftUpdated"
+      ],
+      "module_ids": [
+        "mod-report",
+        "mod-agent"
+      ],
+      "sources": [
+        "src-api-reports",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "修改审核草稿",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-reports",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-015",
+      "name": "审核并发布",
+      "method": "POST",
+      "url": "/api/sessions/{session_id}/reports",
+      "request": "Body PublishInput{draft_id:UUID,draft_revision:int,expected_revision:int,review_confirmed:bool}。",
+      "response": "201 JSON data:PublishRead；report_id/url/timeline_message_id/snapshot_hash，重复发布同ID。",
+      "models": [
+        "PublishInput",
+        "PublishRead"
+      ],
+      "module_ids": [
+        "mod-report"
+      ],
+      "sources": [
+        "src-api-reports",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "审核并发布",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-reports",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-016",
+      "name": "读取固定报告",
+      "method": "GET",
+      "url": "/api/reports/{report_id}",
+      "request": "Path report_id:UUID。",
+      "response": "200 JSON data:ReportSnapshot；模块与来源时间固定；不存在404。页面GET /reports/{report_id}返回构建HTML后读取该API。",
+      "models": [
+        "ReportSnapshot",
+        "ReportModule",
+        "SourceRef",
+        "ReportSummaryText"
+      ],
+      "module_ids": [
+        "mod-report"
+      ],
+      "sources": [
+        "src-api-reports",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "读取固定报告",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-reports",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-017",
+      "name": "注入Mock跟进事件",
+      "method": "POST",
+      "url": "/api/sessions/{session_id}/events",
+      "request": "Body EventInject{fixture_id:string,expected_revision:int}；仅白名单模拟事件。",
+      "response": "200 JSON data:EventInjected{event_ids:string[],source:mock,revision:int}。",
+      "models": [
+        "EventInject",
+        "EventInjected"
+      ],
+      "module_ids": [
+        "mod-followup"
+      ],
+      "sources": [
+        "src-api-sessions",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "注入Mock跟进事件",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-sessions",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-018A",
+      "name": "固定报告地图资源",
+      "method": "GET",
+      "url": "/api/reports/{report_id}/assets/{asset_id}",
+      "request": "Path两个UUID；必须属于该报告。",
+      "response": "二进制图片FileResponse，真实MIME、ETag:SHA256；非JSON；归属不符404。",
+      "models": [],
+      "module_ids": [
+        "mod-maps",
+        "mod-report"
+      ],
+      "sources": [
+        "src-api-reports",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "固定报告地图资源",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-reports",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-018B",
+      "name": "草稿预览地图资源",
+      "method": "GET",
+      "url": "/api/sessions/{session_id}/assets/{asset_id}",
+      "request": "Path两个UUID；必须属于该会话。",
+      "response": "二进制图片FileResponse，MIME与ETag；非JSON。",
+      "models": [],
+      "module_ids": [
+        "mod-maps"
+      ],
+      "sources": [
+        "src-api-sessions",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "草稿预览地图资源",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-sessions",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-019",
+      "name": "本机健康状态",
+      "method": "GET",
+      "url": "/api/health",
+      "request": "无Body。",
+      "response": "200 JSON data:HealthRead；database:bool，status:ready|degraded，demo_advisor，capabilities:{llm,asr,maps}:configured|missing；不调用供应商。",
+      "models": [
+        "HealthRead",
+        "DemoAdvisor"
+      ],
+      "module_ids": [
+        "mod-runtime"
+      ],
+      "sources": [
+        "src-api-health",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "本机健康状态",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-health",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-020",
+      "name": "纠正客户身份",
+      "method": "PATCH",
+      "url": "/api/customers/{customer_id}",
+      "request": "Path customer_id:UUID；Body CustomerUpdate{expected_revision,nickname?/phone?/email?,identity_confirmed,allow_duplicate?}。",
+      "response": "200 JSON data:CustomerRead；未提供联系方式字段保留，更新使未发布草稿stale。",
+      "models": [
+        "CustomerUpdate",
+        "CustomerRead"
+      ],
+      "module_ids": [
+        "mod-identity"
+      ],
+      "sources": [
+        "src-api-customers",
+        "src-contracts",
+        "src-tess",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "纠正客户身份",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-customers",
+          "src-contracts",
+          "src-tess"
+        ],
+        "parameters": []
+      }
+    },
+    {
+      "id": "API-021",
+      "name": "手动发送自然语言",
+      "method": "POST",
+      "url": "/api/sessions/{session_id}/messages",
+      "request": "Body Submission：text:string、source:sales_text|asr_corrected、expected_revision:int；语音须asr_session_id；回答/继续/草稿引用按声明。",
+      "response": "202 JSON data:{message_id:string|null,run_id:string,session_id:string,status:queued,kind:interaction}；原文先保存，模型失败不丢原文。",
+      "models": [
+        "Submission"
+      ],
+      "module_ids": [
+        "mod-agent",
+        "mod-facts"
+      ],
+      "sources": [
+        "src-api-runs",
+        "src-contracts",
+        "src-tess",
+        "src-agent-contracts",
+        "src-envelope"
+      ],
+      "implementation_status": "checked",
+      "algorithm": {
+        "subject": "手动发送自然语言",
+        "steps": [
+          "由路由校验请求与资源归属，再调用下方共享模块；结果用声明类型返回。"
+        ],
+        "branches": [
+          "校验失败不提交；revision冲突保留输入并刷新，不静默覆盖。"
+        ],
+        "selection": [
+          "成功结果使用下方响应字段；不会将缺失改写为成功数据。"
+        ],
+        "failures": [
+          "具体错误边界见对应模块。"
+        ],
+        "sources": [
+          "src-api-runs",
+          "src-contracts",
+          "src-tess",
+          "src-agent-contracts"
+        ],
+        "parameters": []
+      }
+    }
+  ],
+  "modules": [
+    {
+      "id": "mod-identity",
+      "name": "身份与 CRM 预览",
+      "kind": "普通服务函数；CRM 预览调用模型",
+      "responsibility": "先确认身份再创建会话。真实 CRM 未接入，只处理销售主动粘贴内容。",
+      "input": "称呼、手机号/邮箱，或必要 CRM 文本；identity_confirmed",
+      "output": "独立客户档案或待确认预览；历史背景只作 historical 参考",
+      "algorithm": {
+        "subject": "客户身份与重复联系方式",
+        "steps": [
+          "手机号去空格和横线；大陆11位手机号默认补 +86；其他号码须带明确国家区号。邮箱去空白并转小写。",
+          "联系方式在本机规则提取，多个号码或邮箱不猜主联系人；CRM 脱敏后才交模型提取称呼和历史事实。称呼与逐字证据须存在于原文。",
+          "保存 extraction 预览，不先创建客户；销售确认后调用建档，再调用新会话。"
+        ],
+        "branches": [
+          "相同联系方式提示 DUPLICATE_CONTACT；进入旧客户或明确不同人 allow_duplicate=true。不会自动合并。",
+          "缺少称呼/联系方式不能建档；模型缺配置可手填。"
+        ],
+        "selection": [
+          "列表按创建时间和ID倒序；当前页面打开最近会话；再次来店显式新建会话。"
+        ],
+        "failures": [
+          "CRM 预览无可靠结构返回失败，不编造；身份 revision 冲突需刷新；修改身份使未发布草稿待审核，历史报告固定。"
+        ],
+        "sources": [
+          "src-customers",
+          "src-crm",
+          "src-new-ui",
+          "src-sessions"
+        ],
+        "parameters": [
+          {
+            "key": "MAX_NICKNAME_CHARS",
+            "value": 80,
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "限制称呼长度"
+          },
+          {
+            "key": "DEFAULT_PHONE_REGION",
+            "value": "CN",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "决定无区号大陆手机号的规范化"
+          },
+          {
+            "key": "LIST_PAGE_SIZE / MAX",
+            "value": "20 / 50",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "默认/最大分页数量"
+          }
+        ]
+      },
+      "sources": [
+        "src-customers",
+        "src-crm",
+        "src-new-ui",
+        "src-sessions",
+        "src-settings"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "mod-capture",
+      "name": "真实官网 Capture",
+      "kind": "普通浏览器桥接与确定性 DOM 解析，不是 Agent 工具",
+      "responsibility": "仅读取用户当前打开的 Tesla 中国 Model Y 顶层配置页；不构造假官网。",
+      "input": "当前活动标签页已选配置、可见价格/金融面板",
+      "output": "带来源URL、时间、原文、证据、整数分与稳定指纹的不可变 CaptureInput",
+      "algorithm": {
+        "subject": "当前选配快照",
+        "steps": [
+          "扩展消息触发 service worker 检查官方域名与路径，只在主 frame 注入冻结 capture.js。",
+          "读取选中的 radio 标签、明确配件 checkbox、底部价格与展开的金融面板；只投影白名单文字，不上传完整 DOM。",
+          "间隔500ms读取两次白名单投影，SHA256不同或busy则 unstable，不保存。",
+          "前端丢弃 diagnostics，只提交批准字段；后端再次校验来源、金额单位、字段证据、价格与融资闭合关系，保存不可变payload。"
+        ],
+        "branches": [
+          "金融面板未展开时标缺失；不会补0。",
+          "关键字段缺失→incomplete；金额不闭合→conflict；金融费率不会直接当APR。",
+          "每会话最多3个active候选；新抓取前须明确移除一个。"
+        ],
+        "selection": [
+          "实际试驾版本来自销售事实，不能从候选自动推断；偏好和移除仅更新候选关系。"
+        ],
+        "failures": [
+          "官网结构变动可能使字段缺失；需重新核对/更新适配器。网页预览无扩展能力则明确 EXTENSION_REQUIRED。"
+        ],
+        "sources": [
+          "src-capture",
+          "src-worker",
+          "src-capture-ui",
+          "src-captures"
+        ],
+        "parameters": [
+          {
+            "key": "稳定窗口",
+            "value": "500ms",
+            "value_kind": "源码硬编码；Settings同名默认并未注入该脚本",
+            "location": "extension/capture.js: capture",
+            "impact": "两次投影不同则拒绝保存"
+          },
+          {
+            "key": "MAX_ACTIVE_CAPTURES",
+            "value": 3,
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "每会话候选上限"
+          }
+        ]
+      },
+      "sources": [
+        "src-capture",
+        "src-worker",
+        "src-capture-ui",
+        "src-captures",
+        "src-settings"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "mod-facts",
+      "name": "事实确认与历史隔离",
+      "kind": "普通确定性服务函数",
+      "responsibility": "模型只提出事实，销售确认形成当前上下文。",
+      "input": "本会话事实ID、字段、值、confirmed/unknown、supersedes替代引用",
+      "output": "追加事实与新revision；过期计算/草稿失效，不抹原始证据",
+      "algorithm": {
+        "subject": "事实的当前有效投影",
+        "steps": [
+          "取所有 supersedes 引用集合，排除被替代记录，再限定 scope=session；confirmed 与 Unknown 都能替代旧值。",
+          "所有 fact_id/supersedes 必须归属当前会话且同字段。历史参考被采用时新增本次事实，不能携带跨会话ID原地修改。",
+          "金额须为非负整数分；Unknown存null；解决顾虑必须提供明确evidence_note。",
+          "更新问题状态并递增revision，原artifact标stale。"
+        ],
+        "branches": [
+          "冲突或不同confirmed值阻塞；Unknown不填零；跳过仅停止可选追问，关键冲突不能跳过。"
+        ],
+        "selection": [
+          "当前会话事实优先历史；原证据保留，报告使用未被替代的当前事实。"
+        ],
+        "failures": [
+          "跨会话引用404；同字段替代关系不完整会保留冲突并要求确认。"
+        ],
+        "sources": [
+          "src-facts",
+          "src-facts-ui"
+        ],
+        "parameters": []
+      },
+      "sources": [
+        "src-facts",
+        "src-facts-ui"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "mod-asr",
+      "name": "实时转写与手动发送",
+      "kind": "浏览器音频状态机 + 外部 ASR 服务；不是 Agent 工具",
+      "responsibility": "边说边写入本会话草稿，停止录音不触发业务Agent。原音不落盘。",
+      "input": "麦克风 PCM16LE 16kHz 单声道；finish/discard 控制",
+      "output": "partial/final实时文字；销售手动发送后才形成SalesInput/run",
+      "algorithm": {
+        "subject": "音频流与文本归属",
+        "steps": [
+          "POST分配会话后取得麦克风，通过打包在本地的AudioWorklet按采样率重采样。等后端ready才发送PCM。",
+          "后端配置百炼 server_vad，转发PCM；partial按item_id用text+stash替换，final用完整transcript替换，按seq拒绝旧事件。",
+          "停止先flush尾段再finish，等待finished；时长上限incomplete=false进入收尾而非直接断线。",
+          "前端固定session/asr ID/generation/base文本；手工改字冻结转写，迟到结果只列待核对尾句。导航提示结束保留或放弃；放弃保留手动更正。"
+        ],
+        "branches": [
+          "缺Key或WS地址503；拒绝麦克风改文字；断流/背压停止并保留已识别文字、提示末句不完整。",
+          "发送后或换会话/新段录音的旧事件不能覆盖新草稿；不自动重连计费。"
+        ],
+        "selection": [
+          "源文字与识别文字保留在输入框，只有手动发送消息才写业务事实候选；WS finished不调用Agent。"
+        ],
+        "failures": [
+          "真实麦克风、浏览器权限与真实ASR供应商未验，协议回放不等于实测。"
+        ],
+        "sources": [
+          "src-asr-ui",
+          "src-pcm",
+          "src-transcript",
+          "src-asr",
+          "src-asr-provider",
+          "src-api-audio"
+        ],
+        "parameters": [
+          {
+            "key": "ASR_SAMPLE_RATE / CHUNK_MS",
+            "value": "16000 Hz / 100 ms",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "默认每帧3200字节；前端相同硬编码，修改需同步客户端"
+          },
+          {
+            "key": "ASR_BUFFER_SECONDS / SESSION_MAX_SECONDS",
+            "value": "2秒 / 300秒",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "限制积压和时长；上限允许2秒在途窗口"
+          },
+          {
+            "key": "ASR_CONNECT_TIMEOUT / FINISH_TIMEOUT / CONNECT_TTL_SECONDS",
+            "value": "10秒 / 10秒 / 60秒",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "连接、收尾和一次性分配有效期"
+          },
+          {
+            "key": "ASR_MODEL",
+            "value": "qwen3-asr-flash-realtime",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "源码默认模型；账户可用性未验"
+          }
+        ]
+      },
+      "sources": [
+        "src-asr-ui",
+        "src-pcm",
+        "src-transcript",
+        "src-asr",
+        "src-asr-provider",
+        "src-api-audio",
+        "src-settings"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "mod-agent",
+      "name": "按需执行的 Agent",
+      "kind": "真实模型工具调用循环；已做本地协议替身验证",
+      "responsibility": "模型理解任务，按观察选择白名单工具；报告只生成审核草稿，发布由销售单独触发。",
+      "input": "去标识本会话快照、已提交原文、候选/事实/问题/产物以及保留的原目标",
+      "output": "追问、分析、部分完成、草稿、跟进摘要；不发客户、不下单、不申请贷款",
+      "algorithm": {
+        "subject": "自然语言任务与有界工具观察循环",
+        "steps": [
+          "HTTP只完成输入与run原子持久化，202后异步schedule；锁外等待模型。每次外部调用与写回前检查revision。",
+          "普通message先输出RouteDecision；补充/回答/报告请求再提取有逐字引用的proposed事实。金额、单位不明及冲突强确认。",
+          "无关键阻塞后提供白名单schemas，模型返回tool_calls；逐一执行并把标准observation作为tool消息回送模型，再由模型决定下一步。",
+          "无工具调用后单独结构化Finish，服务端重建报告数字模块；qa/analyze不会擅自生成或发布报告。"
+        ],
+        "branches": [
+          "needs_confirmation保留原目标；显式继续创建child run并保持root lineage；已消费续跑不能重复。",
+          "模型JSON格式最多修复一次；失败工具可调整一次策略，相同失败请求hash禁止重复。",
+          "输入revision变化停止旧run，不让迟到结果覆盖新输入；相同revision和input_hash成功产物可复用。"
+        ],
+        "selection": [
+          "仅选择当前会话/当前revision可用产物；模型source_ids只引用已有来源；未知不猜。"
+        ],
+        "failures": [
+          "模型缺配置或异常明确failed，已提交原文仍保存；时间/轮数/工具上限返回partial待明确继续。",
+          "未实现通用向量RAG、嵌入、重排或独立Plan-execute框架；知识工具按审核资料topic查找。",
+          "没有OS沙盒或任意代码执行器；单进程事务锁与白名单不是操作系统隔离。"
+        ],
+        "sources": [
+          "src-runtime",
+          "src-submissions",
+          "src-context",
+          "src-registry",
+          "src-agent-contracts",
+          "src-agent-prompt",
+          "src-route-prompt",
+          "src-report-prompt",
+          "src-extract-prompt"
+        ],
+        "parameters": [
+          {
+            "key": "MAX_MODEL_ROUNDS / MAX_TOOL_CALLS",
+            "value": "6次 / 10次",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "模型路由/提取/修复/最终整理均计模型次数，工具批次数先检查剩余预算"
+          },
+          {
+            "key": "RUN_TIMEOUT / MODEL_TIMEOUT",
+            "value": "180秒 / 60秒",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "整轮与单次模型超时"
+          },
+          {
+            "key": "MAX_QUESTIONS_PER_ROUND",
+            "value": 3,
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "关键问题优先显示，每轮最多3项"
+          },
+          {
+            "key": "LLM_MODEL",
+            "value": "qwen3.7-plus",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "源码默认；真实账户调用未验"
+          }
+        ]
+      },
+      "sources": [
+        "src-runtime",
+        "src-submissions",
+        "src-context",
+        "src-registry",
+        "src-agent-contracts",
+        "src-agent-prompt",
+        "src-route-prompt",
+        "src-report-prompt",
+        "src-extract-prompt",
+        "src-settings"
+      ],
+      "implementation_status": "checked",
+      "agent": {
+        "model": "BailianLLMProvider 用 httpx 直接请求兼容 /chat/completions，tool_choice=auto，非流式；默认 qwen3.7-plus，实际外部调用待 T008。",
+        "prompt": "route/context_extract/agent/report/followup 分工；输入JSON是资料而非指令。脱敏最小上下文，历史只作参考；金融能源不允许模型自行算数字。",
+        "tools": [
+          "read_session：读取本次安全快照。",
+          "validate_report：检查草稿来源引用与阻塞项，不发布。",
+          "search_charging：真实高德区域与站点查询。",
+          "list_finance_products：读取明确Mock金融规则。",
+          "calculate_finance：已抓取车价+产品规则+确认预算，确定性求解。",
+          "calculate_energy：明确全部假设及来源，能源费用曲线。",
+          "lookup_official_knowledge：审核过的官方资料按topic查询。"
+        ],
+        "observation": "统一call_id/tool/status/artifact_id/data/error/source_refs/observed_at；ok/partial/failed结果回传模型，产物按session/revision持久化。",
+        "loop": "模型→工具→观察→模型继续选择；不是每次固定串行调用全部工具。路由与提取是前置固定步骤，循环只在需要工具的目标中进入。",
+        "stop": "结构化结果完成；关键澄清停等；越权请求拒绝并指向审核入口；输入变化/错误/保护限额停止。",
+        "limits": "6模型调用、10工具调用、180秒整轮；一次JSON修复、一次失败后策略调整；相同失败hash不重复。无无限自我修复。",
+        "result": "销售能看到简短执行事件和结果，不展示思维链。前端使用GET轮询，不是SSE。"
+      }
+    },
+    {
+      "id": "mod-finance",
+      "name": "金融约束求解",
+      "kind": "Agent 工具 calculate_finance + 普通 Decimal 计算函数",
+      "responsibility": "实际官网车价与Mock金融规则分开；满足月供和首付约束，不承诺贷款审批。",
+      "input": "capture_id、product_id、首付上下限/明确首付、期限列表、月供上限（金额分）",
+      "output": "按总融资成本、首付、月供排序的每期方案或no_solution",
+      "algorithm": {
+        "subject": "有限期限的贷款约束",
+        "steps": [
+          "校验费用、优惠、首付比例、期限和计息口径完整。net=车价+融资费用−优惠。支持zero_interest及明确月利率equal_payment。",
+          "每个允许期限n计算factor：0息为1/n；等额本息为 r(1+r)^n/((1+r)^n−1)。由月供上限反推最小首付。",
+          "首付下界取产品最小比例与销售下限较大值，上界取产品最大比例、销售上限和净额较小值。有限扫描最小首付起至最多n分修正舍入。",
+          "月供按Decimal四舍五入到分；末期吸收剩余余额。普通月供及末期都不能超过预算；总融资成本包含费用。"
+        ],
+        "branches": [
+          "已移除/冲突Capture或车价单位不明不可计算；预算约束需要来自销售confirmed事实。",
+          "不满足约束返回no_solution和未满足原因，不偷改预算；未知费用不当0。"
+        ],
+        "selection": [
+          "排序key=(financing_cost_fen,down_payment_fen,monthly_payment_fen)；每期限取首个可行首付。"
+        ],
+        "failures": [
+          "不能把年化费率当利率；当前产品来源始终Mock。"
+        ],
+        "sources": [
+          "src-finance",
+          "src-registry",
+          "src-runtime"
+        ],
+        "parameters": []
+      },
+      "sources": [
+        "src-finance",
+        "src-registry",
+        "src-runtime"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "mod-energy",
+      "name": "能源费用估算",
+      "kind": "Agent 工具 calculate_energy + 普通 Decimal 函数",
+      "responsibility": "只比较电费与燃油费用，不涵盖购车、保险、折旧或维修。",
+      "input": "年公里数、年数、电耗kWh/100km、电价元/kWh、油耗L/100km、油价元/L与source",
+      "output": "年度能源费用及逐年累计差额series，统一整数分、Estimate",
+      "algorithm": {
+        "subject": "同里程假设下的能源差额",
+        "steps": [
+          "所有假设必须有值、正数和来源，years为正整数且有限。",
+          "年电费分=年km×kWh/100km×元/kWh：百公里的/100与元转分×100抵消。油费同理。",
+          "每年对未舍入Decimal累计金额取整到分，saving=累计油费−累计电费，正文与图表读同一series。"
+        ],
+        "branches": [
+          "假设缺失不绘制假图或补0；负节约显示能源费用增加。"
+        ],
+        "selection": [
+          "这是试算假设，不自动升级为销售已确认事实。"
+        ],
+        "failures": [
+          "只能称能源节约，不能称整车TCO节约。"
+        ],
+        "sources": [
+          "src-energy",
+          "src-registry",
+          "src-charts-ui",
+          "src-modules-ui"
+        ],
+        "parameters": [
+          {
+            "key": "ENERGY_MAX_YEARS",
+            "value": 100,
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "阻止模型产生无界年度列表"
+          }
+        ]
+      },
+      "sources": [
+        "src-energy",
+        "src-registry",
+        "src-charts-ui",
+        "src-modules-ui",
+        "src-settings"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "mod-maps",
+      "name": "高德区域消歧、站点与静态图",
+      "kind": "Agent 工具 search_charging + 外部高德 Web Service",
+      "responsibility": "真实地图查询；报告静态图片可点开高德搜索，失败不画假地图。",
+      "input": "region、city、可选已确认地点ID；默认5000米查询半径",
+      "output": "地点候选或站点/路线/本机地图asset；Missing或partial保留已有结果",
+      "algorithm": {
+        "subject": "从常用区域到补能选择",
+        "steps": [
+          "地点文本不能包含联系方式或长CRM；用/v5/place/text解析区域。多个候选持久化ID交销售确认，不擅自选一个。",
+          "分别搜索Tesla和特斯拉周边POI，用名称/类型中充电词过滤，剔除无效坐标或超半径记录；按POI ID去重。",
+          "按高德中心点距离升序，截取默认3站；逐站请求驾车距离/时间。路线失败保留中心点距离。",
+          "请求静态地图并校验图片MIME/魔数/大小；在本机asset存储中绑定会话。地图失败保留站点列表。报告发布时固定asset引用。"
+        ],
+        "branches": [
+          "无地点/站点→no_results；地点多义→ambiguous等待确认；地图图片失败仍可显示真实列表。",
+          "报告地图外链只带区域查询词，不带Key；外部高德当前结果与快照可能不同。"
+        ],
+        "selection": [
+          "中心点距离不是驾车距离；站点检索不代表实时空闲状态；默认仅取每关键词一页，非穷举全部站点。"
+        ],
+        "failures": [
+          "无Key明确缺配置；供应商超时/非法图片/业务错误返回缺失；真实服务待T008。"
+        ],
+        "sources": [
+          "src-amap",
+          "src-registry",
+          "src-modules-ui"
+        ],
+        "parameters": [
+          {
+            "key": "MAP_RADIUS_M / MAP_STATION_LIMIT",
+            "value": "5000米 / 3站",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "半径上界和排序截取数"
+          },
+          {
+            "key": "MAP_PAGE_SIZE / MAP_TIMEOUT",
+            "value": "20条 / 10秒",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "每关键词单页及超时"
+          },
+          {
+            "key": "MAP_IMAGE_WIDTH×HEIGHT / MAX_BYTES",
+            "value": "750×300 / 5242880字节",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "静态图片大小上界"
+          }
+        ]
+      },
+      "sources": [
+        "src-amap",
+        "src-registry",
+        "src-modules-ui",
+        "src-settings"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "mod-knowledge",
+      "name": "已审核官方资料查询",
+      "kind": "Agent 工具 lookup_official_knowledge；本地精确topic筛选",
+      "responsibility": "回答家庭/安全资料时仅提供本地审核过的Tesla官方条目。",
+      "input": "安全白名单topic字符串",
+      "output": "匹配entries(title,text,url,reviewed_at)或missing",
+      "algorithm": {
+        "subject": "审核资料的有限召回",
+        "steps": [
+          "读取approved.json，按entry.topic与请求topic完全相等筛选；返回条目及原官方URL、reviewed_at。",
+          "Report只渲染可信Tesla官方来源链接。"
+        ],
+        "branches": [
+          "无匹配返回missing；不自动网络搜索补齐。"
+        ],
+        "selection": [
+          "无向量库、embedding、reranker、相似度、Top K 或文档上传流程；不把该函数包装成已实现的完整RAG。"
+        ],
+        "failures": [
+          "不能推断“无甲醛”“儿童绝对安全”；静态资料并非实时政策查询。"
+        ],
+        "sources": [
+          "src-registry",
+          "src-modules-ui"
+        ],
+        "parameters": []
+      },
+      "sources": [
+        "src-registry",
+        "src-modules-ui"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "mod-report",
+      "name": "审核、发布与固定快照",
+      "kind": "普通事务服务函数，发布不是 Agent 工具",
+      "responsibility": "报告内容来自已确认事实、官网Capture和受控工具artifact；人工审核后生成本机固定链接。",
+      "input": "draft_id、draft_revision、expected_revision、review_confirmed；可编辑纯措辞摘要",
+      "output": "ReportSnapshot、snapshot_hash、固定URL及同ID会话卡片",
+      "algorithm": {
+        "subject": "从草稿到不可变发布物",
+        "steps": [
+          "build_data汇集本会话active Capture与当前revision artifact。显式artifact_ids先筛选；金融按候选+产品、家庭按topic，分别取最新created_at/ID；其他类型取最新。",
+          "服务端重建数字模块并保留原来源时间；缺失module明确missing。客户联系方式在草稿/编辑/发布三入口投影去除。",
+          "编辑摘要冻结含阿拉伯或中文数字的完整句及其位置；改数字/归属需回输入重新生成，不直接覆盖计算。",
+          "发布校验客户/会话/草稿revision、有效候选、冲突、required问题与artifact有效性；深拷贝snapshot与卡片在同事务写入。"
+        ],
+        "branches": [
+          "输入变化草稿stale；未审核不可发布；相同draft及revision重复发布复用同一报告和卡片。",
+          "缺地图等非关键模块可以明确缺失；关键事实冲突或无有效Capture阻塞发布。"
+        ],
+        "selection": [
+          "读取已发布报告直接返回快照，不读取最新客户数据，不动态重新计算；新报告不会改旧链接。"
+        ],
+        "failures": [
+          "仅本机电脑访问，不是公网分享。图表/内容接口已测，不等于1024/1440视觉验收。"
+        ],
+        "sources": [
+          "src-report",
+          "src-api-reports",
+          "src-review-ui",
+          "src-report-ui",
+          "src-charts-ui"
+        ],
+        "parameters": []
+      },
+      "sources": [
+        "src-report",
+        "src-api-reports",
+        "src-review-ui",
+        "src-report-ui",
+        "src-charts-ui"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "mod-followup",
+      "name": "模拟互动与跟进摘要",
+      "kind": "Mock事件普通注入函数 + Agent followup目标",
+      "responsibility": "演示产品相关家庭问题的跟进建议，禁止用活跃度推断购买意愿。",
+      "input": "白名单fixture_id与当前revision；由销售触发followup",
+      "output": "标Mock的产品topic摘要与待确认/有证据解决状态",
+      "algorithm": {
+        "subject": "安全事件到销售下一步",
+        "steps": [
+          "只允许固定fixture事件注入，剔除私人完整对话。",
+          "Agent只接受产品白名单事件和本次上下文；source_ids引用已有事件。",
+          "resolved需非空resolution_evidence或已确认resolved_concerns，不能因已查询资料自动解决。"
+        ],
+        "branches": [
+          "必须先发布本次报告才能注入Mock事件，否则404。",
+          "“浏览多所以购买意愿高”或无证据“已解决”触发拒绝；未确认事项保留needs_confirmation。"
+        ],
+        "selection": [
+          "当前从模拟事件生成摘要，不是客户Report按钮真实互动数据。"
+        ],
+        "failures": [
+          "不自动联系客户，所有事件来源保留Mock。"
+        ],
+        "sources": [
+          "src-events",
+          "src-runtime",
+          "src-followup-prompt"
+        ],
+        "parameters": []
+      },
+      "sources": [
+        "src-events",
+        "src-runtime",
+        "src-followup-prompt"
+      ],
+      "implementation_status": "checked"
+    },
+    {
+      "id": "mod-runtime",
+      "name": "本机装配与能力状态",
+      "kind": "普通 FastAPI/PyCore/SQLite 服务",
+      "responsibility": "统一本机入口、Origin边界、持久化与空配置降级。",
+      "input": "空配置模板的字段定义，HTTP JSON请求和允许Origin",
+      "output": "本机8099销售界面、API、固定报告与静态资源",
+      "algorithm": {
+        "subject": "本机应用启动与允许范围",
+        "steps": [
+          "create_demo_app装配基础路由、runs/audio、Agent/CRM/draft editor和生命周期。",
+          "Origin/Host白名单校验；写请求必须JSON且限制字节大小。",
+          "health检查数据库与配置是否非空，configured只代表配置存在，不探测供应商。"
+        ],
+        "branches": [
+          "无Key仍可手动建档、官网Capture、读取旧报告；模型CRM/新报告、ASR与地图不假成功。",
+          "正式构建固定扩展ID；run-demo拒绝非loopback、错误ID或端口占用，不杀其他服务。"
+        ],
+        "selection": [
+          "默认真实模式；?mock=1#/仅显式契约UI，数据与生产不等价。"
+        ],
+        "failures": [
+          "T008外部真实调用缺凭证；T010浏览器视觉/麦克风阻塞；公开分享、登录系统、下单支付均不在范围。"
+        ],
+        "sources": [
+          "src-main",
+          "src-settings",
+          "src-api-health",
+          "src-client",
+          "src-build",
+          "src-run",
+          "src-test7",
+          "src-handoff"
+        ],
+        "parameters": [
+          {
+            "key": "HOST / PORT / REPORT_ORIGIN",
+            "value": "127.0.0.1 / 8099 / http://127.0.0.1:8099",
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "源码默认，交接记录已验证8099生产入口；本次不重新探测"
+          },
+          {
+            "key": "MAX_REQUEST_BYTES",
+            "value": 262144,
+            "value_kind": "源码默认值；未读取当前 .env",
+            "location": "backend/src/config/settings.py: Settings",
+            "impact": "限制提交JSON大小"
+          }
+        ]
+      },
+      "sources": [
+        "src-main",
+        "src-settings",
+        "src-api-health",
+        "src-client",
+        "src-build",
+        "src-run",
+        "src-test7",
+        "src-handoff",
+        "src-test8",
+        "src-test10"
+      ],
+      "implementation_status": "checked"
+    }
+  ]
+}

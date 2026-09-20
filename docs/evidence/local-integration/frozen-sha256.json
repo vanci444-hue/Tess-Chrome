@@ -1,0 +1,20 @@
+{
+  "backend/src/main.py": "00a1200bbd6a7132a3516d760bef8391bbf82f5820538ecbf2d63c1cf3567d18",
+  "backend/src/services/reports.py": "02dd7180a1a386a59c95fbd2dcbe633c377d2bbc9a9ffc4ef71556fc242543d3",
+  "backend/src/config/settings.py": "3643e63ed0cf4b4654a844ab385eae952e312be6922135f676699c3a084c1cc5",
+  "backend/.env.example": "f898fa757ad9851d6cc4f3941fe6825615663cacb60b7303d981d240b7bb6c35",
+  "backend/tests/integration/test_local_http.py": "a9563a4505f7444b84f63c0d3a0c236b875363d66412eec6a3a00bc8b767cb69",
+  "frontend/src/utils/facts.ts": "637191e8e9ed047ae3c620a11884bbccd1d1286abd054be48c00d5a704dc66ec",
+  "frontend/src/utils/facts.test.ts": "5edb550c94792f259d861bd31334ed05105c733997e7f0338f095cac38df0c49",
+  "frontend/src/components/ContextCard.tsx": "3ebec1e3472a381222a2431a0bfcfdc03d50ffe280c6286adf26ffe250efd5da",
+  "frontend/src/components/ReviewCard.tsx": "4388f054a5e5462117d362fa131cc2530cc071f9890193a32a13d95a04a70333",
+  "frontend/src/services/api.ts": "52e13ccbe336cd4b075f4ed581258f6dfea5bef53be1a4b23aadf1af3c8f7765",
+  "frontend/src/services/tess.ts": "3a0f14c1c4be1fa1670e41ed6f9e177cc9064384d204ee761aa4c13b30d8f055",
+  "frontend/scripts/package-extension.mjs": "2b03852faf08f17983754a7dfa79169adf438ef35a15bc617f77173741dd2107",
+  "frontend/extension-identity.json": "9d3e8cfb28b414b67789455286ef5e61ecc97ead1b800a76901e8d9c2db3669b",
+  "scripts/build-demo.sh": "7233ef4e89a4b5beaba82a9d87b72cf5fc65be95ae89969b591245e50261f020",
+  "scripts/run-demo.sh": "f5ca23edeaede6de9d794ce051ec3969f8d464a4edef8606a367848d6f2b7370",
+  "\u542f\u52a8Tess.command": "5ca1e7cd0dfad38d76e13b9bcad14c990e80599ef512fc10a2291c7db8685b3a",
+  "frontend/dist/manifest.json": "552b73cf24921653259f7844a4fc16d6e060a519ceefa15e2c20dd9dadf49da7",
+  "frontend/dist/capture.js": "98dc7661ebbd35de59ae99c1ea04ff90c0c70ae8f6776fef7778f8971430187b"
+}

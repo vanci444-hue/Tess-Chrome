@@ -1,0 +1,509 @@
+{
+  "adapter_version": "tesla-cn-modely-dom/0.1.1",
+  "captured_at": "2026-09-19T19:34:56.593Z",
+  "completeness": "complete",
+  "diagnostics": {
+    "accessories": {
+      "heading": "配件",
+      "options": [
+        {
+          "checked": false,
+          "label": "轮胎修理工具包 3.0 ¥779"
+        }
+      ],
+      "sections": [
+        {
+          "control_count": 1,
+          "id": "RECOMMENDED_ACCESSORIES",
+          "text": "配件 了解更多 轮胎修理工具包 3.0 ¥779 单独采购的配件类商品由特斯拉（上海）有限公司销售给您并以快递形式发货"
+        }
+      ],
+      "selector": "#RECOMMENDED_ACCESSORIES, #CHARGING_ACCESSORIES"
+    },
+    "busy": false,
+    "checkboxes": [
+      {
+        "ancestors": [
+          {
+            "class_name": "tds-form-input-group tds--vertical_padding--large",
+            "headings": [],
+            "tag": "DIV",
+            "text": "1 年包 ¥118 2 年包 ¥208"
+          },
+          {
+            "class_name": "option-widget--container",
+            "headings": [
+              "高级车载娱乐服务年包"
+            ],
+            "tag": "DIV",
+            "text": "高级车载娱乐服务年包 了解更多 1 年包 ¥118 2 年包 ¥208 有效期和车辆交付时赠送的免费试用期自动合并，自交付日起计算。有效期结束后不自动续费，可另行订阅高级车载娱乐服务。"
+          },
+          {
+            "class_name": "group-section--container",
+            "headings": [
+              "高级车载娱乐服务年包"
+            ],
+            "tag": "DIV",
+            "text": "高级车载娱乐服务年包 了解更多 1 年包 ¥118 2 年包 ¥208 有效期和车辆交付时赠送的免费试用期自动合并，自交付日起计算。有效期结束后不自动续费，可另行订阅高级车载娱乐服务。"
+          },
+          {
+            "class_name": "aside-section side-scroll--item aside-card",
+            "headings": [
+              "高级车载娱乐服务年包"
+            ],
+            "tag": "DIV",
+            "text": "高级车载娱乐服务年包 了解更多 1 年包 ¥118 2 年包 ¥208 有效期和车辆交付时赠送的免费试用期自动合并，自交付日起计算。有效期结束后不自动续费，可另行订阅高级车载娱乐服务。"
+          },
+          {
+            "class_name": "group-container",
+            "headings": [
+              "辅助驾驶套件",
+              "安全性",
+              "高级车载娱乐服务年包",
+              "质量保证"
+            ],
+            "tag": "DIV",
+            "text": "Model Y 预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车 690公里 续航里程 (CLTC) 201公里/小时 最高车速 4.3秒 百公里加速 后轮驱动版 ¥263,500 长续航后轮驱动版 ¥288,500 长续航全轮驱动版 ¥313,500 Model Y L ¥339,000 高性能全轮驱动版 ¥369,000 对比车型 外观 ¥8,000 珍珠白（多涂层）车漆 星空灰车漆 珍珠白（多涂层）车漆 冰河蓝车漆 星钻黑车漆 烈焰红车漆 快银车漆 ¥8,000 20 英寸螺旋风暴轮毂 19 英寸交互风暴轮毂 20 英寸螺旋风暴轮毂 续航里程 (CLTC)：690公里 内饰 包括 深色高级内饰 深色高级内饰 浅灰色高级内饰 五座版 辅助驾驶套件 特斯拉辅助驾驶 ¥64,000 包括「基础辅助驾驶」和「增强辅助驾驶」套件的全部功能。稍后推出特斯拉辅助驾驶功能。未来您的车辆将能够在驾驶员极少干预的情况下完成绝大多数的驾驶任务。 增强辅助驾驶 ¥32,000 包括「基础辅助驾驶」套件的全部功能，以及辅助导航驾驶、辅助变道、辅助泊车、基础召唤和特斯拉召唤。 基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。 目前可用的功能需要驾驶员主动进行监控，车辆尚未实现完全自动驾驶。未来推出的功能的激活和可用性还有赖于进一步研发及行政审批（可能会需要较长的时间）"
+          }
+        ],
+        "aria": "",
+        "checked": false,
+        "id": "CONNECTIVITY_TRIAL:$CPF1Y:base:checkbox",
+        "label": "1 年包 ¥118",
+        "name": "OptionGroup:CONNECTIVITY_TRIAL"
+      },
+      {
+        "ancestors": [
+          {
+            "class_name": "tds-form-input-group tds--vertical_padding--large",
+            "headings": [],
+            "tag": "DIV",
+            "text": "1 年包 ¥118 2 年包 ¥208"
+          },
+          {
+            "class_name": "option-widget--container",
+            "headings": [
+              "高级车载娱乐服务年包"
+            ],
+            "tag": "DIV",
+            "text": "高级车载娱乐服务年包 了解更多 1 年包 ¥118 2 年包 ¥208 有效期和车辆交付时赠送的免费试用期自动合并，自交付日起计算。有效期结束后不自动续费，可另行订阅高级车载娱乐服务。"
+          },
+          {
+            "class_name": "group-section--container",
+            "headings": [
+              "高级车载娱乐服务年包"
+            ],
+            "tag": "DIV",
+            "text": "高级车载娱乐服务年包 了解更多 1 年包 ¥118 2 年包 ¥208 有效期和车辆交付时赠送的免费试用期自动合并，自交付日起计算。有效期结束后不自动续费，可另行订阅高级车载娱乐服务。"
+          },
+          {
+            "class_name": "aside-section side-scroll--item aside-card",
+            "headings": [
+              "高级车载娱乐服务年包"
+            ],
+            "tag": "DIV",
+            "text": "高级车载娱乐服务年包 了解更多 1 年包 ¥118 2 年包 ¥208 有效期和车辆交付时赠送的免费试用期自动合并，自交付日起计算。有效期结束后不自动续费，可另行订阅高级车载娱乐服务。"
+          },
+          {
+            "class_name": "group-container",
+            "headings": [
+              "辅助驾驶套件",
+              "安全性",
+              "高级车载娱乐服务年包",
+              "质量保证"
+            ],
+            "tag": "DIV",
+            "text": "Model Y 预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车 690公里 续航里程 (CLTC) 201公里/小时 最高车速 4.3秒 百公里加速 后轮驱动版 ¥263,500 长续航后轮驱动版 ¥288,500 长续航全轮驱动版 ¥313,500 Model Y L ¥339,000 高性能全轮驱动版 ¥369,000 对比车型 外观 ¥8,000 珍珠白（多涂层）车漆 星空灰车漆 珍珠白（多涂层）车漆 冰河蓝车漆 星钻黑车漆 烈焰红车漆 快银车漆 ¥8,000 20 英寸螺旋风暴轮毂 19 英寸交互风暴轮毂 20 英寸螺旋风暴轮毂 续航里程 (CLTC)：690公里 内饰 包括 深色高级内饰 深色高级内饰 浅灰色高级内饰 五座版 辅助驾驶套件 特斯拉辅助驾驶 ¥64,000 包括「基础辅助驾驶」和「增强辅助驾驶」套件的全部功能。稍后推出特斯拉辅助驾驶功能。未来您的车辆将能够在驾驶员极少干预的情况下完成绝大多数的驾驶任务。 增强辅助驾驶 ¥32,000 包括「基础辅助驾驶」套件的全部功能，以及辅助导航驾驶、辅助变道、辅助泊车、基础召唤和特斯拉召唤。 基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。 目前可用的功能需要驾驶员主动进行监控，车辆尚未实现完全自动驾驶。未来推出的功能的激活和可用性还有赖于进一步研发及行政审批（可能会需要较长的时间）"
+          }
+        ],
+        "aria": "",
+        "checked": false,
+        "id": "CONNECTIVITY_TRIAL:$CPF2Y:base:checkbox",
+        "label": "2 年包 ¥208",
+        "name": "OptionGroup:CONNECTIVITY_TRIAL"
+      },
+      {
+        "ancestors": [
+          {
+            "class_name": "accessories-list-item tds-form-input-group",
+            "headings": [],
+            "tag": "DIV",
+            "text": "轮胎修理工具包 3.0 ¥779"
+          },
+          {
+            "class_name": "accessory-group",
+            "headings": [],
+            "tag": "DIV",
+            "text": "轮胎修理工具包 3.0 ¥779"
+          },
+          {
+            "class_name": "tds-form-layout tds-flex-gap--12 tds--padding_top-16",
+            "headings": [],
+            "tag": "DIV",
+            "text": "轮胎修理工具包 3.0 ¥779"
+          },
+          {
+            "class_name": "",
+            "headings": [],
+            "tag": "DIV",
+            "text": "轮胎修理工具包 3.0 ¥779"
+          },
+          {
+            "class_name": "group--child-container option-widget--container",
+            "headings": [],
+            "tag": "DIV",
+            "text": "配件 了解更多 轮胎修理工具包 3.0 ¥779 单独采购的配件类商品由特斯拉（上海）有限公司销售给您并以快递形式发货"
+          }
+        ],
+        "aria": "",
+        "checked": false,
+        "id": "ACCESSORY:1934882-01-DM",
+        "label": "轮胎修理工具包 3.0 ¥779",
+        "name": "ACCESSORY:1934882-01-DM"
+      }
+    ],
+    "finance": {
+      "inputs": [
+        {
+          "id": "9b641513-a009-47bf-a421-5a9cccbf2049",
+          "label": "金融产品",
+          "name": "financePlan",
+          "type": "select-one",
+          "value": "限时0息贷款方案"
+        },
+        {
+          "id": "downPaymentAmountInput",
+          "label": "首付金额",
+          "name": "downPaymentAmountInput",
+          "type": "text",
+          "value": "¥79,900"
+        },
+        {
+          "id": "downPaymentPercentInput",
+          "label": "首付比例 %",
+          "name": "downPaymentPercentInput",
+          "type": "text",
+          "value": "25"
+        }
+      ],
+      "text": "¥4,027/月(优惠) 与标准方案比, 60 期可优惠约 ¥30,167 金融产品 限时0息贷款方案 限时低息贷款方案 限时低息弹性贷款方案 标准贷款方案 弹性贷款方案 期数 60 个月 首付金额 首付比例 % % 适用金融机构：招商银行、平安银行、微众银行、建设银行、交通银行、中国银行、浦发银行、中信银行 贷款金额 ¥241,600 年化费率 % 0.00% 折合年化利率 0% Model Y后轮驱动版、长续航后轮驱动版/全轮驱动版： 首付￥79,900 起，可申请 1 至 5 年 0 息方案 首付￥45,900 起，可申请 1 至 5 年超低息方案，年费率低至0.5%（折合年化利率0.92%起） 首付￥55,900 起，可申请 5 年低息弹性贷款方案，尾款比例20%，年化利率低至0.99% Model Y L： 首付￥99,900 起，可申请 1 至 5 年 0 息方案 首付￥45,900 起，可申请 1 至 5 年超低息方案，年费率低至0.5%（折合年化利率0.92%起） 首付￥55,900 起，可申请 5 年低息弹性贷款方案，尾款比例20%，年化利率低至0.99% 活动期间购买指定版本 Model Y后轮驱动版、长续航后轮驱动版/全轮驱动版、Model Y L，并按订单中条款和条件提车，符合申请资质的客户可申请上述金融特惠方案。 点击查看现行福利活动详情 不同金融机构的利率及最低首付有所差异，最终适用的金融方案以相关金融机构实际审核结果为准。如金融方案申请未通过审核，您仍有义务通过其他方式支付车款，您不得以此要求退还第一笔付款。 上述金融特惠方案适用车型包括全新车、准新车和展车，不适用于试驾车、认证二手车等已上牌车辆或任何其他未明确纳入本活动的车辆。 任何情况下您的提车日期不得晚于提车期限，否则您已经获批金融特惠方案也将自动失效。"
+    },
+    "first_fingerprint": "760cb950696ea2fa9dd69cfb35ec9fe459faae7ae3d1a379688b6b351d98f77b",
+    "footer": "Model Y 长续航全轮驱动版 珍珠白（多涂层）车漆 20 英寸螺旋风暴轮毂 深色高级内饰 五座版 ¥4,027 /月 车辆价格 ¥321,500 立即下单",
+    "groups": [
+      {
+        "class_name": "group--child-container group-COMBINED_TRIMS group--selected_$MTY80",
+        "text": "690公里 续航里程 (CLTC) 201公里/小时 最高车速 4.3秒 百公里加速 后轮驱动版 ¥263,500 长续航后轮驱动版 ¥288,500 长续航全轮驱动版 ¥313,500 Model Y L ¥339,000 高性能全轮驱动版 ¥369,000 对比车型"
+      },
+      {
+        "class_name": "group--child-container group-PAINT group--selected_$PPSW",
+        "text": "¥8,000 珍珠白（多涂层）车漆 星空灰车漆 珍珠白（多涂层）车漆 冰河蓝车漆 星钻黑车漆 烈焰红车漆 快银车漆"
+      },
+      {
+        "class_name": "child-group--option_details child-group--paint child-group--swatch child-group--compact tds--vertical_padding-top tds-flex tds-flex--row-nowrap coin-text-flex--align",
+        "text": "星空灰车漆 珍珠白（多涂层）车漆 冰河蓝车漆 星钻黑车漆 烈焰红车漆 快银车漆"
+      },
+      {
+        "class_name": "group--child-container group-WHEELS group--selected_$WY20B",
+        "text": "¥8,000 20 英寸螺旋风暴轮毂 19 英寸交互风暴轮毂 20 英寸螺旋风暴轮毂 续航里程 (CLTC)：690公里"
+      },
+      {
+        "class_name": "group--child-container group-PREMIUM_PACKAGE group--selected_$IPB16",
+        "text": "包括 深色高级内饰 深色高级内饰 浅灰色高级内饰"
+      },
+      {
+        "class_name": "group--child-container group-REAR_SEATS group--selected_$STY5S",
+        "text": "五座版"
+      }
+    ],
+    "has_main": true,
+    "parameter_lines": [
+      "外观 高级内饰 先进科技 升级悬架系统 Model Y 预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车 690公里 续航里程 (CLTC) 201公里/小时 最高",
+      "车速 4.3秒 百公里加速 后轮驱动版 ¥263,500 长续航后轮驱动版 ¥288,500 长续航全轮驱动版 ¥313,500 Model Y L ¥339,000 高性能全轮驱动版 ¥369",
+      "漆 ¥8,000 20 英寸螺旋风暴轮毂 19 英寸交互风暴轮毂 20 英寸螺旋风暴轮毂 续航里程 (CLTC)：690公里 内饰 包括 深色高级内饰 深色高级内饰 浅灰色高级内饰 五座版 辅助驾驶套件 特斯拉辅助驾驶 ¥6",
+      "安全 高级车载娱乐服务年包 了解更多 1 年包 ¥118 2 年包 ¥208 有效期和车辆交付时赠送的免费试用期自动合并，自交付日起计算。有效期结束后不自动续费，可另行订阅高级车载娱乐服务。 质量保证 新车有限质量保证 包含",
+      "维修和零件更换服务，期限为 4 年 / 80,000 公里（以先到者为准） 电池与驱动电机有限质量保证 期限为 8 年 / 192,000 公里（以先到者为准） 特享充电权益 了解更多 权"
+    ],
+    "second_fingerprint": "760cb950696ea2fa9dd69cfb35ec9fe459faae7ae3d1a379688b6b351d98f77b",
+    "selected": [
+      {
+        "aria": "",
+        "data_id": "$MTY80-option",
+        "id": ":r4:",
+        "label": "长续航全轮驱动版 ¥313,500",
+        "name": "trim-category-COMBINED_TRIMS",
+        "value": "on"
+      },
+      {
+        "aria": "珍珠白（多涂层）车漆 - ¥8,000",
+        "data_id": null,
+        "id": "PAINT_$PPSW",
+        "label": "珍珠白（多涂层）车漆",
+        "name": "PAINT",
+        "value": "$PPSW"
+      },
+      {
+        "aria": "20 英寸螺旋风暴轮毂 - ¥8,000",
+        "data_id": null,
+        "id": "WHEELS_$WY20B",
+        "label": "20 英寸螺旋风暴轮毂",
+        "name": "WHEELS",
+        "value": "$WY20B"
+      },
+      {
+        "aria": "深色高级内饰 - 包括",
+        "data_id": null,
+        "id": "PREMIUM_PACKAGE_$IPB16",
+        "label": "深色高级内饰",
+        "name": "PREMIUM_PACKAGE",
+        "value": "$IPB16"
+      },
+      {
+        "aria": "",
+        "data_id": null,
+        "id": "AUTOPILOT_PACKAGE:group:base:radio",
+        "label": "基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。",
+        "name": "OptionGroup:AUTOPILOT_PACKAGE",
+        "value": "on"
+      }
+    ],
+    "stable_window_ms": 500
+  },
+  "fields": [
+    {
+      "evidence": {
+        "kind": "dom_selected",
+        "selector_hint": ".group-COMBINED_TRIMS input:checked + label"
+      },
+      "key": "model",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "长续航全轮驱动版 ¥313,500",
+      "unit": null,
+      "value": "Model Y"
+    },
+    {
+      "evidence": {
+        "kind": "dom_selected",
+        "selector_hint": "input[name=\"trim-category-COMBINED_TRIMS\"]:checked labels"
+      },
+      "key": "variant",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "长续航全轮驱动版 ¥313,500",
+      "unit": null,
+      "value": "长续航全轮驱动版"
+    },
+    {
+      "evidence": {
+        "kind": "dom_selected",
+        "selector_hint": "input:checked[name=\"PAINT\"] labels"
+      },
+      "key": "paint",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "珍珠白（多涂层）车漆",
+      "unit": null,
+      "value": "珍珠白（多涂层）车漆 - ¥8,000"
+    },
+    {
+      "evidence": {
+        "kind": "dom_selected",
+        "selector_hint": "input:checked[name=\"WHEELS\"] labels"
+      },
+      "key": "wheels",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "20 英寸螺旋风暴轮毂",
+      "unit": null,
+      "value": "20 英寸螺旋风暴轮毂 - ¥8,000"
+    },
+    {
+      "evidence": {
+        "kind": "dom_selected",
+        "selector_hint": "input:checked[name=\"PREMIUM_PACKAGE\"] labels"
+      },
+      "key": "interior",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "深色高级内饰",
+      "unit": null,
+      "value": "深色高级内饰 - 包括"
+    },
+    {
+      "evidence": {
+        "kind": "dom_selected",
+        "selector_hint": "input:checked[name=\"OptionGroup:AUTOPILOT_PACKAGE\"] labels"
+      },
+      "key": "autopilot",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。",
+      "unit": null,
+      "value": "基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。"
+    },
+    {
+      "evidence": {
+        "kind": "dom_selected",
+        "selector_hint": ".group-REAR_SEATS[class*=group--selected_]"
+      },
+      "key": "seats",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "五座版",
+      "unit": null,
+      "value": "五座"
+    },
+    {
+      "evidence": {
+        "kind": "dom_selected",
+        "selector_hint": "#RECOMMENDED_ACCESSORIES, #CHARGING_ACCESSORIES"
+      },
+      "key": "accessories",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "轮胎修理工具包 3.0 ¥779: 未选",
+      "unit": null,
+      "value": []
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": ".aside-footer--container"
+      },
+      "key": "vehicle_price",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "车辆价格 ¥321,500",
+      "unit": "CNY_fen",
+      "value": 32150000
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": ".aside-footer--container"
+      },
+      "key": "price_basis",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "车辆价格 ¥321,500",
+      "unit": null,
+      "value": "当前页面标明的车辆价格"
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#main-content visible text"
+      },
+      "key": "range_cltc",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "690公里 续航",
+      "unit": "km",
+      "value": 690
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#main-content visible text"
+      },
+      "key": "top_speed",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "201公里/小时",
+      "unit": "km/h",
+      "value": 201
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#main-content visible text"
+      },
+      "key": "zero_to_hundred",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "4.3秒 百公里",
+      "unit": "s",
+      "value": 4.3
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#main-content visible text"
+      },
+      "key": "delivery",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车",
+      "unit": null,
+      "value": "预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车"
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#downPaymentAmountInput"
+      },
+      "key": "down_payment",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "首付金额 ¥79,900",
+      "unit": "CNY_fen",
+      "value": 7990000
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#finance_options-loan-panel select"
+      },
+      "key": "finance_product",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "限时0息贷款方案",
+      "unit": null,
+      "value": "限时0息贷款方案"
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#finance_options-loan-panel"
+      },
+      "key": "principal",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "贷款金额 ¥241,600",
+      "unit": "CNY_fen",
+      "value": 24160000
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#finance_options-loan-panel"
+      },
+      "key": "term_months",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "期数 60 个月",
+      "unit": "month",
+      "value": 60
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#finance_options-loan-panel"
+      },
+      "key": "monthly_payment",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "¥4,027/月",
+      "unit": "CNY_fen",
+      "value": 402700
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#finance_options-loan-panel"
+      },
+      "key": "rate_value",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "年化费率 % 0.00%",
+      "unit": "percent",
+      "value": 0
+    },
+    {
+      "evidence": {
+        "kind": "dom_text",
+        "selector_hint": "#finance_options-loan-panel"
+      },
+      "key": "rate_basis",
+      "observed_at": "2026-09-19T19:34:56.593Z",
+      "raw_text": "年化费率 % 0.00%",
+      "unit": null,
+      "value": "年化费率"
+    }
+  ],
+  "issues": [],
+  "page_fingerprint": "760cb950696ea2fa9dd69cfb35ec9fe459faae7ae3d1a379688b6b351d98f77b",
+  "readiness": "ready",
+  "source_url": "https://www.tesla.cn/modely/design#overview"
+}

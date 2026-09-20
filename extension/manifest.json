@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Tess · 真实 Model Y Capture 验证",
+  "version": "0.1.1",
+  "minimum_chrome_version": "116",
+  "description": "只读 Tesla 中国 Model Y 当前配置，保存本机不可变快照。",
+  "permissions": ["sidePanel", "storage", "scripting"],
+  "host_permissions": ["https://www.tesla.cn/modely/design*"],
+  "background": {"service_worker": "service-worker.js"},
+  "action": {"default_title": "打开 Tess Capture"},
+  "side_panel": {"default_path": "sidepanel.html"},
+  "content_security_policy": {"extension_pages": "script-src 'self'; object-src 'none'"}
+}

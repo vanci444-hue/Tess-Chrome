@@ -1,0 +1,31 @@
+{
+  "service_url": "http://127.0.0.1:8099",
+  "health": {
+    "demo_advisor": {
+      "id": "demo-alex",
+      "name": "Alex",
+      "store_name": "Tesla ××体验中心",
+      "is_demo": true
+    },
+    "status": "degraded",
+    "database": true,
+    "capabilities": {
+      "llm": "missing",
+      "asr": "missing",
+      "maps": "missing"
+    }
+  },
+  "root_http_status": 200,
+  "static_assets": [
+    "/assets/index-S6mb1Jc7.js",
+    "/assets/index-C3nWlWK1.css"
+  ],
+  "registered_endpoints": [
+    "/api/sessions/{session_id}/audio",
+    "/api/sessions/{session_id}/runs"
+  ],
+  "default_customer_count": 0,
+  "extension_id": "ejbpocfjkdofijfgehnnhdnnhigkekdn",
+  "capture_sha256": "98dc7661ebbd35de59ae99c1ea04ff90c0c70ae8f6776fef7778f8971430187b",
+  "validation": "实际本机 HTTP；未发起付费 API；未创建默认库测试客户"
+}
