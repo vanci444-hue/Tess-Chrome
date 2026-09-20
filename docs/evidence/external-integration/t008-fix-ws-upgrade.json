@@ -1,0 +1,11 @@
+{
+  "check": "official-uvicorn-websocket-upgrade",
+  "isolated": true,
+  "production_port_8099_touched": false,
+  "command": ".venv/bin/python -m pytest backend/tests/e2e/test_ws_upgrade.py --timeout=120 -q",
+  "result": "passed",
+  "venv_websockets": "17.1",
+  "venv_uvicorn": "0.53.0",
+  "requirements": "uvicorn[standard]==0.53.0",
+  "note": "隔离端口临时库创建 ASR 预留后，官方 uvicorn 握手升级成功。不是 Side Panel/真麦 PASS。"
+}

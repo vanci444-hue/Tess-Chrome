@@ -3,7 +3,7 @@
   "project": "Tess-Chrome",
   "reviewed_at": "2026-09-20",
   "purpose": "按真实页面追踪销售操作、接口、确定性计算和 Agent 工具。此页只读，无业务或付费请求。",
-  "evidence_boundary": "T001真实官网Capture已独立验证；T002–T007本地代码/协议/HTTP阶段通过。T008真实Qwen/ASR/高德已独立核对为BLOCKED（缺Key），T010最终dist安装、窄侧栏/桌面视觉与真实麦克风已独立核对为BLOCKED（浏览器工具不可用）。configured不代表服务可用。",
+  "evidence_boundary": "T001真实官网Capture及T002–T007本地代码/协议/HTTP阶段已独立验证；T-007接口/契约PASS不能当成完整UI或浏览器通过。T-010总结果仍为BLOCKED，未通过。本地 /api/health 中 llm/asr/maps=configured，密钥已配置≠能力已验。T-008独立复验v4.0仍为FAIL（AC-020发布后跟进）；跟进修复已冻结，待独立Tester，不能写成T-008已通过。本轮在T-008冻结后按当前盘上源码重生导航：哈希与核对基线不一致的来源一律「来源已变化·待复核」，不把当前盘上哈希写回reviewed_sha256冒充「源码已核对」。生成时间不代表重新核对或业务验收通过。",
   "differences": [
     "设计目录曾列sidepanel.html/public manifest；最终实现共用frontend/index.html，由构建脚本生成dist/manifest.json并复制冻结extension脚本。",
     "部分接口标题写SSE，但最终运行摘要为GET轮询JSON；WS仅用于音频。",
@@ -528,8 +528,8 @@
       "id": "src-test8",
       "name": ".sdd/test-reports/test-T-008.md",
       "path": ".sdd/test-reports/test-T-008.md",
-      "locator": "**结果：BLOCKED",
-      "reviewed_sha256": "148f597e098a07cc1443481f75a01b22b2dbf392b839425bdc9c7df417ea1a23",
+      "locator": "| 总结果 | **FAIL**",
+      "reviewed_sha256": "4acca2d3bd2d6f3914282df996f018be8346cad5aac419764a0dc260a3fcd231",
       "reviewed_at": "2026-09-20",
       "implementation_status": "checked"
     },
@@ -537,8 +537,8 @@
       "id": "src-test10",
       "name": ".sdd/test-reports/test-T-010.md",
       "path": ".sdd/test-reports/test-T-010.md",
-      "locator": "**结果：BLOCKED",
-      "reviewed_sha256": "0a7c92867fcaa336fda02102a730e112fa6911388182dc7d6b3e4f2935606205",
+      "locator": "## 2026-09-20 浏览器恢复补验（Tester browser_resume_test）",
+      "reviewed_sha256": "e669c0d0bcd94a8df5288f9981d7e7af877d7309250d3f1932defab20d124846",
       "reviewed_at": "2026-09-20",
       "implementation_status": "checked"
     },
@@ -2769,7 +2769,7 @@
           "默认真实模式；?mock=1#/仅显式契约UI，数据与生产不等价。"
         ],
         "failures": [
-          "T008外部真实调用缺凭证；T010浏览器视觉/麦克风阻塞；公开分享、登录系统、下单支付均不在范围。"
+          "T008外部真实调用缺配置；T010完整供应商链路、麦克风、指定宽度及部分交互仍未验；正式安装与真实Capture已实操。公开分享、登录系统、下单支付均不在范围。"
         ],
         "sources": [
           "src-main",

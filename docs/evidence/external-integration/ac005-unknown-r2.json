@@ -1,0 +1,49 @@
+{
+  "first": {
+    "status": "needs_confirmation",
+    "questions": [
+      {
+        "id": "0310fd50-ea2b-47de-9df9-021b84f92bd2",
+        "text": "请确认desired_monthly_payment：月供希望四千左右",
+        "required": true,
+        "fact_ids": [
+          "d6e7e5f1-36ab-4511-8fe3-727993d6ac0e"
+        ],
+        "origin_run_id": "0ca2975c-9c8d-4baf-ac5b-4e230e1e1b32",
+        "state": "open"
+      },
+      {
+        "id": "c5ea69ae-3c06-4f54-ba87-cc8d9a7b8eb9",
+        "text": "请确认has_fixed_parking：客户没有固定车位",
+        "required": false,
+        "fact_ids": [
+          "4dfb7af6-1b6c-46bc-bfe9-222b9b828fa6"
+        ],
+        "origin_run_id": "0ca2975c-9c8d-4baf-ac5b-4e230e1e1b32",
+        "state": "open"
+      },
+      {
+        "id": "eaa5d4e1-2263-4ab0-a1c6-2049df29aeb5",
+        "text": "请确认region：常用区域在望京地铁站附近",
+        "required": false,
+        "fact_ids": [
+          "4f2f97f8-c980-4404-bfbd-10f9ab2528e2"
+        ],
+        "origin_run_id": "0ca2975c-9c8d-4baf-ac5b-4e230e1e1b32",
+        "state": "open"
+      }
+    ]
+  },
+  "second_status": "succeeded",
+  "second_error": null,
+  "unknown_support": [
+    {
+      "key": "home_charging",
+      "message": "补充家充条件后，可以判断是否需要查询周边超充，以及能否做家庭充电成本对照。"
+    },
+    {
+      "key": "trial_variant",
+      "message": "补充实际试驾版本后，体验反馈会正确归属，不会沿用候选配置。"
+    }
+  ]
+}

@@ -28,3 +28,20 @@ export async function captureCurrent(): Promise<CaptureInput> {
   // Only transport the approved capture whitelist; do not send page diagnostics/whole DOM.
   return projectCapture(raw);
 }
+
+export async function openOfficialFinance() {
+  if (contractMock) return;
+  if (!isExtension)
+    throw new ApiError(
+      "打开金融方案需要在 Chrome 插件侧栏中，并切到 Tesla 中国 Model Y 官网。",
+      "EXTENSION_REQUIRED",
+    );
+  const result = await chrome.runtime.sendMessage({
+    type: "OPEN_TESLA_FINANCE",
+  });
+  if (!result?.ok)
+    throw new ApiError(
+      result?.error || "当前页没有「查看金融方案」。",
+      "FINANCE_OPEN_FAILED",
+    );
+}

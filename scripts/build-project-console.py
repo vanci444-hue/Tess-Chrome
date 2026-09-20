@@ -2,6 +2,7 @@
 """只静态读取导航清单中的源码，生成自包含 HTML；不导入业务模块或读取运行数据。
 
 人工归纳与其 reviewed_sha256 绑定。普通刷新只计算当前指纹，绝不自动认可变更。
+并发任务改过的源即使盘上哈希已变，也只标待复核，禁止把 in-flight 哈希写回 reviewed_sha256。
 --root/--map/--output 允许用临时目录验证变更、缺失和错误降级。
 """
 from __future__ import annotations

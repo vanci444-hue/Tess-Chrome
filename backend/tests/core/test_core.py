@@ -326,6 +326,25 @@ def test_capture_invalid_source_dictionary_and_finance_conflict(client):
     assert incomplete["validity"] == "incomplete"
 
 
+def test_capture_accepts_extras_and_option_surcharges(client):
+    sid = session(client, customer(client)["id"])["id"]
+    cap = capture_payload()
+    stamp = cap["fields"][0]["observed_at"]
+    evidence = {"kind": "dom_selected", "selector_hint": "selected extras"}
+    cap["fields"].extend([
+        {"key": "extras", "value": ["特斯拉辅助驾驶套件"], "unit": None,
+         "raw_text": "特斯拉辅助驾驶套件", "evidence": evidence, "observed_at": stamp},
+        {"key": "option_surcharges", "value": [
+            {"group": "paint", "name": "珍珠白车漆", "amount": 1200000, "included": False},
+            {"group": "wheels", "name": "19 英寸轮毂", "amount": 0, "included": True},
+        ], "unit": None, "raw_text": "珍珠白车漆 1200000", "evidence": evidence, "observed_at": stamp},
+    ])
+    saved = data(post(client, f"/api/sessions/{sid}/captures", {"expected_revision": 1, "capture": cap}), 201)
+    keys = {field["key"] for field in data(client.get(f"/api/sessions/{sid}"))["captures"][0]["immutable_payload"]["fields"]}
+    assert saved["validity"] in {"valid", "incomplete", "conflict"}
+    assert {"extras", "option_surcharges"} <= keys
+
+
 @pytest.mark.parametrize("replacement", [
     {"comparing": "Model Y", "confirmed": ["月供4000元，预算4027元"], "pending": []},
     {"comparing": "Model Y", "confirmed": ["预算4027元，月供4000元"], "pending": []},
@@ -384,3 +403,27 @@ def test_known_international_identity_redacted_build_update_publish(client, disp
     fields = next(module for module in report["modules"] if module["type"] == "options")["data"]["options"][0]["fields"]
     assert next(field for field in fields if field["key"] == "vehicle_price")["value"] == 32150000
     assert report["summary"]["confirmed"] == ["月供4027元"]
+
+
+def test_charging_search_needed_and_unknown_support():
+    from src.services.facts import charging_search_needed, unknown_support
+
+    region = {"id": "r", "key": "region", "value": "望京地铁站", "state": "confirmed",
+              "scope": "session", "supersedes": []}
+    assert charging_search_needed([
+        region,
+        {"id": "p", "key": "has_fixed_parking", "value": False, "state": "confirmed",
+         "scope": "session", "supersedes": []},
+    ])
+    assert not charging_search_needed([
+        region,
+        {"id": "p", "key": "has_fixed_parking", "value": True, "state": "confirmed",
+         "scope": "session", "supersedes": []},
+        {"id": "h", "key": "home_charging", "value": "已安装", "state": "confirmed",
+         "scope": "session", "supersedes": []},
+    ])
+    hints = unknown_support([
+        {"id": "u", "key": "home_charging", "value": None, "state": "unknown",
+         "scope": "session", "supersedes": []},
+    ])
+    assert hints[0]["key"] == "home_charging" and "超充" in hints[0]["message"]

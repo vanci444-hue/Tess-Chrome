@@ -1,0 +1,72 @@
+{
+  "started_at": "2026-09-20T04:49:50.447761+00:00",
+  "origin": "http://127.0.0.1:18121",
+  "prod_db_before": 364544,
+  "prod_8099": "ready",
+  "analyze": {
+    "status": "succeeded",
+    "candidate_names": [
+      "望京(地铁站)",
+      "地铁望京站(公交站)",
+      "望京地铁站A西北口",
+      "望京西(地铁站)",
+      "望京南(地铁站)",
+      "望京东(地铁站)",
+      "望京地铁站H西南口",
+      "望京地铁站C东南口"
+    ],
+    "chosen": "望京(地铁站)",
+    "chosen_id": "406cb5f2-45c4-4fd5-b368-b7f5daace679"
+  },
+  "confirmed_location": "406cb5f2-45c4-4fd5-b368-b7f5daace679",
+  "prepare": {
+    "run_status": "succeeded",
+    "error": null,
+    "tools": [
+      "search_charging",
+      "search_charging",
+      "list_finance_products",
+      "list_finance_products",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance"
+    ],
+    "has_draft": true,
+    "charging_state": "ready",
+    "station_count": 3,
+    "station_names": [
+      "中国石化超级充电站(望京新城充电站)",
+      "滴滴充电汽车充电站(福泰中心)",
+      "极氪能源超级充电站(北京博泰大厦极充站)"
+    ],
+    "routes_ready": [
+      "中国石化超级充电站(望京新城充电站)",
+      "滴滴充电汽车充电站(福泰中心)",
+      "极氪能源超级充电站(北京博泰大厦极充站)"
+    ],
+    "map_status": "ready",
+    "map_asset_id": "f996400f-f360-47a2-b976-6fe3c3d1a2d2",
+    "distance_basis": [
+      "高德中心点距离"
+    ],
+    "external_search_has_key": false,
+    "summary": {
+      "comparing": "对比客户月度预算与当前配置下的金融还款压力，评估公共充电便利性对无家充场景的弥补程度",
+      "confirmed": [
+        "客户位于北京望京地铁站附近",
+        "无固定车位且不具备家充条件",
+        "确认车型为Model Y长续航全轮驱动版，选配珍珠白车漆及英寸轮毂",
+        "月度还款预算已确认"
+      ],
+      "pending": [
+        "金融方案需调整首付比例或贷款期限以严格匹配月度预算"
+      ]
+    }
+  },
+  "prod_db_after": 364544,
+  "prod_8099_after": "ready",
+  "ended_at": "2026-09-20T04:50:38.658066+00:00"
+}

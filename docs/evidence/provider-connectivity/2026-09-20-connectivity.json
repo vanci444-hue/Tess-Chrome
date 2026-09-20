@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-09-20T02:35:54.414645+00:00",
+  "task": "T-008 limited connectivity only",
+  "config_presence": {
+    "bailian_api_key": true,
+    "amap_web_service_key": true,
+    "bailian_base_url": false,
+    "bailian_asr_ws_url": false
+  },
+  "temporary_memory_endpoints": {
+    "llm": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+    "asr": "wss://dashscope.aliyuncs.com/api-ws/v1/realtime"
+  },
+  "tests": {
+    "llm": {
+      "http_status": 200,
+      "provider_error_code": "",
+      "request_id": "8b6c6cf8-96b0-96f2-8084-08d56eda3a6a",
+      "assistant_content_nonempty": true,
+      "responded_OK": true,
+      "metadata": {
+        "model": "qwen3.7-plus",
+        "id": "chatcmpl-8b6c6cf8-96b0-96f2-8084-08d56eda3a6a",
+        "usage": {
+          "total_tokens": 24,
+          "completion_tokens": 1,
+          "prompt_tokens": 23,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "text_tokens": 23
+          }
+        }
+      },
+      "result": "PASS",
+      "elapsed_seconds": 1.308
+    },
+    "asr_session_only": {
+      "session_updated": true,
+      "session_finished": true,
+      "audio_bytes_sent": 0,
+      "result": "PASS",
+      "elapsed_seconds": 0.4
+    },
+    "amap_region_search": {
+      "http_status": 200,
+      "provider_error_code": "",
+      "infocode": "10000",
+      "poi_count": 20,
+      "sample_names": [
+        "望京(地铁站)",
+        "地铁望京站(公交站)",
+        "望京地铁站A西北口"
+      ],
+      "valid_coordinates": true,
+      "result": "PASS",
+      "elapsed_seconds": 0.473
+    }
+  },
+  "not_tested": [
+    "Agent tool-observation loop",
+    "microphone or speech transcription",
+    "ASR UI manual send",
+    "Amap stations/routes/static image",
+    "full T-008 acceptance criteria"
+  ],
+  "source_sha256": {
+    "src/adapters/llm.py": "fa8adafa588ed3778fe6a65ab9e367594cab07bfd26fbeb2054cd66a7e07ce65",
+    "src/adapters/asr.py": "e3697d9576e2fd62d74015a58a0c7b4b488379b2a3d0a7cea7e586e29ae9a3fc",
+    "src/adapters/amap.py": "f352b155715237a35636a262b59be53ed828684bc00f3510c2da5012ababfd4c"
+  }
+}

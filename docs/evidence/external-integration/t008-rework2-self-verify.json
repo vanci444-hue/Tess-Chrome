@@ -1,0 +1,58 @@
+{
+  "task_id": "T-008",
+  "role": "developer-self-verify",
+  "python": "3.12",
+  "venv": "Projects_Repo/tess-chrome/.venv",
+  "production_8099": "not_killed",
+  "business_db": "not_cleared",
+  "key_logged": false,
+  "llm_configured": true,
+  "amap_configured": true,
+  "commands": [
+    {
+      "cwd": "Projects_Repo/tess-chrome",
+      "cmd": "PYTHONPATH=harness_root:. .venv/bin/python -m pytest backend/tests/agent/test_agent.py --timeout=120 -q",
+      "result": "35 passed"
+    }
+  ],
+  "replay": {
+    "numeric_summary_still_drafts": "pass",
+    "optional_questions_after_charging_drafts": "pass",
+    "failed_model_finance_then_auto_tool_drafts": "pass",
+    "not_claimed_as_real_qwen_pass": true
+  },
+  "real_qwen_r1": {
+    "attempted": true,
+    "result": "fail_or_blocked",
+    "run_status": "needs_confirmation",
+    "error_code": null,
+    "has_draft": false,
+    "tools": [
+      "read_session",
+      "list_finance_products",
+      "calculate_finance",
+      "calculate_finance"
+    ],
+    "skipped_search_charging": true,
+    "summary_has_arabic_digits": false,
+    "finance_module": null,
+    "provider": "bailian-qwen-isolated-db"
+  },
+  "real_qwen": {
+    "attempted": true,
+    "result": "pass",
+    "run_status": "succeeded",
+    "error_code": null,
+    "has_draft": true,
+    "tools": [
+      "read_session",
+      "list_finance_products",
+      "calculate_finance",
+      "validate_report"
+    ],
+    "skipped_search_charging": true,
+    "summary_has_arabic_digits": false,
+    "finance_module": "mock",
+    "provider": "bailian-qwen-isolated-db"
+  }
+}

@@ -1,6 +1,7 @@
 """事实采用追加记录；每次确认都保留被替代来源。"""
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from src.config.settings import Settings
@@ -46,6 +47,69 @@ def blocking_facts(rows: list[Fact]) -> list[dict[str, Any]]:
             issues.append({"code": "UNRESOLVED_FACT", "field": key, "blocking": True,
                            "message": "同一字段仍存在不同的已确认值，请明确替代关系"})
     return issues
+
+
+UNKNOWN_SUPPORT = {
+    "home_charging": "补充家充条件后，可以判断是否需要查询周边超充，以及能否做家庭充电成本对照。",
+    "has_fixed_parking": "补充固定车位情况后，可以判断是否需要查询公共超充与驾车距离。",
+    "region": "补充常用区域后，可以通过高德查询真实充电站、驾车距离和带编号地图。",
+    "city": "补充城市后，可以缩小同名地点并查询该区域充电站。",
+    "trial_variant": "补充实际试驾版本后，体验反馈会正确归属，不会沿用候选配置。",
+    "monthly_budget": "补充月供预算后，可以用已确认规则试算可行首付与期限。",
+    "desired_monthly_payment": "补充期望月供后，可以用已确认规则试算可行方案。",
+}
+
+
+def unknown_support(rows: list[Any]) -> list[dict[str, str]]:
+    messages, seen = [], set()
+    for row in current_projection(rows):
+        if row["state"] != "unknown" or row["key"] in seen or row["key"] not in UNKNOWN_SUPPORT:
+            continue
+        seen.add(row["key"])
+        messages.append({"key": row["key"], "message": UNKNOWN_SUPPORT[row["key"]]})
+    return messages
+
+
+def current_projection(rows: list[Any]) -> list[dict[str, Any]]:
+    if not rows:
+        return []
+    if hasattr(rows[0], "key"):
+        return [fact_read(row) for row in current_facts(rows)]
+    superseded = {ref for row in rows for ref in row.get("supersedes") or []}
+    return [row for row in rows if row.get("id") not in superseded and row.get("scope", "session") == "session"]
+
+
+def _charge_flag(value: Any, *, unknown: bool) -> str:
+    if unknown or value is None:
+        return "unknown"
+    if value is True:
+        return "yes"
+    if value is False:
+        return "no"
+    text = str(value).strip()
+    negative = bool(re.search(r"无|没有|否|不便|不能|未知|unknown", text, re.I))
+    positive = bool(re.search(r"有|已装|安装|家充|可以|具备|固定车位|true|yes", text, re.I))
+    if negative:
+        return "no"
+    if positive:
+        return "yes"
+    return "unknown"
+
+
+def charging_search_needed(rows: list[Any]) -> bool:
+    """无车位或家充未知/不具备时，在已确认地点查询超充；家充与车位都明确具备则跳过。"""
+    facts = current_projection(rows)
+    confirmed = {row["key"]: row["value"] for row in facts if row["state"] == "confirmed"}
+    unknown = {row["key"] for row in facts if row["state"] == "unknown"}
+    if not (confirmed.get("confirmed_location_ref") or confirmed.get("region")):
+        return False
+    parking = _charge_flag(confirmed.get("has_fixed_parking"), unknown="has_fixed_parking" in unknown)
+    home = _charge_flag(confirmed.get("home_charging"), unknown="home_charging" in unknown)
+    if "has_fixed_parking" not in confirmed and "has_fixed_parking" not in unknown:
+        parking = "unknown"
+    if "home_charging" not in confirmed and "home_charging" not in unknown:
+        home = "unknown"
+    return not (parking == "yes" and home == "yes")
 
 
 def trial_vehicle(rows: list[Fact]) -> dict[str, Any] | None:

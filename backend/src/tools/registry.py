@@ -150,9 +150,14 @@ class ToolRegistry:
             or set(schema["required"]) - set(args)
         ):
             raise ProviderError("TOOL_ARGUMENTS_INVALID", "工具参数缺失或包含未允许字段")
-        for key, value in args.items():
+        for key, value in list(args.items()):
             rule = schema["properties"][key]
             types = rule["type"] if isinstance(rule["type"], list) else [rule["type"]]
+            if "integer" in types and not isinstance(value, bool):
+                if isinstance(value, float) and value.is_integer():
+                    args[key] = value = int(value)
+                elif isinstance(value, str) and value.strip().lstrip("-").isdigit():
+                    args[key] = value = int(value)
             valid = (
                 (value is None and "null" in types)
                 or (isinstance(value, str) and "string" in types)

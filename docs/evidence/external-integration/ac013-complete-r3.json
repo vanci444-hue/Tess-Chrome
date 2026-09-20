@@ -1,0 +1,32 @@
+{
+  "run": {
+    "status": "succeeded",
+    "error": null,
+    "tools": [
+      "read_session",
+      "read_session",
+      "list_finance_products",
+      "list_finance_products",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance"
+    ]
+  },
+  "draft": true,
+  "summary": {
+    "comparing": "正在比较官网配置快照中的金融方案与客户确认的月度预算约束",
+    "confirmed": [
+      "客户已确认拥有固定车位",
+      "客户已确认小区车位安装家充",
+      "客户所在地区为北京望京",
+      "客户月度预算已确认"
+    ],
+    "pending": [
+      "金融月供与预算的微小差异需销售与客户确认调整方案"
+    ]
+  },
+  "blocking_issues": []
+}

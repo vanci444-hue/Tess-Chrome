@@ -516,3 +516,161 @@ def test_confirmed_resolution_fact_is_traceable_evidence(setup):
     out = result(client, sid, accepted['run_id'])
     assert out['status'] == 'succeeded'
     assert out['result']['brief']['confirmed_resolution_fact_ids'] == ['resolution-fact']
+
+
+def test_unknown_repeat_skips_stale_quote_and_explains_support(setup):
+    client, provider, sid = setup()
+    async def seed(store):
+        await store.add(Fact(session_id=sid, key='home_charging', value=None, state='unknown',
+            source_kind='sales_input', source_id=sid, scope='session', supersedes=[]))
+    mutate(client, seed)
+    provider.steps += [message({'facts': [{'key': 'home_charging', 'value': '不知道', 'state': 'unknown',
+        'evidence_quote': '公司充电不知道'}], 'questions': [{'text': '家充情况？', 'key': 'home_charging'}]})]
+    accepted = ok(post(client, f'/api/sessions/{sid}/inputs',
+                       {'text': '还是不知道', 'expected_revision': 1}), 202)
+    out = result(client, sid, accepted['run_id'])
+    assert out['status'] == 'succeeded' and out['error'] is None
+    assert any(item['key'] == 'home_charging' for item in out['result']['unknown_support'])
+    assert detail(client, sid)['inputs'][-1]['corrected_text'] == '还是不知道'
+
+
+def test_guard_rewrites_yuan_cap_to_confirmed_fen(setup):
+    client, _, sid = setup()
+    capture(client, sid)
+    async def seed(store):
+        await store.add(Fact(session_id=sid, key='monthly_budget', value=400000, unit='CNY_fen',
+            state='confirmed', source_kind='sales_input', source_id=sid, scope='session', supersedes=[]))
+    mutate(client, seed)
+    accepted = send(client, sid, revision=2)
+    drain(client)
+    async def check():
+        args = {'monthly_cap_fen': 4000}
+        await client.app.state.agent_runner.guard_tool_inputs(
+            accepted['run_id'], 'calculate_finance', args)
+        assert args['monthly_cap_fen'] == 400000
+    client.portal.call(check)
+
+
+def test_prepare_skips_charging_when_home_and_parking_ready(setup):
+    client, provider, sid = setup([message('无需更多工具'), finish(report_summary={
+        'comparing': '当前候选方案', 'confirmed': ['家充与车位已明确'], 'pending': []})])
+    capture(client, sid)
+    async def seed(store):
+        for key, value in (('has_fixed_parking', True), ('home_charging', '已安装家充'),
+                           ('region', '望京地铁站'), ('monthly_budget', 400000)):
+            await store.add(Fact(session_id=sid, key=key, value=value,
+                unit='CNY_fen' if key == 'monthly_budget' else None, state='confirmed',
+                source_kind='sales_input', source_id=sid, scope='session', supersedes=[]))
+    mutate(client, seed)
+    accepted = ok(post(client, f'/api/sessions/{sid}/runs',
+                       {'intent': 'prepare_report', 'expected_revision': 2}), 202)
+    out = result(client, sid, accepted['run_id'])
+    tools = [event['tool_name'] for event in out['events'] if event['type'] == 'tool_started']
+    assert out['result']['outcome'] == 'draft'
+    assert 'calculate_finance' in tools
+    assert 'search_charging' not in tools
+
+
+def test_prepare_searches_charging_without_parking(setup):
+    client, provider, sid = setup([message('无需更多工具'), finish(report_summary={
+        'comparing': '当前候选方案', 'confirmed': [], 'pending': ['公共补能待查看']})])
+    capture(client, sid)
+    async def seed(store):
+        for key, value in (('has_fixed_parking', False), ('region', '望京地铁站'),
+                           ('city', '北京'), ('monthly_budget', 400000)):
+            await store.add(Fact(session_id=sid, key=key, value=value,
+                unit='CNY_fen' if key == 'monthly_budget' else None, state='confirmed',
+                source_kind='sales_input', source_id=sid, scope='session', supersedes=[]))
+    mutate(client, seed)
+    accepted = ok(post(client, f'/api/sessions/{sid}/runs',
+                       {'intent': 'prepare_report', 'expected_revision': 2}), 202)
+    out = result(client, sid, accepted['run_id'])
+    tools = [event['tool_name'] for event in out['events'] if event['type'] == 'tool_started']
+    assert out['result']['outcome'] == 'draft'
+    assert 'search_charging' in tools
+    assert 'calculate_finance' in tools
+
+
+def test_prepare_numeric_summary_retries_then_drafts_without_failing(setup):
+    client, provider, sid = setup([
+        message('无需更多工具'),
+        finish(report_summary={'comparing': '候选价约313900元，月供十二万不合适',
+                               'confirmed': ['月供400000分已确认'], 'pending': []}),
+        finish(report_summary={'comparing': '当前候选方案与已确认预算',
+                               'confirmed': ['家充与车位已明确'], 'pending': []}),
+    ])
+    capture(client, sid)
+    async def seed(store):
+        for key, value in (('has_fixed_parking', True), ('home_charging', '小区车位已安装家充'),
+                           ('monthly_budget', 400000)):
+            await store.add(Fact(session_id=sid, key=key, value=value,
+                unit='CNY_fen' if key == 'monthly_budget' else None, state='confirmed',
+                source_kind='sales_input', source_id=sid, scope='session', supersedes=[]))
+    mutate(client, seed)
+    accepted = ok(post(client, f'/api/sessions/{sid}/runs',
+                       {'intent': 'prepare_report', 'expected_revision': 2}), 202)
+    out = result(client, sid, accepted['run_id'])
+    assert out['status'] == 'succeeded' and out['result']['outcome'] == 'draft'
+    assert out.get('error') is None
+    draft = detail(client, sid)['draft']
+    summary = json.dumps(draft['report_data']['summary'], ensure_ascii=False)
+    assert '313900' not in summary and '十二万' not in summary and '400000' not in summary
+    assert any(module['type'] == 'finance' and module['status'] in ('mock', 'ready')
+               for module in draft['report_data']['modules'])
+    assert len(provider.calls) == 3
+
+
+def test_prepare_optional_questions_after_charging_still_drafts(setup):
+    client, provider, sid = setup([message('无需更多工具'), finish(
+        '充电站已查出', status='needs_confirmation',
+        questions=[{'text': '是否还要确认公司充电？', 'key': 'home_charging'}],
+        report_summary={'comparing': '当前候选方案', 'confirmed': [],
+                        'pending': ['公共补能可继续查看']})])
+    capture(client, sid)
+    async def seed(store):
+        for key, value in (('has_fixed_parking', False), ('region', '望京地铁站'),
+                           ('city', '北京'), ('monthly_budget', 400000)):
+            await store.add(Fact(session_id=sid, key=key, value=value,
+                unit='CNY_fen' if key == 'monthly_budget' else None, state='confirmed',
+                source_kind='sales_input', source_id=sid, scope='session', supersedes=[]))
+    mutate(client, seed)
+    accepted = ok(post(client, f'/api/sessions/{sid}/runs',
+                       {'intent': 'prepare_report', 'expected_revision': 2}), 202)
+    out = result(client, sid, accepted['run_id'])
+    tools = [event['tool_name'] for event in out['events'] if event['type'] == 'tool_started']
+    assert out['status'] == 'succeeded' and out['result']['outcome'] == 'draft'
+    assert 'search_charging' in tools
+    assert detail(client, sid)['draft']
+    pending = ' '.join(detail(client, sid)['draft']['report_data']['summary']['pending'])
+    assert '公司充电' in pending
+
+
+def test_prepare_still_drafts_after_failed_model_finance_calls(setup):
+    capture_id = {'value': None}
+    def first_fail(messages):
+        return tool('calculate_finance', {'capture_id': capture_id['value'],
+                                          'product_id': 'missing-product', 'monthly_cap_fen': 1}, 'fin1')
+    def second_fail(messages):
+        return tool('calculate_finance', {'capture_id': capture_id['value'],
+                                          'product_id': 'missing-product', 'monthly_cap_fen': 2}, 'fin2')
+    client, provider, sid = setup([
+        first_fail, second_fail,
+        finish(report_summary={'comparing': '当前候选方案', 'confirmed': ['预算已确认'], 'pending': []}),
+    ])
+    saved = capture(client, sid)
+    capture_id['value'] = saved['capture_id']
+    async def seed(store):
+        await store.add(Fact(session_id=sid, key='monthly_budget', value=400000, unit='CNY_fen',
+            state='confirmed', source_kind='sales_input', source_id=sid, scope='session', supersedes=[]))
+        await store.add(Fact(session_id=sid, key='has_fixed_parking', value=True, state='confirmed',
+            source_kind='sales_input', source_id=sid, scope='session', supersedes=[]))
+        await store.add(Fact(session_id=sid, key='home_charging', value='已安装家充', state='confirmed',
+            source_kind='sales_input', source_id=sid, scope='session', supersedes=[]))
+    mutate(client, seed)
+    accepted = ok(post(client, f'/api/sessions/{sid}/runs',
+                       {'intent': 'prepare_report', 'expected_revision': 2}), 202)
+    out = result(client, sid, accepted['run_id'])
+    assert out['status'] == 'succeeded' and out['result']['outcome'] == 'draft'
+    tools = [event['tool_name'] for event in out['events'] if event['type'] == 'tool_started']
+    assert tools.count('calculate_finance') >= 3
+    assert any(module['type'] == 'finance' for module in detail(client, sid)['draft']['report_data']['modules'])

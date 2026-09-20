@@ -38,19 +38,78 @@ export function mockCapture(): CaptureInput {
     ],
     fields: Object.entries({
       model: "Model Y",
-      variant: "长续航全轮驱动版",
-      paint: "珍珠白",
-      wheels: "20 英寸轮毂",
-      interior: "深色内饰",
+      variant: "后轮驱动版",
+      paint: "星空灰车漆",
+      wheels: "19 英寸交互风暴轮毂",
+      interior: "深色高级内饰",
       seats: "五座",
-      autopilot: "基础辅助驾驶",
-      accessories: [],
-      vehicle_price: 32150000,
+      autopilot: "特斯拉辅助驾驶套件",
+      accessories: ["娱乐服务年包 1年", "轮胎修理工具包"],
+      extras: [
+        "特斯拉辅助驾驶套件",
+        "娱乐服务年包 1年",
+        "轮胎修理工具包",
+      ],
+      option_surcharges: [
+        {
+          group: "paint",
+          name: "星空灰车漆",
+          amount: 0,
+          included: true,
+        },
+        {
+          group: "wheels",
+          name: "19 英寸交互风暴轮毂",
+          amount: 0,
+          included: true,
+        },
+        {
+          group: "interior",
+          name: "深色高级内饰",
+          amount: 0,
+          included: true,
+        },
+        {
+          group: "autopilot",
+          name: "特斯拉辅助驾驶套件",
+          amount: 3200000,
+          included: false,
+        },
+        {
+          group: "extras",
+          name: "娱乐服务年包 1年",
+          amount: 144000,
+          included: false,
+        },
+        {
+          group: "extras",
+          name: "轮胎修理工具包",
+          amount: 16500,
+          included: false,
+        },
+      ],
+      vehicle_price: 26350000,
       price_basis: "车辆价格",
+      delivery: "3–5周",
+      range_cltc: 593,
+      top_speed: 201,
+      zero_to_hundred: 5.9,
+      monthly_payment: 306000,
+      down_payment: 7990000,
+      term_months: 60,
+      rate_value: 0,
+      rate_basis: "年化费率",
     }).map(([key, value]) => ({
       key,
       value,
-      unit: key === "vehicle_price" ? "CNY_fen" : null,
+      unit:
+        /price|payment/.test(key)
+          ? "CNY_fen"
+          : key === "term_months"
+            ? "months"
+            : key === "rate_value"
+              ? "percent"
+              : null,
       raw_text: String(value),
       evidence: { kind: "dom_selected", selector_hint: null },
       observed_at: time,

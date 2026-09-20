@@ -1,0 +1,160 @@
+{
+  "run": {
+    "status": "needs_confirmation",
+    "tools": [
+      "search_charging",
+      "search_charging",
+      "list_finance_products",
+      "list_finance_products",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance"
+    ],
+    "error": null
+  },
+  "charging": {
+    "state": "ready",
+    "region": "望京(地铁站)",
+    "city": "北京市",
+    "center_gcj02": {
+      "longitude": 116.469409,
+      "latitude": 39.998521
+    },
+    "radius_m": 3000,
+    "stations": [
+      {
+        "id": "B0LU3B8DZF",
+        "name": "中国石化超级充电站(望京新城充电站)",
+        "location_gcj02": {
+          "longitude": 116.472263,
+          "latitude": 40.000893
+        },
+        "center_distance_m": 359.0,
+        "distance_basis": "高德中心点距离",
+        "route_status": "ready",
+        "driving_distance_m": 931.0,
+        "driving_duration_seconds": 266.0,
+        "number": 1
+      },
+      {
+        "id": "B0MANYP0LS",
+        "name": "滴滴充电汽车充电站(福泰中心)",
+        "location_gcj02": {
+          "longitude": 116.46607,
+          "latitude": 39.99552
+        },
+        "center_distance_m": 438.0,
+        "distance_basis": "高德中心点距离",
+        "route_status": "ready",
+        "driving_distance_m": 476.0,
+        "driving_duration_seconds": 147.0,
+        "number": 2
+      },
+      {
+        "id": "B0K6BLJY8W",
+        "name": "极氪能源超级充电站(北京博泰大厦极充站)",
+        "location_gcj02": {
+          "longitude": 116.472563,
+          "latitude": 40.002222
+        },
+        "center_distance_m": 492.0,
+        "distance_basis": "高德中心点距离",
+        "route_status": "ready",
+        "driving_distance_m": 955.0,
+        "driving_duration_seconds": 299.0,
+        "number": 3
+      }
+    ],
+    "map_asset_id": "7fff6463-209a-41d0-8085-9a46a40d80e3",
+    "map_status": "ready",
+    "asset_ids": [
+      "7fff6463-209a-41d0-8085-9a46a40d80e3"
+    ],
+    "external_search": {
+      "label": "在高德继续搜索",
+      "url": "https://uri.amap.com/search?keyword=%E6%9C%9B%E4%BA%AC%28%E5%9C%B0%E9%93%81%E7%AB%99%29+%E7%89%B9%E6%96%AF%E6%8B%89%E5%85%85%E7%94%B5%E7%AB%99&view=map&src=tess-chrome&callnative=0&city=%E5%8C%97%E4%BA%AC%E5%B8%82"
+    },
+    "warnings": [],
+    "observed_at": "2026-09-20T04:26:42.882917+00:00",
+    "report_module": {
+      "type": "charging",
+      "status": "ready",
+      "source_refs": [
+        {
+          "id": "281f1948-bd2d-4b0d-992e-e22b54bfbc81",
+          "kind": "amap",
+          "url": "https://www.amap.com",
+          "observed_at": "2026-09-20T04:26:42.882909+00:00",
+          "label": "高德 POI 与查询时路线估算，不代表实时空闲状态"
+        }
+      ],
+      "data": {
+        "state": "ready",
+        "region": "望京(地铁站)",
+        "city": "北京市",
+        "center_gcj02": {
+          "longitude": 116.469409,
+          "latitude": 39.998521
+        },
+        "radius_m": 3000,
+        "stations": [
+          {
+            "id": "B0LU3B8DZF",
+            "name": "中国石化超级充电站(望京新城充电站)",
+            "location_gcj02": {
+              "longitude": 116.472263,
+              "latitude": 40.000893
+            },
+            "center_distance_m": 359.0,
+            "distance_basis": "高德中心点距离",
+            "route_status": "ready",
+            "driving_distance_m": 931.0,
+            "driving_duration_seconds": 266.0,
+            "number": 1
+          },
+          {
+            "id": "B0MANYP0LS",
+            "name": "滴滴充电汽车充电站(福泰中心)",
+            "location_gcj02": {
+              "longitude": 116.46607,
+              "latitude": 39.99552
+            },
+            "center_distance_m": 438.0,
+            "distance_basis": "高德中心点距离",
+            "route_status": "ready",
+            "driving_distance_m": 476.0,
+            "driving_duration_seconds": 147.0,
+            "number": 2
+          },
+          {
+            "id": "B0K6BLJY8W",
+            "name": "极氪能源超级充电站(北京博泰大厦极充站)",
+            "location_gcj02": {
+              "longitude": 116.472563,
+              "latitude": 40.002222
+            },
+            "center_distance_m": 492.0,
+            "distance_basis": "高德中心点距离",
+            "route_status": "ready",
+            "driving_distance_m": 955.0,
+            "driving_duration_seconds": 299.0,
+            "number": 3
+          }
+        ],
+        "map_asset_id": "7fff6463-209a-41d0-8085-9a46a40d80e3",
+        "map_status": "ready",
+        "asset_ids": [
+          "7fff6463-209a-41d0-8085-9a46a40d80e3"
+        ],
+        "external_search": {
+          "label": "在高德继续搜索",
+          "url": "https://uri.amap.com/search?keyword=%E6%9C%9B%E4%BA%AC%28%E5%9C%B0%E9%93%81%E7%AB%99%29+%E7%89%B9%E6%96%AF%E6%8B%89%E5%85%85%E7%94%B5%E7%AB%99&view=map&src=tess-chrome&callnative=0&city=%E5%8C%97%E4%BA%AC%E5%B8%82"
+        },
+        "warnings": [],
+        "observed_at": "2026-09-20T04:26:42.882917+00:00"
+      }
+    }
+  },
+  "draft": false
+}

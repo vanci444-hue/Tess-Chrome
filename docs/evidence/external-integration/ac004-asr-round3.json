@@ -1,0 +1,9 @@
+{
+  "create": "created",
+  "live": {
+    "error": "WSServerHandshakeError",
+    "message": "404, message='Invalid response status', url='ws://127.0.0.1:18099/ws/sessions/6ff0d0b9-3d6d-4947-a44b-898f6ee05e0b/audio/5e459b3d-b430-41e9-9833-cac276c3ed61'"
+  },
+  "revision_unchanged": true,
+  "timeline_unchanged": true
+}

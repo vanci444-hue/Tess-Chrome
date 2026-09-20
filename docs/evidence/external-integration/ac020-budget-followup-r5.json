@@ -1,0 +1,184 @@
+{
+  "injected": {
+    "event_ids": [
+      "b45f30fa-7f5e-45ad-9493-4d499ce2ab01",
+      "2c1a0c55-8968-46d7-b080-821125b39a90"
+    ],
+    "source": "mock",
+    "revision": 5
+  },
+  "run": {
+    "run_id": "efbf470c-ce46-4c29-b2ea-c50ed9971d51",
+    "session_id": "3f63cc57-e32e-488a-81e4-791a0e791d38",
+    "status": "succeeded",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "completed",
+        "label": "本次处理已完成，请查看结果",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 2,
+    "result": {
+      "outcome": "followup",
+      "status": "ready",
+      "brief": {
+        "brief": "客户已确认具备家充条件及固定车位，充电便利性顾虑已消除。当前核心待决事项为金融方案调整：客户希望比较提高首付后的月供变化，以匹配其4000元/月的预算约束（官网快照显示当前配置月供约4027元，略超预算）。此外，家庭成员提出再次体验后排长途舒适度的需求。",
+        "summary": "客户已确认具备家充条件及固定车位，充电便利性顾虑已消除。当前核心待决事项为金融方案调整：客户希望比较提高首付后的月供变化，以匹配其4000元/月的预算约束（官网快照显示当前配置月供约4027元，略超预算）。此外，家庭成员提出再次体验后排长途舒适度的需求。",
+        "source": "mock",
+        "source_event_ids": [
+          "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740",
+          "6a3837cf-a6fe-4268-ac49-c747a7e3e67b",
+          "b45f30fa-7f5e-45ad-9493-4d499ce2ab01",
+          "2c1a0c55-8968-46d7-b080-821125b39a90"
+        ],
+        "confirmed_resolution_fact_ids": [],
+        "items": [
+          {
+            "topic": "charging",
+            "summary": "家庭成员询问无家充情况下的每周补能安排",
+            "status": "needs_confirmation",
+            "resolution_evidence": null,
+            "source_event_id": "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740"
+          },
+          {
+            "topic": "rear_seat",
+            "summary": "家庭成员希望再次体验后排长途舒适度",
+            "status": "needs_confirmation",
+            "resolution_evidence": null,
+            "source_event_id": "6a3837cf-a6fe-4268-ac49-c747a7e3e67b"
+          },
+          {
+            "topic": "finance",
+            "summary": "客户希望比较提高首付后月供的变化",
+            "status": "needs_confirmation",
+            "resolution_evidence": null,
+            "source_event_id": "b45f30fa-7f5e-45ad-9493-4d499ce2ab01"
+          },
+          {
+            "topic": "charging",
+            "summary": "客户明确确认已核实日常充电安排",
+            "status": "resolved",
+            "resolution_evidence": "Mock客户明确确认充电安排可接受",
+            "source_event_id": "2c1a0c55-8968-46d7-b080-821125b39a90"
+          }
+        ]
+      },
+      "source_event_ids": [
+        "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740",
+        "6a3837cf-a6fe-4268-ac49-c747a7e3e67b",
+        "b45f30fa-7f5e-45ad-9493-4d499ce2ab01",
+        "2c1a0c55-8968-46d7-b080-821125b39a90"
+      ]
+    },
+    "error": null,
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "efbf470c-ce46-4c29-b2ea-c50ed9971d51",
+      "effective_intent": "followup"
+    },
+    "continuation": null
+  },
+  "session_followup": {
+    "brief": "客户已确认具备家充条件及固定车位，充电便利性顾虑已消除。当前核心待决事项为金融方案调整：客户希望比较提高首付后的月供变化，以匹配其4000元/月的预算约束（官网快照显示当前配置月供约4027元，略超预算）。此外，家庭成员提出再次体验后排长途舒适度的需求。",
+    "summary": "客户已确认具备家充条件及固定车位，充电便利性顾虑已消除。当前核心待决事项为金融方案调整：客户希望比较提高首付后的月供变化，以匹配其4000元/月的预算约束（官网快照显示当前配置月供约4027元，略超预算）。此外，家庭成员提出再次体验后排长途舒适度的需求。",
+    "source": "mock",
+    "source_event_ids": [
+      "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740",
+      "6a3837cf-a6fe-4268-ac49-c747a7e3e67b",
+      "b45f30fa-7f5e-45ad-9493-4d499ce2ab01",
+      "2c1a0c55-8968-46d7-b080-821125b39a90"
+    ],
+    "confirmed_resolution_fact_ids": [],
+    "items": [
+      {
+        "topic": "charging",
+        "summary": "家庭成员询问无家充情况下的每周补能安排",
+        "status": "needs_confirmation",
+        "resolution_evidence": null,
+        "source_event_id": "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740"
+      },
+      {
+        "topic": "rear_seat",
+        "summary": "家庭成员希望再次体验后排长途舒适度",
+        "status": "needs_confirmation",
+        "resolution_evidence": null,
+        "source_event_id": "6a3837cf-a6fe-4268-ac49-c747a7e3e67b"
+      },
+      {
+        "topic": "finance",
+        "summary": "客户希望比较提高首付后月供的变化",
+        "status": "needs_confirmation",
+        "resolution_evidence": null,
+        "source_event_id": "b45f30fa-7f5e-45ad-9493-4d499ce2ab01"
+      },
+      {
+        "topic": "charging",
+        "summary": "客户明确确认已核实日常充电安排",
+        "status": "resolved",
+        "resolution_evidence": "Mock客户明确确认充电安排可接受",
+        "source_event_id": "2c1a0c55-8968-46d7-b080-821125b39a90"
+      }
+    ]
+  },
+  "eval": {
+    "fixture": "budget-followup",
+    "event_ids": [
+      "b45f30fa-7f5e-45ad-9493-4d499ce2ab01",
+      "2c1a0c55-8968-46d7-b080-821125b39a90"
+    ],
+    "run_status": "succeeded",
+    "error_code": null,
+    "tools": [],
+    "run_result_brief_present": true,
+    "session_brief": "客户已确认具备家充条件及固定车位，充电便利性顾虑已消除。当前核心待决事项为金融方案调整：客户希望比较提高首付后的月供变化，以匹配其4000元/月的预算约束（官网快照显示当前配置月供约4027元，略超预算）。此外，家庭成员提出再次体验后排长途舒适度的需求。",
+    "session_brief_nonempty": true,
+    "session_source_event_ids": [
+      "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740",
+      "6a3837cf-a6fe-4268-ac49-c747a7e3e67b",
+      "b45f30fa-7f5e-45ad-9493-4d499ce2ab01",
+      "2c1a0c55-8968-46d7-b080-821125b39a90"
+    ],
+    "traces_round_events": true,
+    "any_round_event_traced": true,
+    "private_sentinel": false,
+    "item_statuses": [
+      {
+        "topic": "charging",
+        "status": "needs_confirmation",
+        "source_event_id": "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740",
+        "has_resolution_evidence": false
+      },
+      {
+        "topic": "rear_seat",
+        "status": "needs_confirmation",
+        "source_event_id": "6a3837cf-a6fe-4268-ac49-c747a7e3e67b",
+        "has_resolution_evidence": false
+      },
+      {
+        "topic": "finance",
+        "status": "needs_confirmation",
+        "source_event_id": "b45f30fa-7f5e-45ad-9493-4d499ce2ab01",
+        "has_resolution_evidence": false
+      },
+      {
+        "topic": "charging",
+        "status": "resolved",
+        "source_event_id": "2c1a0c55-8968-46d7-b080-821125b39a90",
+        "has_resolution_evidence": true
+      }
+    ],
+    "resolved_without_evidence": [],
+    "invalid_model_output": false,
+    "used_charging_or_finance_tools": false
+  }
+}

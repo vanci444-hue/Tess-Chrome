@@ -24,3 +24,11 @@ export function audioSocketUrl(path: string) {
   url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
   return url.toString();
 }
+
+/** Release only an unconnected reservation; the server refuses active streams. */
+export function cancelAudioReservation(sessionId: string, asrId: string) {
+  return request<{ asr_session_id: string; state: string }>(
+    "DELETE",
+    `/sessions/${sessionId}/audio/${asrId}`,
+  );
+}

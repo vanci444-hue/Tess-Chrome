@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { tess } from "../services/tess";
 import type { CustomerSummary, Health } from "../types/api";
-import { Empty, ErrorNotice, Loading } from "../components/Shared";
+import { Empty, ErrorNotice, Loading, PageHeader } from "../components/Shared";
 export default function Customers() {
   const [items, setItems] = useState<CustomerSummary[]>([]),
     [q, setQ] = useState(""),
@@ -53,14 +53,12 @@ export default function Customers() {
   };
   return (
     <>
+      <PageHeader title="用户列表" />
       <div className="page-intro">
         <div>
-          <p className="eyebrow">SALES WORKSPACE</p>
-          <h1>客户</h1>
+          <p className="eyebrow">暂缓设计</p>
+          <h1>今日客户</h1>
         </div>
-        <Link className="button primary compact" to="/customers/new">
-          ＋ 新增客户
-        </Link>
       </div>
       <div className="search">
         <span aria-hidden>⌕</span>

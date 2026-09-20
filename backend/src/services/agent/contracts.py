@@ -2,7 +2,7 @@
 from typing import Any, Literal
 from uuid import UUID
 
-from pydantic import Field, model_validator
+from pydantic import ConfigDict, Field, model_validator
 from src.config.settings import settings
 from src.models.contracts import Contract, ReportSummaryText
 
@@ -53,6 +53,7 @@ class RouteDecision(Contract):
 
 
 class ProposedFact(Contract):
+    model_config = ConfigDict(extra='ignore', str_strip_whitespace=True)
     key: str
     value: Any = None
     unit: str | None = None
@@ -70,6 +71,7 @@ class SuggestedQuestion(Contract):
 
 
 class Extraction(Contract):
+    model_config = ConfigDict(extra='ignore', str_strip_whitespace=True)
     facts: list[ProposedFact] = Field(default_factory=list, max_length=30)
     questions: list[SuggestedQuestion] = Field(default_factory=list, max_length=3)
 

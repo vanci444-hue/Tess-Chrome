@@ -1,0 +1,175 @@
+{
+  "task_id": "T-008",
+  "role": "independent-tester",
+  "round": "v5.0-rework3",
+  "started_at": "2026-09-20T05:10:03.106098+00:00",
+  "origin": "http://127.0.0.1:18141",
+  "git_head": "9b5d0d7",
+  "provider": "real-bailian",
+  "key_logged": false,
+  "production_8099": "not_killed",
+  "business_db": "not_cleared",
+  "forbidden_ports_avoided": [
+    8099,
+    18108,
+    18131
+  ],
+  "prod_db_before": {
+    "exists": true,
+    "size": 364544
+  },
+  "cases": {
+    "ac013_spot": {
+      "run_status": "succeeded",
+      "error": null,
+      "tools": [
+        "read_session",
+        "read_session",
+        "list_finance_products",
+        "list_finance_products",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance"
+      ],
+      "has_draft": true,
+      "summary_has_arabic_digits": false,
+      "loops": []
+    },
+    "ac020": {
+      "published": true,
+      "followups": [
+        {
+          "fixture": "family-charging-followup",
+          "event_ids": [
+            "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740",
+            "6a3837cf-a6fe-4268-ac49-c747a7e3e67b"
+          ],
+          "run_status": "succeeded",
+          "error_code": null,
+          "tools": [],
+          "run_result_brief_present": true,
+          "session_brief": "客户已确认具备家充及固定车位，月度预算4000元。当前存在两个Mock来源的家庭关注点：无家充补能安排疑问（与已确认事实冲突，需澄清背景）及后排长途舒适度体验需求。金融方案月供略超预算，需结合官方产品进一步调整。",
+          "session_brief_nonempty": true,
+          "session_source_event_ids": [
+            "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740",
+            "6a3837cf-a6fe-4268-ac49-c747a7e3e67b"
+          ],
+          "traces_round_events": true,
+          "any_round_event_traced": true,
+          "private_sentinel": false,
+          "item_statuses": [
+            {
+              "topic": "charging",
+              "status": "needs_confirmation",
+              "source_event_id": "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740",
+              "has_resolution_evidence": false
+            },
+            {
+              "topic": "rear_seat",
+              "status": "needs_confirmation",
+              "source_event_id": "6a3837cf-a6fe-4268-ac49-c747a7e3e67b",
+              "has_resolution_evidence": false
+            }
+          ],
+          "resolved_without_evidence": [],
+          "invalid_model_output": false,
+          "used_charging_or_finance_tools": false
+        },
+        {
+          "fixture": "budget-followup",
+          "event_ids": [
+            "b45f30fa-7f5e-45ad-9493-4d499ce2ab01",
+            "2c1a0c55-8968-46d7-b080-821125b39a90"
+          ],
+          "run_status": "succeeded",
+          "error_code": null,
+          "tools": [],
+          "run_result_brief_present": true,
+          "session_brief": "客户已确认具备家充条件及固定车位，充电便利性顾虑已消除。当前核心待决事项为金融方案调整：客户希望比较提高首付后的月供变化，以匹配其4000元/月的预算约束（官网快照显示当前配置月供约4027元，略超预算）。此外，家庭成员提出再次体验后排长途舒适度的需求。",
+          "session_brief_nonempty": true,
+          "session_source_event_ids": [
+            "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740",
+            "6a3837cf-a6fe-4268-ac49-c747a7e3e67b",
+            "b45f30fa-7f5e-45ad-9493-4d499ce2ab01",
+            "2c1a0c55-8968-46d7-b080-821125b39a90"
+          ],
+          "traces_round_events": true,
+          "any_round_event_traced": true,
+          "private_sentinel": false,
+          "item_statuses": [
+            {
+              "topic": "charging",
+              "status": "needs_confirmation",
+              "source_event_id": "59e0a2d5-72c6-4c5d-a44e-a4746b1e5740",
+              "has_resolution_evidence": false
+            },
+            {
+              "topic": "rear_seat",
+              "status": "needs_confirmation",
+              "source_event_id": "6a3837cf-a6fe-4268-ac49-c747a7e3e67b",
+              "has_resolution_evidence": false
+            },
+            {
+              "topic": "finance",
+              "status": "needs_confirmation",
+              "source_event_id": "b45f30fa-7f5e-45ad-9493-4d499ce2ab01",
+              "has_resolution_evidence": false
+            },
+            {
+              "topic": "charging",
+              "status": "resolved",
+              "source_event_id": "2c1a0c55-8968-46d7-b080-821125b39a90",
+              "has_resolution_evidence": true
+            }
+          ],
+          "resolved_without_evidence": [],
+          "invalid_model_output": false,
+          "used_charging_or_finance_tools": false
+        }
+      ],
+      "briefs_differ": true
+    }
+  },
+  "errors": [],
+  "prod_8099_before": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    },
+    "pid": 35992
+  },
+  "config_presence": {
+    "bailian_api_key": true,
+    "bailian_base_url": true,
+    "bailian_asr_ws_url": true,
+    "amap_web_service_key": true,
+    "llm_model": "qwen3.7-plus"
+  },
+  "temp_db": "/var/folders/j7/p4w6bc79567dtm95fy6zskxh0000gn/T/t008-r3-2abb1k31/qa.db",
+  "isolated_health": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "prod_db_after": {
+    "exists": true,
+    "size": 364544
+  },
+  "prod_8099_after": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "ended_at": "2026-09-20T05:11:04.697155+00:00"
+}

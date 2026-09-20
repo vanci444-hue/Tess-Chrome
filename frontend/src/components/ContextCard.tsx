@@ -7,6 +7,7 @@ import {
   display,
   isMoneyFact,
   money,
+  unknownSupport,
 } from "../utils/display";
 interface Props {
   facts: Fact[];
@@ -141,6 +142,9 @@ export default function ContextCard({
                   ? "历史参考，待本次确认"
                   : sourceLabels[f.source_kind] || f.source_kind}
               </span>
+              {f.state === "unknown" ? (
+                <span className="muted"> · {unknownSupport(f.key)}</span>
+              ) : null}
             </p>
           ))
         ) : (
@@ -168,6 +172,12 @@ export default function ContextCard({
       ))}
       <p className="muted micro">
         金额与关键疑点需要二次确认。不知道的内容保留 Unknown，不替客户猜测。
+        {current
+          .filter((f) => f.state === "unknown")
+          .map((f) => unknownSupport(f.key))
+          .filter((text, index, all) => all.indexOf(text) === index)
+          .map((text) => ` ${text}`)
+          .join("")}
       </p>
       {keys.map((key) => {
         const group = groups.get(key) || [],

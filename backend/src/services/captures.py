@@ -9,12 +9,32 @@ from src.db.models import Capture
 from src.models.contracts import BusinessError, CaptureCreate, CaptureUpdate
 from src.repositories.store import Store
 
-CAPTURE_KEYS = frozenset("model variant paint wheels interior seats autopilot accessories vehicle_price "
+CAPTURE_KEYS = frozenset("model variant paint wheels interior seats autopilot accessories extras "
+    "option_surcharges trim_price vehicle_price "
     "price_basis delivery range_cltc top_speed zero_to_hundred finance_product down_payment principal "
     "term_months monthly_payment rate_value rate_basis fees discounts".split())
 REQUIRED_KEYS = frozenset("model variant paint wheels interior seats autopilot accessories "
                           "vehicle_price price_basis".split())
-MONEY_KEYS = frozenset("vehicle_price down_payment principal monthly_payment fees discounts".split())
+MONEY_KEYS = frozenset("vehicle_price trim_price down_payment principal monthly_payment fees discounts".split())
+SURCHARGE_GROUPS = frozenset("paint wheels interior seats autopilot accessories extras".split())
+
+
+def _valid_surcharges(value: Any) -> bool:
+    if not isinstance(value, list) or not value:
+        return False
+    for item in value:
+        if not isinstance(item, dict):
+            return False
+        name, group, amount = item.get("name"), item.get("group"), item.get("amount")
+        if not isinstance(name, str) or not name.strip():
+            return False
+        if group not in SURCHARGE_GROUPS:
+            return False
+        if type(amount) is not int or amount < 0:
+            return False
+        if "included" in item and type(item["included"]) is not bool:
+            return False
+    return True
 
 
 def capture_read(row: Capture) -> dict[str, Any]:
@@ -56,6 +76,13 @@ class CaptureService:
                                     "VALIDATION_ERROR")
             if field.key == "accessories" and not isinstance(field.value, (list, str)):
                 raise BusinessError("配件必须是明确选中清单", "INVALID_CAPTURE_FIELD", 400,
+                                    "VALIDATION_ERROR")
+            if field.key == "extras" and not (isinstance(field.value, list) and
+                    all(isinstance(item, str) and item.strip() for item in field.value)):
+                raise BusinessError("加选清单必须是页面可见文字", "INVALID_CAPTURE_FIELD", 400,
+                                    "VALIDATION_ERROR")
+            if field.key == "option_surcharges" and not _valid_surcharges(field.value):
+                raise BusinessError("选配价格必须是已选项及金额", "INVALID_CAPTURE_FIELD", 400,
                                     "VALIDATION_ERROR")
             if field.key in MONEY_KEYS and (type(field.value) is not int or field.value < 0 or
                                             field.unit != "CNY_fen"):

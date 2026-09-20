@@ -52,3 +52,15 @@ test('accessories require explicitly observed unchecked controls; missing sectio
   p.accessories.options[0].checked=true;assert.equal(get(parse(p,'test'),'accessories').length,1);
   p.accessories.options=[null];assert.equal(get(parse(p,'test'),'accessories'),undefined);
 });
+
+// Visible summary may be captured without opening the finance dialog.
+test('visible loan summary captures terms while leaving undisclosed product and principal missing',()=>{
+ const p=fixture();p.finance_summary='贷款月供 ¥3,477 /月 按首付 ¥79,900, 年化费率 0.00%, 60 期计算';
+ const r=parse(p,'summary');
+ assert.equal(get(r,'monthly_payment'),347700);assert.equal(get(r,'down_payment'),7990000);
+ assert.equal(get(r,'term_months'),60);assert.equal(get(r,'rate_value'),0);
+ assert.equal(get(r,'principal'),undefined);assert.equal(get(r,'finance_product'),undefined);
+ assert.equal(get(r,'vehicle_price'),26350000);
+ p.finance_summary='';p.footer='车辆价格 ¥288,500';
+ assert.equal(get(parse(p,'no-loan'),'monthly_payment'),undefined);
+});

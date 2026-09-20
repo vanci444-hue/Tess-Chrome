@@ -19,7 +19,7 @@ from src.db.models import (
 from src.repositories.store import Store
 from src.services.agent.submissions import question_read
 from src.services.events import TOPICS
-from src.services.facts import FACT_KEYS, current_facts, fact_read, trial_vehicle
+from src.services.facts import FACT_KEYS, current_facts, fact_read, trial_vehicle, unknown_support
 from src.services.reports import safe_projection
 
 PROMPTS = Path(__file__).resolve().parents[2] / 'prompts'
@@ -63,10 +63,12 @@ async def context_snapshot(store: Store, run: Run) -> dict[str, Any]:
                     'original_goal': pending.checkpoint.get('original_goal')}
                    if pending and not pending.continued_by_run_id else None,
         'events': [{'id': e.id, 'topic': e.product_topic, 'safe_summary': e.safe_summary,
-                    'resolution_evidence': e.resolution_evidence, 'source': 'mock'}
+                    'resolution_evidence': e.resolution_evidence, 'source': 'mock',
+                    'fixture_id': e.fixture_id}
                    for e in events if e.product_topic in TOPICS],
         'published_report': published[-1].snapshot if published else None,
         'allowed_fact_keys': sorted(FACT_KEYS), 'goal': run.checkpoint.get('original_goal'),
-        'submission': run.checkpoint.get('submission'), 'effective_intent': run.effective_intent}
+        'submission': run.checkpoint.get('submission'), 'effective_intent': run.effective_intent,
+        'unknown_support': unknown_support(facts)}
     # safe_summary 是已白名单投影的产品事件；绝不读取 fixture 的原始私人内容。
     return safe_projection(result, phone=customer.normalized_phone, email=customer.normalized_email)

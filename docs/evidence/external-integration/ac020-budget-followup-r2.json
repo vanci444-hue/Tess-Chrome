@@ -1,0 +1,122 @@
+{
+  "run": {
+    "run_id": "c2fcc3d9-f50b-41bd-9155-c795c717ca4b",
+    "session_id": "4e756370-7a20-49f2-b163-1612f5b973ab",
+    "status": "succeeded",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "tool_started",
+        "label": "正在执行：search_charging",
+        "tool_name": "search_charging",
+        "artifact_id": null
+      },
+      {
+        "seq": 3,
+        "type": "tool_completed",
+        "label": "查询存在缺项或失败",
+        "tool_name": "search_charging",
+        "artifact_id": "150ad33f-c7df-4dd1-be21-69d3ad7baca7"
+      },
+      {
+        "seq": 4,
+        "type": "tool_started",
+        "label": "正在执行：search_charging",
+        "tool_name": "search_charging",
+        "artifact_id": null
+      },
+      {
+        "seq": 5,
+        "type": "tool_completed",
+        "label": "查询存在缺项或失败",
+        "tool_name": "search_charging",
+        "artifact_id": "0d97df6e-013a-4815-b5a3-6f200dce0624"
+      },
+      {
+        "seq": 6,
+        "type": "tool_started",
+        "label": "正在执行：validate_report",
+        "tool_name": "validate_report",
+        "artifact_id": null
+      },
+      {
+        "seq": 7,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "validate_report",
+        "artifact_id": "79497e2c-f7b6-4af4-88a4-7f8e31250ea0"
+      },
+      {
+        "seq": 8,
+        "type": "tool_started",
+        "label": "正在执行：read_session",
+        "tool_name": "read_session",
+        "artifact_id": null
+      },
+      {
+        "seq": 9,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "read_session",
+        "artifact_id": "7cec5156-0165-4fb6-82ac-fab2e5618ecc"
+      },
+      {
+        "seq": 10,
+        "type": "completed",
+        "label": "本次处理已完成，请查看结果",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 10,
+    "result": {
+      "outcome": "followup",
+      "status": "ready",
+      "brief": {
+        "summary": "已基于官网长续航版配置与客户预算进行比对。客户无固定车位，家充条件未知，常用区域为望京地铁站附近（存在多站点歧义，需确认具体位置以查询超充）。金融Mock试算显示月供四千元的零息方案可行。事件“充电安排可接受”已获确认，其余顾虑待跟进。",
+        "source": "mock",
+        "confirmed_resolution_fact_ids": [],
+        "items": [
+          {
+            "topic": "charging",
+            "summary": "客户明确确认已核实日常充电安排",
+            "status": "resolved",
+            "resolution_evidence": "Mock客户明确确认充电安排可接受",
+            "source_event_id": "e88835f8-6ddf-41e2-a499-d386215d6e09"
+          }
+        ]
+      },
+      "source_event_ids": [
+        "e88835f8-6ddf-41e2-a499-d386215d6e09"
+      ]
+    },
+    "error": null,
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "c2fcc3d9-f50b-41bd-9155-c795c717ca4b",
+      "effective_intent": "followup"
+    },
+    "continuation": null
+  },
+  "followup": {
+    "summary": "已基于官网长续航版配置与客户预算进行比对。客户无固定车位，家充条件未知，常用区域为望京地铁站附近（存在多站点歧义，需确认具体位置以查询超充）。金融Mock试算显示月供四千元的零息方案可行。事件“充电安排可接受”已获确认，其余顾虑待跟进。",
+    "source": "mock",
+    "confirmed_resolution_fact_ids": [],
+    "items": [
+      {
+        "topic": "charging",
+        "summary": "客户明确确认已核实日常充电安排",
+        "status": "resolved",
+        "resolution_evidence": "Mock客户明确确认充电安排可接受",
+        "source_event_id": "e88835f8-6ddf-41e2-a499-d386215d6e09"
+      }
+    ]
+  }
+}

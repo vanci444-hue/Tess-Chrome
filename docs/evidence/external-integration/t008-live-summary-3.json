@@ -1,0 +1,74 @@
+{
+  "first_state": "ambiguous",
+  "candidate_count": 20,
+  "around_sample": [
+    {
+      "keyword": "Tesla",
+      "count": 5,
+      "names": [
+        "特斯拉(北京居然之家北四环店城市展厅) | 汽车销售;汽车销售;汽车销售",
+        "特斯拉(北京颐堤港体验店) | 汽车销售;汽车销售;汽车销售|汽车服务;汽车服务相关;汽车服务相关",
+        "特斯拉(北京来广营特斯拉中心) | 汽车销售;汽车销售;汽车销售",
+        "北京保利特斯拉授权钣喷中心 | 汽车维修;汽车维修;汽车维修",
+        "北亚国超特斯拉授权钣喷中心 | 汽车维修;汽车维修;汽车维修"
+      ]
+    },
+    {
+      "keyword": "特斯拉",
+      "count": 6,
+      "names": [
+        "特斯拉(北京居然之家北四环店城市展厅) | 汽车销售;汽车销售;汽车销售",
+        "特斯拉(北京颐堤港体验店) | 汽车销售;汽车销售;汽车销售|汽车服务;汽车服务相关;汽车服务相关",
+        "特斯拉(北京来广营特斯拉中心) | 汽车销售;汽车销售;汽车销售",
+        "北京保利特斯拉授权钣喷中心 | 汽车维修;汽车维修;汽车维修",
+        "北亚国超特斯拉授权钣喷中心 | 汽车维修;汽车维修;汽车维修",
+        "龙老师特斯拉专修 | 汽车维修;汽车维修;汽车维修"
+      ]
+    },
+    {
+      "keyword": "特斯拉充电",
+      "count": 16,
+      "names": [
+        "特斯拉超级充电站(北京市新荟城购物中心) | 汽车服务;充电站;充电站",
+        "特斯拉超级充电站(北京海德汤泉生活) | 汽车服务;充电站;专用充电站",
+        "特斯拉超级充电站(北京梦秀欢乐广场) | 汽车服务;充电站;充电站",
+        "特斯拉超级充电站(望京万象汇地下) | 汽车服务;充电站;专用充电站",
+        "特斯拉超级充电站(北京浦项中心) | 汽车服务;充电站;专用充电站",
+        "特斯拉超级充电站(北京恒基伟业大厦) | 汽车服务;充电站;充电站",
+        "特斯拉超级充电站(北京卷石天地大厦) | 汽车服务;充电站;充电站",
+        "特斯拉超级充电站(北京诚盈中心) | 汽车服务;充电站;专用充电站"
+      ]
+    }
+  ],
+  "confirmed": {
+    "center_name": "望京(地铁站)",
+    "status": "partial",
+    "state": "no_results",
+    "map_status": "missing",
+    "map_asset_id": null,
+    "radius_m": 5000,
+    "warnings": [],
+    "external_search": {
+      "label": "在高德继续搜索",
+      "url": "https://uri.amap.com/search?keyword=%E6%9C%9B%E4%BA%AC%28%E5%9C%B0%E9%93%81%E7%AB%99%29+%E7%89%B9%E6%96%AF%E6%8B%89%E5%85%85%E7%94%B5%E7%AB%99&view=map&src=tess-chrome&callnative=0&city=%E5%8C%97%E4%BA%AC%E5%B8%82"
+    },
+    "stations": []
+  },
+  "analyze_after_confirm": {
+    "status": "needs_confirmation",
+    "tools": [
+      "search_charging",
+      "search_charging"
+    ],
+    "result_status": "partial"
+  },
+  "asr": {
+    "create": "created",
+    "live": {
+      "error": "WSServerHandshakeError",
+      "message": "404, message='Invalid response status', url='ws://127.0.0.1:18099/ws/sessions/6ff0d0b9-3d6d-4947-a44b-898f6ee05e0b/audio/5e459b3d-b430-41e9-9833-cac276c3ed61'"
+    },
+    "revision_unchanged": true,
+    "timeline_unchanged": true
+  }
+}

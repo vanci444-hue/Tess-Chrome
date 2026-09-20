@@ -1,0 +1,33 @@
+{
+  "run": {
+    "status": "succeeded",
+    "tools": [
+      "list_finance_products",
+      "list_finance_products",
+      "calculate_finance",
+      "calculate_finance",
+      "validate_report",
+      "validate_report"
+    ],
+    "error": null,
+    "result": {
+      "outcome": "draft",
+      "status": "ready",
+      "draft_id": "ebca1861-654b-483c-be8e-05bfdc80c9fe",
+      "draft_revision": 1
+    }
+  },
+  "draft": true,
+  "summary": {
+    "comparing": "对比不同期限下的零息贷款方案，评估首付压力与月供预算的匹配度",
+    "confirmed": [
+      "车辆配置为 Model Y 长续航全轮驱动版，含珍珠白车漆及英寸轮毂",
+      "客户拥有固定车位且小区已安装家用充电桩",
+      "客户月供预算已确认",
+      "所在地区为北京望京"
+    ],
+    "pending": []
+  },
+  "blocking_issues": [],
+  "loops": []
+}

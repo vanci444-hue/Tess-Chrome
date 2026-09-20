@@ -1,0 +1,562 @@
+{
+  "run": {
+    "run_id": "3390cc98-003a-4093-bd44-eed8463acb6c",
+    "session_id": "bea175fa-022c-40dd-ad92-ca5bc17e6dee",
+    "status": "succeeded",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "tool_started",
+        "label": "正在执行：search_charging",
+        "tool_name": "search_charging",
+        "artifact_id": null
+      },
+      {
+        "seq": 3,
+        "type": "tool_completed",
+        "label": "查询存在缺项或失败",
+        "tool_name": "search_charging",
+        "artifact_id": "fba7aa27-8c82-4331-ab95-420bb4da719a"
+      },
+      {
+        "seq": 4,
+        "type": "completed",
+        "label": "本次处理已完成，请查看结果",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 4,
+    "result": {
+      "outcome": "answer",
+      "status": "ready",
+      "text": "正在查询望京地铁站周边的特斯拉充电站。由于“望京地铁站”对应多个具体出入口及邻近站点（如望京西、望京东、望京南），工具返回了多个候选地点，需要您确认具体的查询中心以便提供准确的充电设施信息。",
+      "source_refs": [
+        {
+          "id": "fcbf0a33-f3b3-44a7-b2b0-a807fba5b5de",
+          "kind": "official_capture",
+          "label": "官网采集",
+          "url": "https://www.tesla.cn/modely/design#overview",
+          "observed_at": "2026-09-19T19:34:56.593000Z"
+        },
+        {
+          "id": "33cad25d-0811-4d6c-8537-9ebf6f2bacbe",
+          "kind": "sales_input",
+          "label": "has_fixed_parking",
+          "observed_at": "2026-09-20T04:28:30.395486+00:00"
+        },
+        {
+          "id": "7ccb4b5d-0c8f-4bc9-8338-bc5e761b6202",
+          "kind": "sales_input",
+          "label": "home_charging",
+          "observed_at": "2026-09-20T04:28:30.396025+00:00"
+        },
+        {
+          "id": "b6ef437c-d2eb-4c7c-afdc-4aa8933b84af",
+          "kind": "sales_input",
+          "label": "region",
+          "observed_at": "2026-09-20T04:28:30.396276+00:00"
+        },
+        {
+          "id": "5338ad8c-2587-49b4-8658-dc105daa0334",
+          "kind": "sales_input",
+          "label": "city",
+          "observed_at": "2026-09-20T04:28:30.396633+00:00"
+        }
+      ]
+    },
+    "error": null,
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "3390cc98-003a-4093-bd44-eed8463acb6c",
+      "effective_intent": "analyze"
+    },
+    "continuation": null
+  },
+  "charging": {
+    "state": "ambiguous",
+    "region": "望京地铁站",
+    "city": "北京",
+    "candidates": [
+      {
+        "id": "9e47a3e8-dd76-4f55-863a-201a80bb45f5",
+        "provider_poi_id": "BV10013356",
+        "name": "望京(地铁站)",
+        "city": "北京市",
+        "address": "14号线;15号线",
+        "center_gcj02": {
+          "longitude": 116.469409,
+          "latitude": 39.998521
+        }
+      },
+      {
+        "id": "0ce57f31-b07f-4468-8842-6c0e0da648df",
+        "provider_poi_id": "BV10845847",
+        "name": "地铁望京站(公交站)",
+        "city": "北京市",
+        "address": "621路;855路;928路;专15路",
+        "center_gcj02": {
+          "longitude": 116.470833,
+          "latitude": 39.999138
+        }
+      },
+      {
+        "id": "37975298-21a2-44b2-b21c-b9de710a9d04",
+        "provider_poi_id": "BX10019305",
+        "name": "望京地铁站A西北口",
+        "city": "北京市",
+        "address": "15号线",
+        "center_gcj02": {
+          "longitude": 116.469822,
+          "latitude": 39.999073
+        }
+      },
+      {
+        "id": "307d256b-4acb-4954-b2a0-788aa309596e",
+        "provider_poi_id": "BV10013377",
+        "name": "望京西(地铁站)",
+        "city": "北京市",
+        "address": "(在建)13B号线;13号线;15号线;17号线",
+        "center_gcj02": {
+          "longitude": 116.447987,
+          "latitude": 39.99416
+        }
+      },
+      {
+        "id": "afd6889b-bc57-4e78-83ef-0bc6d0b88c9f",
+        "provider_poi_id": "BV10416591",
+        "name": "望京南(地铁站)",
+        "city": "北京市",
+        "address": "14号线",
+        "center_gcj02": {
+          "longitude": 116.48188,
+          "latitude": 39.98467
+        }
+      },
+      {
+        "id": "a686fea2-3432-44bd-b20d-56a7c699d589",
+        "provider_poi_id": "BV10013402",
+        "name": "望京东(地铁站)",
+        "city": "北京市",
+        "address": "15号线",
+        "center_gcj02": {
+          "longitude": 116.487032,
+          "latitude": 40.003176
+        }
+      },
+      {
+        "id": "e3e5793e-c424-485d-b405-43648944d8eb",
+        "provider_poi_id": "BX10015136",
+        "name": "望京地铁站H西南口",
+        "city": "北京市",
+        "address": "14号线",
+        "center_gcj02": {
+          "longitude": 116.46743,
+          "latitude": 39.997629
+        }
+      },
+      {
+        "id": "1ba0710d-bd7c-4035-a2da-87abfaede619",
+        "provider_poi_id": "BX10019306",
+        "name": "望京地铁站C东南口",
+        "city": "北京市",
+        "address": "15号线",
+        "center_gcj02": {
+          "longitude": 116.468889,
+          "latitude": 39.997871
+        }
+      },
+      {
+        "id": "8867f536-d747-4e82-8f4a-ddc1bd2dc701",
+        "provider_poi_id": "BV10417355",
+        "name": "地铁望京西站(公交站)",
+        "city": "北京市",
+        "address": "547路;571路;851路;854路;专112路",
+        "center_gcj02": {
+          "longitude": 116.448135,
+          "latitude": 39.995102
+        }
+      },
+      {
+        "id": "5ed1a630-5023-4c2a-8db3-1f93b3bc835d",
+        "provider_poi_id": "BX10015125",
+        "name": "望京南地铁站C东南口",
+        "city": "北京市",
+        "address": "14号线",
+        "center_gcj02": {
+          "longitude": 116.481266,
+          "latitude": 39.98368
+        }
+      },
+      {
+        "id": "6f2feb54-2c66-495f-8aa2-1996b40f150e",
+        "provider_poi_id": "BV11494459",
+        "name": "地铁望京南站(公交站)",
+        "city": "北京市",
+        "address": "(停运)高铁专线6号线;404路;451路;593路;696路;921路;夜间接驳专线8路",
+        "center_gcj02": {
+          "longitude": 116.480415,
+          "latitude": 39.986012
+        }
+      },
+      {
+        "id": "ad02402a-d21e-404b-905f-660d82612525",
+        "provider_poi_id": "BX10022280",
+        "name": "望京东地铁站B东北口",
+        "city": "北京市",
+        "address": "15号线",
+        "center_gcj02": {
+          "longitude": 116.488687,
+          "latitude": 40.00308
+        }
+      },
+      {
+        "id": "9c536b48-dec9-409a-aaee-2feaf390fc3d",
+        "provider_poi_id": "BX10022278",
+        "name": "望京东地铁站C东南口",
+        "city": "北京市",
+        "address": "15号线",
+        "center_gcj02": {
+          "longitude": 116.48678,
+          "latitude": 40.002388
+        }
+      },
+      {
+        "id": "aedf8075-2768-474d-af0c-9e16b6b82bc0",
+        "provider_poi_id": "BX10015126",
+        "name": "望京南地铁站A西北口",
+        "city": "北京市",
+        "address": "14号线",
+        "center_gcj02": {
+          "longitude": 116.480285,
+          "latitude": 39.986401
+        }
+      },
+      {
+        "id": "740b49e2-1aa3-4a9f-89af-f6cd29a0e9f7",
+        "provider_poi_id": "BX10019297",
+        "name": "望京西地铁站C东北口",
+        "city": "北京市",
+        "address": "15号线",
+        "center_gcj02": {
+          "longitude": 116.450666,
+          "latitude": 39.996123
+        }
+      },
+      {
+        "id": "ab500011-3ee0-41a2-9a49-0284fe46b153",
+        "provider_poi_id": "BX10015135",
+        "name": "望京地铁站F东北口",
+        "city": "北京市",
+        "address": "14号线",
+        "center_gcj02": {
+          "longitude": 116.468427,
+          "latitude": 39.998825
+        }
+      },
+      {
+        "id": "8ded1c3e-8414-46dd-9dc0-6fbde5f0a45c",
+        "provider_poi_id": "BV11217243",
+        "name": "地铁望京东站(公交站)",
+        "city": "北京市",
+        "address": "专15路;快速直达专线38路",
+        "center_gcj02": {
+          "longitude": 116.488164,
+          "latitude": 40.003051
+        }
+      },
+      {
+        "id": "650dbf82-a692-416e-af4a-b14e7027b63c",
+        "provider_poi_id": "BX09917829",
+        "name": "望京西地铁站E口",
+        "city": "北京市",
+        "address": "17号线",
+        "center_gcj02": {
+          "longitude": 116.450065,
+          "latitude": 39.995016
+        }
+      },
+      {
+        "id": "ba195302-728b-4e36-a5c2-e3babfde2361",
+        "provider_poi_id": "BX10015128",
+        "name": "望京南地铁站B1东北口",
+        "city": "北京市",
+        "address": "14号线",
+        "center_gcj02": {
+          "longitude": 116.482611,
+          "latitude": 39.984825
+        }
+      },
+      {
+        "id": "77c90a72-dccc-4a7c-bf60-08d6a53f7814",
+        "provider_poi_id": "BX09917994",
+        "name": "望京东地铁站出入口",
+        "city": "北京市",
+        "address": "15号线",
+        "center_gcj02": {
+          "longitude": 116.488542,
+          "latitude": 40.002758
+        }
+      }
+    ],
+    "stations": [],
+    "map_status": "missing",
+    "map_asset_id": null,
+    "warnings": [
+      "存在多个地点，请选择查询中心"
+    ],
+    "external_search": {
+      "label": "在高德继续搜索",
+      "url": "https://uri.amap.com/search?keyword=%E6%9C%9B%E4%BA%AC%E5%9C%B0%E9%93%81%E7%AB%99+%E7%89%B9%E6%96%AF%E6%8B%89%E5%85%85%E7%94%B5%E7%AB%99&view=map&src=tess-chrome&callnative=0&city=%E5%8C%97%E4%BA%AC"
+    },
+    "report_module": {
+      "type": "charging",
+      "status": "missing",
+      "source_refs": [],
+      "data": {
+        "state": "ambiguous",
+        "region": "望京地铁站",
+        "city": "北京",
+        "candidates": [
+          {
+            "id": "9e47a3e8-dd76-4f55-863a-201a80bb45f5",
+            "provider_poi_id": "BV10013356",
+            "name": "望京(地铁站)",
+            "city": "北京市",
+            "address": "14号线;15号线",
+            "center_gcj02": {
+              "longitude": 116.469409,
+              "latitude": 39.998521
+            }
+          },
+          {
+            "id": "0ce57f31-b07f-4468-8842-6c0e0da648df",
+            "provider_poi_id": "BV10845847",
+            "name": "地铁望京站(公交站)",
+            "city": "北京市",
+            "address": "621路;855路;928路;专15路",
+            "center_gcj02": {
+              "longitude": 116.470833,
+              "latitude": 39.999138
+            }
+          },
+          {
+            "id": "37975298-21a2-44b2-b21c-b9de710a9d04",
+            "provider_poi_id": "BX10019305",
+            "name": "望京地铁站A西北口",
+            "city": "北京市",
+            "address": "15号线",
+            "center_gcj02": {
+              "longitude": 116.469822,
+              "latitude": 39.999073
+            }
+          },
+          {
+            "id": "307d256b-4acb-4954-b2a0-788aa309596e",
+            "provider_poi_id": "BV10013377",
+            "name": "望京西(地铁站)",
+            "city": "北京市",
+            "address": "(在建)13B号线;13号线;15号线;17号线",
+            "center_gcj02": {
+              "longitude": 116.447987,
+              "latitude": 39.99416
+            }
+          },
+          {
+            "id": "afd6889b-bc57-4e78-83ef-0bc6d0b88c9f",
+            "provider_poi_id": "BV10416591",
+            "name": "望京南(地铁站)",
+            "city": "北京市",
+            "address": "14号线",
+            "center_gcj02": {
+              "longitude": 116.48188,
+              "latitude": 39.98467
+            }
+          },
+          {
+            "id": "a686fea2-3432-44bd-b20d-56a7c699d589",
+            "provider_poi_id": "BV10013402",
+            "name": "望京东(地铁站)",
+            "city": "北京市",
+            "address": "15号线",
+            "center_gcj02": {
+              "longitude": 116.487032,
+              "latitude": 40.003176
+            }
+          },
+          {
+            "id": "e3e5793e-c424-485d-b405-43648944d8eb",
+            "provider_poi_id": "BX10015136",
+            "name": "望京地铁站H西南口",
+            "city": "北京市",
+            "address": "14号线",
+            "center_gcj02": {
+              "longitude": 116.46743,
+              "latitude": 39.997629
+            }
+          },
+          {
+            "id": "1ba0710d-bd7c-4035-a2da-87abfaede619",
+            "provider_poi_id": "BX10019306",
+            "name": "望京地铁站C东南口",
+            "city": "北京市",
+            "address": "15号线",
+            "center_gcj02": {
+              "longitude": 116.468889,
+              "latitude": 39.997871
+            }
+          },
+          {
+            "id": "8867f536-d747-4e82-8f4a-ddc1bd2dc701",
+            "provider_poi_id": "BV10417355",
+            "name": "地铁望京西站(公交站)",
+            "city": "北京市",
+            "address": "547路;571路;851路;854路;专112路",
+            "center_gcj02": {
+              "longitude": 116.448135,
+              "latitude": 39.995102
+            }
+          },
+          {
+            "id": "5ed1a630-5023-4c2a-8db3-1f93b3bc835d",
+            "provider_poi_id": "BX10015125",
+            "name": "望京南地铁站C东南口",
+            "city": "北京市",
+            "address": "14号线",
+            "center_gcj02": {
+              "longitude": 116.481266,
+              "latitude": 39.98368
+            }
+          },
+          {
+            "id": "6f2feb54-2c66-495f-8aa2-1996b40f150e",
+            "provider_poi_id": "BV11494459",
+            "name": "地铁望京南站(公交站)",
+            "city": "北京市",
+            "address": "(停运)高铁专线6号线;404路;451路;593路;696路;921路;夜间接驳专线8路",
+            "center_gcj02": {
+              "longitude": 116.480415,
+              "latitude": 39.986012
+            }
+          },
+          {
+            "id": "ad02402a-d21e-404b-905f-660d82612525",
+            "provider_poi_id": "BX10022280",
+            "name": "望京东地铁站B东北口",
+            "city": "北京市",
+            "address": "15号线",
+            "center_gcj02": {
+              "longitude": 116.488687,
+              "latitude": 40.00308
+            }
+          },
+          {
+            "id": "9c536b48-dec9-409a-aaee-2feaf390fc3d",
+            "provider_poi_id": "BX10022278",
+            "name": "望京东地铁站C东南口",
+            "city": "北京市",
+            "address": "15号线",
+            "center_gcj02": {
+              "longitude": 116.48678,
+              "latitude": 40.002388
+            }
+          },
+          {
+            "id": "aedf8075-2768-474d-af0c-9e16b6b82bc0",
+            "provider_poi_id": "BX10015126",
+            "name": "望京南地铁站A西北口",
+            "city": "北京市",
+            "address": "14号线",
+            "center_gcj02": {
+              "longitude": 116.480285,
+              "latitude": 39.986401
+            }
+          },
+          {
+            "id": "740b49e2-1aa3-4a9f-89af-f6cd29a0e9f7",
+            "provider_poi_id": "BX10019297",
+            "name": "望京西地铁站C东北口",
+            "city": "北京市",
+            "address": "15号线",
+            "center_gcj02": {
+              "longitude": 116.450666,
+              "latitude": 39.996123
+            }
+          },
+          {
+            "id": "ab500011-3ee0-41a2-9a49-0284fe46b153",
+            "provider_poi_id": "BX10015135",
+            "name": "望京地铁站F东北口",
+            "city": "北京市",
+            "address": "14号线",
+            "center_gcj02": {
+              "longitude": 116.468427,
+              "latitude": 39.998825
+            }
+          },
+          {
+            "id": "8ded1c3e-8414-46dd-9dc0-6fbde5f0a45c",
+            "provider_poi_id": "BV11217243",
+            "name": "地铁望京东站(公交站)",
+            "city": "北京市",
+            "address": "专15路;快速直达专线38路",
+            "center_gcj02": {
+              "longitude": 116.488164,
+              "latitude": 40.003051
+            }
+          },
+          {
+            "id": "650dbf82-a692-416e-af4a-b14e7027b63c",
+            "provider_poi_id": "BX09917829",
+            "name": "望京西地铁站E口",
+            "city": "北京市",
+            "address": "17号线",
+            "center_gcj02": {
+              "longitude": 116.450065,
+              "latitude": 39.995016
+            }
+          },
+          {
+            "id": "ba195302-728b-4e36-a5c2-e3babfde2361",
+            "provider_poi_id": "BX10015128",
+            "name": "望京南地铁站B1东北口",
+            "city": "北京市",
+            "address": "14号线",
+            "center_gcj02": {
+              "longitude": 116.482611,
+              "latitude": 39.984825
+            }
+          },
+          {
+            "id": "77c90a72-dccc-4a7c-bf60-08d6a53f7814",
+            "provider_poi_id": "BX09917994",
+            "name": "望京东地铁站出入口",
+            "city": "北京市",
+            "address": "15号线",
+            "center_gcj02": {
+              "longitude": 116.488542,
+              "latitude": 40.002758
+            }
+          }
+        ],
+        "stations": [],
+        "map_status": "missing",
+        "map_asset_id": null,
+        "warnings": [
+          "存在多个地点，请选择查询中心"
+        ],
+        "external_search": {
+          "label": "在高德继续搜索",
+          "url": "https://uri.amap.com/search?keyword=%E6%9C%9B%E4%BA%AC%E5%9C%B0%E9%93%81%E7%AB%99+%E7%89%B9%E6%96%AF%E6%8B%89%E5%85%85%E7%94%B5%E7%AB%99&view=map&src=tess-chrome&callnative=0&city=%E5%8C%97%E4%BA%AC"
+        }
+      }
+    }
+  }
+}

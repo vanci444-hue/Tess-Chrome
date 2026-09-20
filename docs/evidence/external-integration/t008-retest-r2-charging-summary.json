@@ -1,0 +1,77 @@
+{
+  "started_at": "2026-09-20T04:47:23.584956+00:00",
+  "origin": "http://127.0.0.1:18119",
+  "provider": "real",
+  "errors": [],
+  "prod_db_before": 364544,
+  "prod_8099": "ready",
+  "isolated_health": {
+    "llm": "configured",
+    "asr": "configured",
+    "maps": "configured"
+  },
+  "analyze": {
+    "run_status": "succeeded",
+    "tools": [
+      "search_charging",
+      "search_charging"
+    ],
+    "error": null,
+    "loops": [],
+    "charging_state": "ambiguous",
+    "station_count": 0,
+    "station_names": [],
+    "map_status": "missing",
+    "distance_basis": [],
+    "external_search_has_key": false,
+    "artifact_keys": [
+      [
+        "state",
+        "region",
+        "city",
+        "candidates",
+        "stations",
+        "map_status",
+        "map_asset_id",
+        "warnings"
+      ]
+    ],
+    "artifact_tools": [
+      "search_charging"
+    ]
+  },
+  "prepare": {
+    "run_status": "succeeded",
+    "error": null,
+    "tools": [
+      "list_finance_products",
+      "list_finance_products",
+      "calculate_finance",
+      "calculate_finance",
+      "search_charging",
+      "search_charging",
+      "calculate_finance",
+      "calculate_finance"
+    ],
+    "has_draft": true,
+    "loops": [],
+    "charging_state": "ambiguous",
+    "station_count": 0,
+    "summary": {
+      "comparing": "正在比较Model Y长续航版在不同金融方案下的月供压力，并评估无家充条件下周边公共充电便利性",
+      "confirmed": [
+        "车型配置：Model Y长续航全轮驱动版，珍珠白车漆，英寸轮毂",
+        "用车条件：无固定车位，无家用充电桩",
+        "地理位置：北京望京区域",
+        "金融预算：已记录月供预算上限"
+      ],
+      "pending": [
+        "具体充电查询中心地点确认",
+        "金融方案详细试算结果生成"
+      ]
+    }
+  },
+  "prod_db_after": 364544,
+  "prod_8099_after": "ready",
+  "ended_at": "2026-09-20T04:48:14.983632+00:00"
+}

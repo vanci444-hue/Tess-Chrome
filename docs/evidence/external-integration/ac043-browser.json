@@ -1,0 +1,10 @@
+{
+  "opened_from": "https://uri.amap.com/search?keyword=%E6%9C%9B%E4%BA%AC%E5%9C%B0%E9%93%81%E7%AB%99+%E7%89%B9%E6%96%AF%E6%8B%89%E5%85%85%E7%94%B5%E7%AB%99&view=map&src=tess-chrome&callnative=0&city=%E5%8C%97%E4%BA%AC",
+  "landed": "https://ditu.amap.com/search?query=%E6%9C%9B%E4%BA%AC%E5%9C%B0%E9%93%81%E7%AB%99%20%E7%89%B9%E6%96%AF%E6%8B%89%E5%85%85%E7%94%B5%E7%AB%99&city=%E5%8C%97%E4%BA%AC&src=tess-chrome&callnative=0&innersrc=uriapi",
+  "title": "搜索 - 高德地图",
+  "search_box": "望京地铁站 特斯拉充电站",
+  "city_control": "北京",
+  "url_has_key": false,
+  "url_has_customer_identity": false,
+  "note": "PC 高德弹出登录层，不影响查询词与城市已带入。未使用客户称呼/联系方式。无已发布 Report，故未验证返回后快照不变。"
+}

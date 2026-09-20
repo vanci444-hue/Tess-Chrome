@@ -95,3 +95,58 @@
 - 根因：历史事实可覆盖本次值，提交旧会话fact_id会触发归属拒绝。
 - 修复：本次值及Unknown优先；采用历史时创建本会话新事实，不提交跨会话确认引用。
 - 验证：T007前端事实函数及真实HTTP独立验证；2026-09-20，.sdd/test-reports/test-T-007.md。
+
+
+## 麦克风授权失败与ASR预留回收
+
+- 关键词：Chrome SidePanel、NotAllowedError、AUDIO_ACTIVE、getUserMedia、created、迟到分配。
+- 适用：侧栏首次麦克风授权、媒体初始化及异步取消。真实侧栏首次权限拒绝无弹窗，旧流程先分配ASR使created残留，重试被锁。
+- 修复：媒体与Worklet成功后才申请预留；取消或卸载后的迟到create按原会话和原ASR ID释放，仅created可取消，拒绝抢占connecting/streaming/finishing。独立扩展授权页请求权限后立即停轨，不上传音频，不自动提交文字。
+- 防复发：覆盖权限拒绝、构造器失败、Worklet/create迟到、同会话活跃锁及跨Origin取消；真实授权及转写另验。
+- 来源：T010 ASR bugfix，2026-09-20；.sdd/bug_fix/asr-start-retry.md。自动恢复契约独立PASS，root实际侧栏重试无AUDIO_ACTIVE且授权页可达；真人转写仍待用户。
+
+
+## 充电周边检索不要裸搜品牌名
+
+- 关键词：高德 around、特斯拉充电、search_charging、门店过滤。
+- 现象：关键词 Tesla/特斯拉命中门店与维修，再滤「充电」后为空。
+- 修复：周边词直接用「特斯拉充电」「Tesla Supercharger」「超级充电站」，仍过滤非充电 POI，不填假站。
+- 验证：T-008 独立 Tester v3.0，确认望京后 3 站+路线+静态图；`.sdd/test-reports/test-T-008.md` v3.0，`docs/evidence/external-integration/ac007-prepare-charging-r1.json`。
+- 2026-09-20。
+
+## 官方 uvicorn 启动必须带 WebSocket 库
+
+- 关键词：uvicorn[standard]、websockets、API-022、No supported WebSocket library。
+- 现象：仅 `uvicorn==0.53.0` 时 `/ws/sessions/.../audio/...` 无法升级，404。
+- 修复：依赖声明 `uvicorn[standard]` 并装入项目 venv；协议握手有 `type=ready` 才算升级。不等于 Side Panel/真麦通过。
+- 验证：T-008 Tester v3.0 `ac004-ws-r1.json`。2026-09-20。
+
+## Unknown 再提取必须用本次原文，失败不能整段丢输入
+
+- 关键词：INVALID_MODEL_OUTPUT、evidence_quote、unknown_support、supplement_facts。
+- 现象：home_charging 已 unknown 后再提交「还是不知道」，引用不在本次原文导致整 run 失败。
+- 修复：跳过非本次原文引用；已 unknown 不重提；契约失败兜底并返回 unknown_support；已提交文字保留。
+- 验证：T-008 Tester v3.0 `ac005-unknown-r1.json`。2026-09-20。
+
+
+## prepare 定性摘要数字不能整单失败
+
+- 关键词：UNVERIFIED_SUMMARY_NUMBER、qualitative_summary、prepare_report、report_summary。
+- 现象：真模型把月供/候选价写入 comparing/confirmed 后整 run failed，已成功金融/地图产物被丢掉。
+- 修复：数字只留确定性模块；定性摘要去数字或再 Finish 一次；仍含数字则剥离后保存草稿。摘要可能残留「英寸轮毂」等残片。
+- 验证：T-008 独立 Tester v4.0，齐全案 succeeded 有 draft；`.sdd/test-reports/test-T-008.md`，`docs/evidence/external-integration/ac013-complete-r2.json`。2026-09-20。
+
+## prepare 无阻塞确认不能挡住草稿
+
+- 关键词：needs_confirmation、search_charging ready、optional questions。
+- 现象：无车位确认望京并查站成功后仍 needs_confirmation、无 draft。
+- 修复：prepare 无 blocking issue 且地点非未确认歧义时强制出草稿，可选问写入 pending。
+- 验证：T-008 Tester v4.0，`t008-retest-r2-confirm-center-summary.json`。2026-09-20。
+
+
+## 发布后跟进必须单独收口并读会话对象
+
+- 关键词：intent=followup、AC-020、source_event_ids、followup.brief、INVALID_MODEL_OUTPUT。
+- 现象：跟进复用报告提取的 Capture/Fact source_ids 导致契约失败整 run 挂掉；或 run 成功但 GET /sessions 的 brief 空、事件 ID 对不上本轮注入。
+- 修复：跟进不走充电/金融工具；source_ids 只用 Mock 事件 ID；契约失败用中性简报兜底；把 brief（非空字符串）和 source_event_ids 写入 session.followup。验收读 GET /sessions，不读 run.result。无 resolution_evidence 不得 resolved。
+- 验证：T-008 Tester v5.0，`.sdd/test-reports/test-T-008.md`，`docs/evidence/external-integration/ac020-family-charging-followup-r5.json`、`ac020-budget-followup-r5.json`。2026-09-20。

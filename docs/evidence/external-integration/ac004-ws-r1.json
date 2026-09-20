@@ -1,0 +1,14 @@
+{
+  "audio": {
+    "asr_session_id": "4a27f6db-f1cd-45f5-a01e-0a0f6985aeed",
+    "session_id": "343d5040-85bf-4554-b651-b8cc5b536750",
+    "ws_path": "/ws/sessions/343d5040-85bf-4554-b651-b8cc5b536750/audio/4a27f6db-f1cd-45f5-a01e-0a0f6985aeed",
+    "state": "created",
+    "expires_in_seconds": 60
+  },
+  "first": {
+    "type": "ready",
+    "asr_session_id": "4a27f6db-f1cd-45f5-a01e-0a0f6985aeed",
+    "seq": 1
+  }
+}

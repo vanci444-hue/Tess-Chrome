@@ -114,7 +114,8 @@ class AmapProvider:
 
     async def stations(self, center: dict, radius: int) -> list[dict]:
         candidates: dict[str, Any] = {}
-        for keyword in ("Tesla", "特斯拉"):
+        # 裸搜 Tesla/特斯拉会命中门店与维修，再滤「充电」后为空；周边词需直接指向充电站。
+        for keyword in ("特斯拉充电", "Tesla Supercharger", "超级充电站"):
             payload = await self.request(
                 "/v5/place/around",
                 {

@@ -1,0 +1,133 @@
+{
+  "run": {
+    "run_id": "6aa1d7ef-3f12-4558-b32a-d402c2df09dd",
+    "session_id": "34afc59d-e1d3-4dd3-b39f-eec99f80d868",
+    "status": "succeeded",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "completed",
+        "label": "本次处理已完成，请查看结果",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 2,
+    "result": {
+      "outcome": "followup",
+      "status": "ready",
+      "brief": {
+        "brief": "客户已确认具备固定车位及家充条件，充电便利性顾虑已消除。当前关注点集中在金融方案优化（提高首付以降低月供至预算内）及后排长途舒适度的再次体验。需结合Mock试算结果与客户确认最终首付能力。",
+        "summary": "客户已确认具备固定车位及家充条件，充电便利性顾虑已消除。当前关注点集中在金融方案优化（提高首付以降低月供至预算内）及后排长途舒适度的再次体验。需结合Mock试算结果与客户确认最终首付能力。",
+        "source": "mock",
+        "source_event_ids": [
+          "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d",
+          "765a935b-4020-442e-822b-32b7a622feda",
+          "4d7f72fb-1330-4990-b4e7-53e8e605f708",
+          "0e1b07ea-d793-428f-affb-5836ceefb8cd"
+        ],
+        "confirmed_resolution_fact_ids": [],
+        "items": [
+          {
+            "topic": "charging",
+            "summary": "家庭成员询问无家充情况下的每周补能安排",
+            "status": "needs_confirmation",
+            "resolution_evidence": null,
+            "source_event_id": "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d"
+          },
+          {
+            "topic": "rear_seat",
+            "summary": "家庭成员希望再次体验后排长途舒适度",
+            "status": "needs_confirmation",
+            "resolution_evidence": null,
+            "source_event_id": "765a935b-4020-442e-822b-32b7a622feda"
+          },
+          {
+            "topic": "finance",
+            "summary": "客户希望比较提高首付后月供的变化",
+            "status": "needs_confirmation",
+            "resolution_evidence": null,
+            "source_event_id": "4d7f72fb-1330-4990-b4e7-53e8e605f708"
+          },
+          {
+            "topic": "charging",
+            "summary": "客户明确确认已核实日常充电安排",
+            "status": "resolved",
+            "resolution_evidence": "Mock客户明确确认充电安排可接受",
+            "source_event_id": "0e1b07ea-d793-428f-affb-5836ceefb8cd"
+          }
+        ]
+      },
+      "source_event_ids": [
+        "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d",
+        "765a935b-4020-442e-822b-32b7a622feda",
+        "4d7f72fb-1330-4990-b4e7-53e8e605f708",
+        "0e1b07ea-d793-428f-affb-5836ceefb8cd"
+      ]
+    },
+    "error": null,
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "6aa1d7ef-3f12-4558-b32a-d402c2df09dd",
+      "effective_intent": "followup"
+    },
+    "continuation": null
+  },
+  "followup": {
+    "brief": "客户已确认具备固定车位及家充条件，充电便利性顾虑已消除。当前关注点集中在金融方案优化（提高首付以降低月供至预算内）及后排长途舒适度的再次体验。需结合Mock试算结果与客户确认最终首付能力。",
+    "summary": "客户已确认具备固定车位及家充条件，充电便利性顾虑已消除。当前关注点集中在金融方案优化（提高首付以降低月供至预算内）及后排长途舒适度的再次体验。需结合Mock试算结果与客户确认最终首付能力。",
+    "source": "mock",
+    "source_event_ids": [
+      "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d",
+      "765a935b-4020-442e-822b-32b7a622feda",
+      "4d7f72fb-1330-4990-b4e7-53e8e605f708",
+      "0e1b07ea-d793-428f-affb-5836ceefb8cd"
+    ],
+    "confirmed_resolution_fact_ids": [],
+    "items": [
+      {
+        "topic": "charging",
+        "summary": "家庭成员询问无家充情况下的每周补能安排",
+        "status": "needs_confirmation",
+        "resolution_evidence": null,
+        "source_event_id": "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d"
+      },
+      {
+        "topic": "rear_seat",
+        "summary": "家庭成员希望再次体验后排长途舒适度",
+        "status": "needs_confirmation",
+        "resolution_evidence": null,
+        "source_event_id": "765a935b-4020-442e-822b-32b7a622feda"
+      },
+      {
+        "topic": "finance",
+        "summary": "客户希望比较提高首付后月供的变化",
+        "status": "needs_confirmation",
+        "resolution_evidence": null,
+        "source_event_id": "4d7f72fb-1330-4990-b4e7-53e8e605f708"
+      },
+      {
+        "topic": "charging",
+        "summary": "客户明确确认已核实日常充电安排",
+        "status": "resolved",
+        "resolution_evidence": "Mock客户明确确认充电安排可接受",
+        "source_event_id": "0e1b07ea-d793-428f-affb-5836ceefb8cd"
+      }
+    ]
+  },
+  "injected": {
+    "event_ids": [
+      "4d7f72fb-1330-4990-b4e7-53e8e605f708",
+      "0e1b07ea-d793-428f-affb-5836ceefb8cd"
+    ],
+    "source": "mock",
+    "revision": 5
+  }
+}

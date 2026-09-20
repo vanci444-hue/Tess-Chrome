@@ -1,0 +1,161 @@
+{
+  "started_at": "2026-09-20T04:42:31.346125+00:00",
+  "origin": "http://127.0.0.1:18118",
+  "git_head": "9b5d0d7",
+  "provider": "real",
+  "cases": {
+    "ac013_complete": {
+      "run_status": "succeeded",
+      "error_code": null,
+      "tools": [
+        "list_finance_products",
+        "list_finance_products",
+        "calculate_finance",
+        "calculate_finance",
+        "validate_report",
+        "validate_report"
+      ],
+      "skipped_search_charging": true,
+      "has_draft": true,
+      "summary_has_arabic_digits": false,
+      "summary": {
+        "comparing": "对比不同期限下的零息贷款方案，评估首付压力与月供预算的匹配度",
+        "confirmed": [
+          "车辆配置为 Model Y 长续航全轮驱动版，含珍珠白车漆及英寸轮毂",
+          "客户拥有固定车位且小区已安装家用充电桩",
+          "客户月供预算已确认",
+          "所在地区为北京望京"
+        ],
+        "pending": []
+      },
+      "finance_module_has_digits": true,
+      "finance_status": "mock",
+      "confirmation_loops": []
+    },
+    "ac005": {
+      "first_extract_status": "needs_confirmation",
+      "second_status": "succeeded",
+      "second_error": null,
+      "invalid_model_output": false,
+      "unknown_support": [
+        {
+          "key": "home_charging",
+          "message": "补充家充条件后，可以判断是否需要查询周边超充，以及能否做家庭充电成本对照。"
+        },
+        {
+          "key": "trial_variant",
+          "message": "补充实际试驾版本后，体验反馈会正确归属，不会沿用候选配置。"
+        }
+      ],
+      "text_retained": true,
+      "question_count_first": 3
+    },
+    "ac013_no_parking": {
+      "run_status": "succeeded",
+      "error": null,
+      "tools": [
+        "search_charging",
+        "search_charging",
+        "search_charging",
+        "search_charging",
+        "list_finance_products",
+        "list_finance_products",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance"
+      ],
+      "used_search_charging": true,
+      "has_draft": true,
+      "charging_state": null,
+      "station_count": 0,
+      "station_names": [],
+      "routes_ready": [],
+      "map_status": null,
+      "map_asset_id": null,
+      "distance_basis": [],
+      "external_search_has_key": false,
+      "summary_has_arabic_digits": false,
+      "confirmation_loops": []
+    },
+    "ac007_029_spot": {
+      "complete_skipped_search": true,
+      "no_parking_used_search": true,
+      "charging_state": null,
+      "station_count": 0,
+      "map_status": null,
+      "distance_basis": []
+    },
+    "ac020": {
+      "published": true,
+      "followups": [
+        {
+          "fixture": "family-charging-followup",
+          "event_ids": [
+            "67be541e-aea9-45ef-95d0-5c0e39a2d048",
+            "f317c2bf-8e08-4c19-9bd5-380fef619e78"
+          ],
+          "status": "failed",
+          "private_sentinel": false,
+          "source_event_ids": null,
+          "brief_excerpt": "None"
+        },
+        {
+          "fixture": "budget-followup",
+          "event_ids": [
+            "b35104dd-b62a-4734-80ee-ad17f811655e",
+            "e88835f8-6ddf-41e2-a499-d386215d6e09"
+          ],
+          "status": "succeeded",
+          "private_sentinel": false,
+          "source_event_ids": null,
+          "brief_excerpt": ""
+        }
+      ],
+      "briefs_differ": true
+    }
+  },
+  "errors": [],
+  "config_presence": {
+    "bailian_api_key": true,
+    "bailian_base_url": true,
+    "bailian_asr_ws_url": true,
+    "amap_web_service_key": true,
+    "llm_model": "qwen3.7-plus",
+    "asr_model": "qwen3-asr-flash-realtime"
+  },
+  "prod_db_before": {
+    "exists": true,
+    "size": 364544
+  },
+  "prod_8099_before": {
+    "pid_check": "not_killed",
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "isolated_health": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "prod_db_after": {
+    "exists": true,
+    "size": 364544
+  },
+  "prod_8099_after": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "ended_at": "2026-09-20T04:45:58.247107+00:00"
+}

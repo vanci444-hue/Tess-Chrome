@@ -1,0 +1,99 @@
+{
+  "run": {
+    "run_id": "74de91c5-0cdb-4835-bb0a-816ef501d7fd",
+    "session_id": "34afc59d-e1d3-4dd3-b39f-eec99f80d868",
+    "status": "succeeded",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "completed",
+        "label": "本次处理已完成，请查看结果",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 2,
+    "result": {
+      "outcome": "followup",
+      "status": "ready",
+      "brief": {
+        "brief": "客户已确认具备固定车位及家用充电桩，月度预算确认为400,000分。当前存在两项未决关注点：1. 家庭成员对无家充场景下的补能安排仍有疑问（Mock事件）；2. 家庭成员希望再次体验后排长途舒适度（Mock事件）。上述顾虑均无明确解决证据，需销售针对性跟进。",
+        "summary": "客户已确认具备固定车位及家用充电桩，月度预算确认为400,000分。当前存在两项未决关注点：1. 家庭成员对无家充场景下的补能安排仍有疑问（Mock事件）；2. 家庭成员希望再次体验后排长途舒适度（Mock事件）。上述顾虑均无明确解决证据，需销售针对性跟进。",
+        "source": "mock",
+        "source_event_ids": [
+          "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d",
+          "765a935b-4020-442e-822b-32b7a622feda"
+        ],
+        "confirmed_resolution_fact_ids": [],
+        "items": [
+          {
+            "topic": "charging",
+            "summary": "家庭成员询问无家充情况下的每周补能安排",
+            "status": "needs_confirmation",
+            "resolution_evidence": null,
+            "source_event_id": "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d"
+          },
+          {
+            "topic": "rear_seat",
+            "summary": "家庭成员希望再次体验后排长途舒适度",
+            "status": "needs_confirmation",
+            "resolution_evidence": null,
+            "source_event_id": "765a935b-4020-442e-822b-32b7a622feda"
+          }
+        ]
+      },
+      "source_event_ids": [
+        "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d",
+        "765a935b-4020-442e-822b-32b7a622feda"
+      ]
+    },
+    "error": null,
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "74de91c5-0cdb-4835-bb0a-816ef501d7fd",
+      "effective_intent": "followup"
+    },
+    "continuation": null
+  },
+  "followup": {
+    "brief": "客户已确认具备固定车位及家用充电桩，月度预算确认为400,000分。当前存在两项未决关注点：1. 家庭成员对无家充场景下的补能安排仍有疑问（Mock事件）；2. 家庭成员希望再次体验后排长途舒适度（Mock事件）。上述顾虑均无明确解决证据，需销售针对性跟进。",
+    "summary": "客户已确认具备固定车位及家用充电桩，月度预算确认为400,000分。当前存在两项未决关注点：1. 家庭成员对无家充场景下的补能安排仍有疑问（Mock事件）；2. 家庭成员希望再次体验后排长途舒适度（Mock事件）。上述顾虑均无明确解决证据，需销售针对性跟进。",
+    "source": "mock",
+    "source_event_ids": [
+      "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d",
+      "765a935b-4020-442e-822b-32b7a622feda"
+    ],
+    "confirmed_resolution_fact_ids": [],
+    "items": [
+      {
+        "topic": "charging",
+        "summary": "家庭成员询问无家充情况下的每周补能安排",
+        "status": "needs_confirmation",
+        "resolution_evidence": null,
+        "source_event_id": "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d"
+      },
+      {
+        "topic": "rear_seat",
+        "summary": "家庭成员希望再次体验后排长途舒适度",
+        "status": "needs_confirmation",
+        "resolution_evidence": null,
+        "source_event_id": "765a935b-4020-442e-822b-32b7a622feda"
+      }
+    ]
+  },
+  "injected": {
+    "event_ids": [
+      "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d",
+      "765a935b-4020-442e-822b-32b7a622feda"
+    ],
+    "source": "mock",
+    "revision": 4
+  }
+}

@@ -161,6 +161,8 @@ API-006 的 timeline 按 seq 升序返回持久化的对话展示记录；Report
 
 例：`POST /api/sessions/s1/audio {"expected_revision":5,"language":null}` → 201 `S({"asr_session_id":"a9","session_id":"s1","ws_path":"/ws/sessions/s1/audio/a9","state":"created","expires_in_seconds":60})`。缺 ASR 配置 → 503 `E(DEPENDENCY_UNAVAILABLE,"实时语音服务未配置，可先输入文字",ASR_NOT_CONFIGURED)`；归属错误404；revision过期409；同客户端已有实时采音连接409 AUDIO_ACTIVE。Idempotency-Key 重试返回相同未失效会话，失效后需新key，不自动重新开计费连接。
 
+录音初始化失败恢复：前端先取得麦克风并加载本地 AudioWorklet，再调用 API-009。`DELETE /api/sessions/{session_id}/audio/{asr_session_id}` 仅释放本客户端持有的未连接 `created` 预留，返回 `S({asr_session_id,state})`；终态重复释放幂等，跨会话404，connecting/streaming/finishing返回409 AUDIO_ACTIVE，不能抢占其他窗口的活跃录音。取消或切页后迟到的分配响应也按同一ID释放；网络中断释放失败由60秒预留租期兜底。Side Panel 首次麦克风授权失败时显示扩展自有授权页入口，用户在独立标签主动授权后立即停止所有音轨，不传音频、不创建ASR，返回侧栏显式重试。
+
 ### API-022 实时转写流
 
 `WebSocket /ws/sessions/{session_id}/audio/{asr_session_id}`；仅 extension/Web 白名单 Origin、本机 Host 和 API-009 所创建且同会话的单次连接 ID 有效；ID 不是供应商凭据，不接受客户端传供应商 URL/模型/密钥。开发 Vite 单独配置 `/ws` 代理，扩展使用 loopback WS origin。握手校验失败不 upgrade（HTTP403/404），已接收后的协议错误发 error 后 close1008；上游失败 close1011；正常完成close1000。WebSocket不是 PyCore JSON 信封。

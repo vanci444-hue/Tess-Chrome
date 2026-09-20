@@ -1,0 +1,144 @@
+{
+  "task_id": "T-008",
+  "role": "developer-self-verify",
+  "ac": "AC-020",
+  "started_at": "2026-09-20T05:04:48.965977+00:00",
+  "origin": "http://127.0.0.1:18131",
+  "git_head": "9b5d0d7",
+  "provider": "real-bailian",
+  "key_logged": false,
+  "production_8099": "not_killed",
+  "business_db": "not_cleared",
+  "prod_db_before": {
+    "exists": true,
+    "size": 364544
+  },
+  "followups": [
+    {
+      "fixture": "family-charging-followup",
+      "event_ids": [
+        "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d",
+        "765a935b-4020-442e-822b-32b7a622feda"
+      ],
+      "status": "succeeded",
+      "error_code": null,
+      "tools": [],
+      "private_sentinel": false,
+      "source_event_ids": [
+        "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d",
+        "765a935b-4020-442e-822b-32b7a622feda"
+      ],
+      "brief_excerpt": "客户已确认具备固定车位及家用充电桩，月度预算确认为400,000分。当前存在两项未决关注点：1. 家庭成员对无家充场景下的补能安排仍有疑问（Mock事件）；2. 家庭成员希望再次体验后排长途舒适度（Mock事件）。上述顾虑均无明确解决证据，需销售针对性跟进。",
+      "item_statuses": [
+        {
+          "topic": "charging",
+          "status": "needs_confirmation",
+          "source_event_id": "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d"
+        },
+        {
+          "topic": "rear_seat",
+          "status": "needs_confirmation",
+          "source_event_id": "765a935b-4020-442e-822b-32b7a622feda"
+        }
+      ],
+      "traces_round_events": true,
+      "brief_nonempty": true
+    },
+    {
+      "fixture": "budget-followup",
+      "event_ids": [
+        "4d7f72fb-1330-4990-b4e7-53e8e605f708",
+        "0e1b07ea-d793-428f-affb-5836ceefb8cd"
+      ],
+      "status": "succeeded",
+      "error_code": null,
+      "tools": [],
+      "private_sentinel": false,
+      "source_event_ids": [
+        "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d",
+        "765a935b-4020-442e-822b-32b7a622feda",
+        "4d7f72fb-1330-4990-b4e7-53e8e605f708",
+        "0e1b07ea-d793-428f-affb-5836ceefb8cd"
+      ],
+      "brief_excerpt": "客户已确认具备固定车位及家充条件，充电便利性顾虑已消除。当前关注点集中在金融方案优化（提高首付以降低月供至预算内）及后排长途舒适度的再次体验。需结合Mock试算结果与客户确认最终首付能力。",
+      "item_statuses": [
+        {
+          "topic": "charging",
+          "status": "needs_confirmation",
+          "source_event_id": "1dc55315-bd41-4d55-9b8a-86b2ffbaec0d"
+        },
+        {
+          "topic": "rear_seat",
+          "status": "needs_confirmation",
+          "source_event_id": "765a935b-4020-442e-822b-32b7a622feda"
+        },
+        {
+          "topic": "finance",
+          "status": "needs_confirmation",
+          "source_event_id": "4d7f72fb-1330-4990-b4e7-53e8e605f708"
+        },
+        {
+          "topic": "charging",
+          "status": "resolved",
+          "source_event_id": "0e1b07ea-d793-428f-affb-5836ceefb8cd"
+        }
+      ],
+      "traces_round_events": true,
+      "brief_nonempty": true
+    }
+  ],
+  "errors": [],
+  "prod_8099_before": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "config_presence": {
+    "bailian_api_key": true,
+    "bailian_base_url": true,
+    "amap_web_service_key": true,
+    "llm_model": "qwen3.7-plus"
+  },
+  "isolated_health": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "prepare": {
+    "status": "succeeded",
+    "error": null,
+    "tools": [
+      "read_session",
+      "read_session",
+      "list_finance_products",
+      "list_finance_products",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance"
+    ]
+  },
+  "published": true,
+  "pass": true,
+  "prod_db_after": {
+    "exists": true,
+    "size": 364544
+  },
+  "prod_8099_after": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "ended_at": "2026-09-20T05:05:48.411652+00:00"
+}

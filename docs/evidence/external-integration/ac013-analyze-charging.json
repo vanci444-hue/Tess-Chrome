@@ -1,0 +1,56 @@
+{
+  "run_id": "306f28c2-cd97-4781-95ca-48cbd8782785",
+  "session_id": "5b9e75d4-928e-43b5-8a0e-a8cdf6ec0c4f",
+  "status": "succeeded",
+  "events": [
+    {
+      "seq": 1,
+      "type": "started",
+      "label": "正在处理已提交的信息",
+      "tool_name": null,
+      "artifact_id": null
+    },
+    {
+      "seq": 2,
+      "type": "tool_started",
+      "label": "正在执行：search_charging",
+      "tool_name": "search_charging",
+      "artifact_id": null
+    },
+    {
+      "seq": 3,
+      "type": "tool_completed",
+      "label": "查询存在缺项或失败",
+      "tool_name": "search_charging",
+      "artifact_id": "04bc52f6-b526-4c66-90fc-6bbdadac53dd"
+    },
+    {
+      "seq": 4,
+      "type": "completed",
+      "label": "本次处理已完成，请查看结果",
+      "tool_name": null,
+      "artifact_id": null
+    }
+  ],
+  "last_seq": 4,
+  "result": {
+    "outcome": "answer",
+    "status": "ready",
+    "text": "已识别“望京地铁站”周边存在多个具体地点（如望京站、望京西站、望京东站及各出入口），导致无法直接锁定唯一的查询中心以获取充电站列表。距离口径通常指驾车导航距离或直线距离，但需先明确中心点。",
+    "source_refs": [
+      {
+        "id": "2f207d29-9aa6-461b-bd38-1de76e2316f8",
+        "kind": "sales_input",
+        "label": "region",
+        "observed_at": "2026-09-20T03:50:38.278302+00:00"
+      }
+    ]
+  },
+  "error": null,
+  "lineage": {
+    "parent_run_id": null,
+    "root_run_id": "306f28c2-cd97-4781-95ca-48cbd8782785",
+    "effective_intent": "analyze"
+  },
+  "continuation": null
+}

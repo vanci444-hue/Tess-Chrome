@@ -27,6 +27,17 @@ class ASRService:
     def __init__(self, store: Store, config: Settings):
         self.store, self.config = store, config
 
+    async def cancel_reservation(self, session_id: str, asr_id: str) -> dict:
+        """Only a never-connected reservation is cancellable over HTTP; live streams own their WS."""
+        row = await self.store.require(ASRSession, asr_id, session_id)
+        if row.state == "created":
+            row.state, row.error_code, row.finished_at = (
+                "discarded", "ASR_CLIENT_CANCELLED", utcnow()
+            )
+        elif row.state in {"connecting", "streaming", "finishing"}:
+            raise BusinessError("录音已连接，请在原录音窗口停止", "AUDIO_ACTIVE")
+        return {"asr_session_id": row.id, "state": row.state}
+
     async def create(self, session_id: str, data: AudioCreate) -> dict:
         cfg = self.config
         if not cfg.bailian_api_key or not cfg.bailian_asr_ws_url:

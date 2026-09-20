@@ -1,0 +1,103 @@
+{
+  "run": {
+    "run_id": "e83734b4-e56d-42b5-8419-e4bff0306f6b",
+    "session_id": "fd894d84-7622-449d-b0b1-cd96a7a153fc",
+    "status": "failed",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "tool_started",
+        "label": "正在执行：read_session",
+        "tool_name": "read_session",
+        "artifact_id": null
+      },
+      {
+        "seq": 3,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "read_session",
+        "artifact_id": "7f44e14d-3817-4ddb-a939-a24ff01e3a15"
+      },
+      {
+        "seq": 4,
+        "type": "tool_started",
+        "label": "正在执行：list_finance_products",
+        "tool_name": "list_finance_products",
+        "artifact_id": null
+      },
+      {
+        "seq": 5,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "list_finance_products",
+        "artifact_id": "71cf4f17-5947-4de8-a74e-74cb911a225c"
+      },
+      {
+        "seq": 6,
+        "type": "tool_started",
+        "label": "正在执行：calculate_finance",
+        "tool_name": "calculate_finance",
+        "artifact_id": null
+      },
+      {
+        "seq": 7,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "calculate_finance",
+        "artifact_id": "3b9d7ae7-b4f1-4d64-8136-a43420686844"
+      },
+      {
+        "seq": 8,
+        "type": "tool_started",
+        "label": "正在执行：validate_report",
+        "tool_name": "validate_report",
+        "artifact_id": null
+      },
+      {
+        "seq": 9,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "validate_report",
+        "artifact_id": "fd9f20d7-c08b-4e7d-bf64-fab9d5cb6a19"
+      },
+      {
+        "seq": 10,
+        "type": "failed",
+        "label": "处理未完成；已提交文字仍已保存，请检查配置或重试",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 10,
+    "result": null,
+    "error": {
+      "code": "UNVERIFIED_SUMMARY_NUMBER",
+      "message": "处理未完成；已提交文字仍已保存，请检查配置或重试",
+      "retryable": true
+    },
+    "lineage": {
+      "parent_run_id": "621e7f1c-fcde-46b3-b056-aa974c659dd8",
+      "root_run_id": "621e7f1c-fcde-46b3-b056-aa974c659dd8",
+      "effective_intent": "prepare_report"
+    },
+    "continuation": null
+  },
+  "draft": false,
+  "tools": [
+    "read_session",
+    "read_session",
+    "list_finance_products",
+    "list_finance_products",
+    "calculate_finance",
+    "calculate_finance",
+    "validate_report",
+    "validate_report"
+  ]
+}

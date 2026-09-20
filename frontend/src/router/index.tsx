@@ -1,7 +1,9 @@
 import { Navigate, createRoutesFromElements, Route } from "react-router";
+import Home from "../pages/Home";
 import Customers from "../pages/Customers";
 import NewCustomer from "../pages/NewCustomer";
 import Session from "../pages/Session";
+import Plans from "../pages/Plans";
 import History from "../pages/History";
 import Report from "../pages/Report";
 import { Brand, ModeBanner } from "../components/Shared";
@@ -21,6 +23,14 @@ export const appRoutes = createRoutesFromElements(
       path="/"
       element={
         <Shell>
+          <Home />
+        </Shell>
+      }
+    />
+    <Route
+      path="/customers"
+      element={
+        <Shell>
           <Customers />
         </Shell>
       }
@@ -38,6 +48,14 @@ export const appRoutes = createRoutesFromElements(
       element={
         <Shell>
           <Session />
+        </Shell>
+      }
+    />
+    <Route
+      path="/sessions/:sessionId/plans"
+      element={
+        <Shell>
+          <Plans />
         </Shell>
       }
     />

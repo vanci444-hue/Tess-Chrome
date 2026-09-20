@@ -14,7 +14,7 @@ from starlette.exceptions import HTTPException
 from pycore.api import APIConfig, APIServer
 from pycore.api.responses import error_response
 from pycore.core import Logger, LoggerConfig, LogLevel, get_logger
-from src.api.routes import customers, health, reports, sessions
+from src.api.routes import customers, demo, health, reports, sessions
 from src.config.settings import PROJECT_ROOT, Settings, settings
 from src.db.session import close_db, create_database, init_db
 from src.models.contracts import BusinessError
@@ -34,7 +34,7 @@ def create_app(config: Settings | None = None, extra_routers: Sequence[APIRouter
     engine, session_factory = create_database(config)
     server = APIServer(APIConfig(title="Tess-Chrome 本机服务", version="1.0.0",
         host=config.host, port=config.port, debug=config.debug,
-        cors_origins=config.origins, cors_methods=["GET", "POST", "PATCH", "OPTIONS"],
+        cors_origins=config.origins, cors_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
         cors_headers=["Content-Type", "Idempotency-Key", "X-Request-ID"]))
 
     async def startup():
@@ -107,7 +107,7 @@ def create_app(config: Settings | None = None, extra_routers: Sequence[APIRouter
         return failure(request, "请求的资源不存在" if error.status_code == 404 else "请求无法处理",
                        "NOT_FOUND" if error.status_code == 404 else "VALIDATION_ERROR", error.status_code)
 
-    for router in (customers.router, sessions.router, reports.router, health.router, *extra_routers):
+    for router in (customers.router, sessions.router, reports.router, health.router, demo.router, *extra_routers):
         server.include_router(router)
     static = PROJECT_ROOT / config.frontend_dist / "assets"
     if static.is_dir():

@@ -1,0 +1,185 @@
+{
+  "started_at": "2026-09-20T04:24:06.603376+00:00",
+  "origin": "http://127.0.0.1:18108",
+  "git_head": "9b5d0d7",
+  "provider": "real",
+  "cases": {
+    "ac022": {
+      "preview_missing": [],
+      "has_contact": true,
+      "incomplete_missing": [
+        "contact"
+      ],
+      "create_without_contact_status": 400,
+      "create_without_contact_code": "VALIDATION_ERROR",
+      "customer_id": "96e9f367-f689-4f69-9d26-b02116eb9c95"
+    },
+    "ac004_ws": {
+      "asr_state": "created",
+      "ws_path": "/ws/sessions/343d5040-85bf-4554-b651-b8cc5b536750/audio/4a27f6db-f1cd-45f5-a01e-0a0f6985aeed",
+      "first_event_type": "ready",
+      "upgrade_ok": true,
+      "revision_unchanged_before_finish": true,
+      "timeline_empty": true,
+      "not_testclient": true,
+      "not_side_panel": true
+    },
+    "ac029_skip": {
+      "run_status": "failed",
+      "error_code": "UNVERIFIED_SUMMARY_NUMBER",
+      "tools": [
+        "read_session",
+        "read_session",
+        "list_finance_products",
+        "list_finance_products",
+        "calculate_finance",
+        "calculate_finance",
+        "validate_report",
+        "validate_report"
+      ],
+      "skipped_search_charging": true,
+      "has_draft": false,
+      "home_charging_value": "小区车位已安装家充"
+    },
+    "ac005": {
+      "first_extract_status": "needs_confirmation",
+      "second_status": "succeeded",
+      "second_error": null,
+      "invalid_model_output": false,
+      "unknown_support": [
+        {
+          "key": "home_charging",
+          "message": "补充家充条件后，可以判断是否需要查询周边超充，以及能否做家庭充电成本对照。"
+        },
+        {
+          "key": "trial_variant",
+          "message": "补充实际试驾版本后，体验反馈会正确归属，不会沿用候选配置。"
+        }
+      ],
+      "text_retained": true,
+      "question_count_first": 3
+    },
+    "ac013_029_search": {
+      "run_status": "needs_confirmation",
+      "error": null,
+      "tools": [
+        "search_charging",
+        "search_charging",
+        "list_finance_products",
+        "list_finance_products",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance"
+      ],
+      "used_search_charging": true,
+      "has_draft": false,
+      "charging_state": "ready",
+      "station_count": 3,
+      "station_names": [
+        "中国石化超级充电站(望京新城充电站)",
+        "滴滴充电汽车充电站(福泰中心)",
+        "极氪能源超级充电站(北京博泰大厦极充站)"
+      ],
+      "routes": [
+        {
+          "name": "中国石化超级充电站(望京新城充电站)",
+          "route_status": "ready",
+          "driving_distance_m": 931.0,
+          "center_distance_m": 359.0,
+          "distance_basis": "高德中心点距离"
+        },
+        {
+          "name": "滴滴充电汽车充电站(福泰中心)",
+          "route_status": "ready",
+          "driving_distance_m": 476.0,
+          "center_distance_m": 438.0,
+          "distance_basis": "高德中心点距离"
+        },
+        {
+          "name": "极氪能源超级充电站(北京博泰大厦极充站)",
+          "route_status": "ready",
+          "driving_distance_m": 955.0,
+          "center_distance_m": 492.0,
+          "distance_basis": "高德中心点距离"
+        }
+      ],
+      "map_status": "ready",
+      "map_asset_id": "7fff6463-209a-41d0-8085-9a46a40d80e3",
+      "distance_basis_present": true
+    },
+    "ac035_036_spot": {
+      "trial_vehicle": {
+        "model": "Model Y",
+        "variant": null,
+        "source_fact_ids": [
+          "7374c1b7-5fec-4c36-b3d0-a846cd515776"
+        ]
+      },
+      "capture_variant": "长续航全轮驱动版",
+      "unknown_keys": [
+        "home_charging",
+        "trial_variant"
+      ],
+      "first_round_questions": 3
+    },
+    "ac007": {
+      "run_status": "succeeded",
+      "tools": [
+        "search_charging",
+        "search_charging"
+      ],
+      "state": "ambiguous",
+      "station_count": 0,
+      "station_names": [],
+      "routes_ready": [],
+      "map_status": "missing",
+      "map_asset_id": null,
+      "distance_basis": [],
+      "external_search_has_key": false
+    }
+  },
+  "errors": [],
+  "config_presence": {
+    "bailian_api_key": true,
+    "bailian_base_url": true,
+    "bailian_asr_ws_url": true,
+    "amap_web_service_key": true,
+    "llm_model": "qwen3.7-plus",
+    "asr_model": "qwen3-asr-flash-realtime",
+    "uvicorn_standard_requirement": true
+  },
+  "prod_db_before": {
+    "exists": true,
+    "size": 364544
+  },
+  "prod_8099_before": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "isolated_health": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "prod_db_after": {
+    "exists": true,
+    "size": 364544
+  },
+  "prod_8099_after": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    }
+  },
+  "ended_at": "2026-09-20T04:28:44.862148+00:00"
+}

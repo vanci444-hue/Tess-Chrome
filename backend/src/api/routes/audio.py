@@ -41,6 +41,21 @@ async def create_audio(
     return success_response(result, message="ok", request_id=request.state.request_id)
 
 
+@router.delete("/api/sessions/{session_id}/audio/{asr_session_id}")
+async def cancel_audio_reservation(
+    session_id: UUID,
+    asr_session_id: UUID,
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+    config: Settings = Depends(get_settings),
+):
+    # get_db serializes this with the WS claim: an already connected recording cannot be stolen.
+    result = await ASRService(Store(db), config).cancel_reservation(
+        str(session_id), str(asr_session_id)
+    )
+    return success_response(result, message="ok", request_id=request.state.request_id)
+
+
 @router.websocket("/ws/sessions/{session_id}/audio/{asr_session_id}")
 async def audio_socket(websocket: WebSocket, session_id: str, asr_session_id: str):
     cfg = websocket.app.state.settings

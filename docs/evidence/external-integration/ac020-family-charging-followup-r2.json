@@ -1,0 +1,79 @@
+{
+  "run": {
+    "run_id": "91c92471-c8f9-4eec-83e7-c8d319a77eab",
+    "session_id": "4e756370-7a20-49f2-b163-1612f5b973ab",
+    "status": "failed",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "tool_started",
+        "label": "正在执行：search_charging",
+        "tool_name": "search_charging",
+        "artifact_id": null
+      },
+      {
+        "seq": 3,
+        "type": "tool_completed",
+        "label": "查询存在缺项或失败",
+        "tool_name": "search_charging",
+        "artifact_id": "4363214c-a781-48e7-b2f2-15af6a407a25"
+      },
+      {
+        "seq": 4,
+        "type": "tool_started",
+        "label": "正在执行：list_finance_products",
+        "tool_name": "list_finance_products",
+        "artifact_id": null
+      },
+      {
+        "seq": 5,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "list_finance_products",
+        "artifact_id": "1c7f2fc1-db4a-48f0-b6ea-a2c136090e26"
+      },
+      {
+        "seq": 6,
+        "type": "tool_started",
+        "label": "正在执行：calculate_finance",
+        "tool_name": "calculate_finance",
+        "artifact_id": null
+      },
+      {
+        "seq": 7,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "calculate_finance",
+        "artifact_id": "8e5d9646-e6e8-480d-86ba-73bb0ad08b74"
+      },
+      {
+        "seq": 8,
+        "type": "failed",
+        "label": "处理未完成；已提交文字仍已保存，请检查配置或重试",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 8,
+    "result": null,
+    "error": {
+      "code": "INVALID_MODEL_OUTPUT",
+      "message": "处理未完成；已提交文字仍已保存，请检查配置或重试",
+      "retryable": true
+    },
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "91c92471-c8f9-4eec-83e7-c8d319a77eab",
+      "effective_intent": "followup"
+    },
+    "continuation": null
+  },
+  "followup": null
+}

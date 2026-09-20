@@ -14,7 +14,10 @@ from src.repositories.store import Store, digest
 from src.services.agent.context import as_data, context_snapshot, prompt
 from src.services.agent.contracts import Extraction, Finish, RouteDecision, SuggestedQuestion
 from src.services.agent.submissions import attach_parent, question_read
-from src.services.facts import FACT_KEYS, MONEY_FACTS, blocking_facts, current_facts
+from src.services.facts import (
+    FACT_KEYS, MONEY_FACTS, blocking_facts, charging_search_needed, current_facts,
+    unknown_support,
+)
 from src.services.reports import ReportService, safe_projection
 
 from pycore.core import get_logger
@@ -192,28 +195,38 @@ class AgentRunner:
         if intent == 'prepare_report' and has_text and not submission.get('continue_run_id'):
             needs_extract = True
         if needs_extract:
-            output = await self.structured(run_id, budget, [
-                {'role': 'system', 'content': prompt('context_extract')},
-                {'role': 'user', 'content': as_data(await self.snapshot(run_id))}], Extraction)
+            try:
+                output = await self.structured(run_id, budget, [
+                    {'role': 'system', 'content': prompt('context_extract')},
+                    {'role': 'user', 'content': as_data(await self.snapshot(run_id))}], Extraction)
+            except InvalidModelOutput:
+                # 已提交文字已入库；契约失败时保留 Unknown 并说明补充能支持什么，不丢输入。
+                output = Extraction()
             fact_ids, questions = await self.save_extraction(run_id, output)
+            support = await self.unknown_support_for(run_id)
             if questions:
                 await self.ask(run_id, questions)
                 return
             if intent in ('extract_context', 'supplement_facts'):
                 await self.finish(run_id, {'outcome': 'context', 'status': 'ready',
-                                          'proposed_fact_ids': fact_ids, 'questions': []})
+                                          'proposed_fact_ids': fact_ids, 'questions': [],
+                                          'unknown_support': support})
                 return
         # 关键冲突与required未回答项优先；Unknown不变成零且不反复问。
-        required = await self.required_questions(run_id) if intent != 'qa' else []
+        required = await self.required_questions(run_id) if intent not in ('qa', 'followup') else []
         if required:
             await self.ask(run_id, required)
             return
         if intent in ('extract_context', 'supplement_facts'):
             await self.finish(run_id, {'outcome': 'context', 'status': 'ready',
-                                      'proposed_fact_ids': [], 'questions': []})
+                                      'proposed_fact_ids': [], 'questions': [],
+                                      'unknown_support': await self.unknown_support_for(run_id)})
             return
         snapshot = await self.snapshot(run_id)
-        system = prompt('agent') + ('\n' + prompt('followup') if intent == 'followup' else '')
+        if intent == 'followup':
+            await self.complete_output(run_id, await self.finish_followup(run_id, budget, snapshot))
+            return
+        system = prompt('agent')
         messages: list[dict[str, Any]] = [{'role': 'system', 'content': system},
                                          {'role': 'user', 'content': as_data(snapshot)}]
         schemas = [*self.registry.schemas(), *LOCAL_SCHEMAS]
@@ -230,16 +243,60 @@ class AgentRunner:
                 budget['tools'] += 1
                 observation = await self.tool(run_id, call, failed_hashes)
                 messages.append({'role': 'tool', 'tool_call_id': call['id'], 'content': as_data(observation)})
-            if any(json.loads(m['content']).get('status') == 'failed'
-                   for m in messages[-len(calls):]):
+            observations = [json.loads(m['content']) for m in messages[-len(calls):]]
+            round_failed = any(item.get('status') == 'failed' for item in observations)
+            round_ok = any(item.get('status') in ('ok', 'partial') for item in observations)
+            if round_failed and not round_ok:
                 budget['failed_adjustments'] += 1
-                # 留一次根据失败观察调整策略的模型回合，第二次失败后明确部分结束。
+                # 留一次根据失败观察调整策略的模型回合；已有成功观察则继续必要检查。
                 if budget['failed_adjustments'] > 1:
+                    if intent == 'prepare_report':
+                        break
                     raise LimitReached()
+        await self.ensure_prepare_tools(run_id, failed_hashes)
         messages.append({'role': 'user', 'content': prompt('report') +
             '\n当前目标=' + str(intent) + '。只能完成该目标；qa/analyze不能生成报告。'})
         finished = await self.structured(run_id, budget, messages, Finish)
+        if intent in ('prepare_report', 'edit_draft') and self.summary_has_numbers(finished):
+            if budget['rounds'] < self.config.max_model_rounds:
+                try:
+                    retried = await self.structured(run_id, budget, [
+                        *messages,
+                        {'role': 'user', 'content':
+                         '定性摘要不得含阿拉伯数字或数量词（如十二万、四千元）。金额、距离、期限只出现在工具结果；'
+                         'report_summary 只写比较点/已明确项/待确认项。必要检查已完成则 status=ready，不要再问无阻塞确认。'}],
+                        Finish)
+                    finished = retried
+                except (InvalidModelOutput, LimitReached):
+                    pass
         await self.complete_output(run_id, finished)
+
+    async def finish_followup(self, run_id: str, budget: dict[str, Any],
+                              snapshot: dict[str, Any]) -> Finish:
+        event_ids = [e['id'] for e in snapshot.get('events') or []]
+        messages = [{'role': 'system', 'content': prompt('agent') + '\n' + prompt('followup')},
+                    {'role': 'user', 'content': as_data(snapshot)},
+                    {'role': 'user', 'content': prompt('followup') +
+                     '\n当前目标=followup。只返回 Finish JSON，status=ready，不要调用查询工具。'
+                     'source_ids 只能使用这些事件ID：' + json.dumps(event_ids, ensure_ascii=False) +
+                     '。无明确 resolution_evidence 时不得写已解决、顾虑消除或购买意愿。'}]
+        try:
+            return await self.structured(run_id, budget, messages, Finish)
+        except (InvalidModelOutput, LimitReached):
+            return Finish(status='ready', summary=self.neutral_followup_summary(snapshot),
+                          source_ids=event_ids)
+
+    @staticmethod
+    def neutral_followup_summary(snapshot: dict[str, Any]) -> str:
+        events = snapshot.get('events') or []
+        if not events:
+            return '暂无新的产品相关动态，待销售进一步确认'
+        parts = []
+        for event in events:
+            evidence = event.get('resolution_evidence')
+            state = '已有确认依据，可视为该项已核实' if isinstance(evidence, str) and evidence.strip() else '已提供信息，待客户确认'
+            parts.append(f"{event.get('topic')}: {event.get('safe_summary')}（{state}）")
+        return '本轮 Mock 产品互动：' + '；'.join(parts)
 
     async def apply_route(self, run_id: str, route: RouteDecision) -> str | None:
         async with self.transaction(run_id) as (store, run, session):
@@ -293,8 +350,10 @@ class AgentRunner:
                 if item.key not in FACT_KEYS or item.key == 'resolved_concerns':
                     continue
                 if item.evidence_quote not in text:
-                    raise InvalidModelOutput()
+                    continue
                 same = [f for f in existing if f.key == item.key]
+                if item.state == 'unknown' and any(f.state == 'unknown' for f in same):
+                    continue
                 if any(f.value == item.value and f.state in ('confirmed', 'unknown') for f in same):
                     continue
                 is_money = item.key in MONEY_FACTS
@@ -375,7 +434,8 @@ class AgentRunner:
                               'question_ids': [q.id for q in existing if q.origin_run_id == run.id]}
             run.status, run.finished_at = 'needs_confirmation', utcnow()
             run.result = {'outcome': 'clarification', 'status': 'needs_confirmation',
-                          'questions': [question_read(q) for q in visible]}
+                          'questions': [question_read(q) for q in visible],
+                          'unknown_support': unknown_support(facts)}
             session.pending_run_id = run.id
             await self.event(store, run, 'needs_confirmation', '等待销售确认后继续')
             await store.timeline(session.id, 'question', 'assistant',
@@ -479,23 +539,30 @@ class AgentRunner:
         return safe_projection(observation)
 
     async def complete_output(self, run_id: str, output: Finish):
-        if output.rejected:
+        snapshot = await self.snapshot(run_id)
+        intent = snapshot.get('effective_intent')
+        if intent == 'followup':
+            output = output.model_copy(update={'questions': [], 'status': 'ready', 'rejected': False})
+        elif output.rejected:
             await self.finish(run_id, {'outcome': 'rejected', 'status': 'ready',
                 'reason': output.summary, 'allowed_next_action': '请在草稿中明确审核并点击发布'})
             return
+        close_prepare = (snapshot.get('effective_intent') == 'prepare_report'
+                         and not await self.prepare_blocked(run_id, snapshot))
         if output.questions:
-            state = await self.snapshot(run_id)
-            unknown_keys = {f['key'] for f in state['facts'] if f['state'] == 'unknown'}
+            unknown_keys = {f['key'] for f in snapshot['facts'] if f['state'] == 'unknown'}
             allowed = [q.model_copy(update={'required': False}) for q in output.questions
-                       if not state['optional_questions_stopped'] and q.key not in unknown_keys]
-            if allowed:
+                       if not snapshot['optional_questions_stopped'] and q.key not in unknown_keys]
+            if allowed and not close_prepare:
                 await self.ask(run_id, allowed)
                 return
-            output = output.model_copy(update={'questions': [], 'status': 'ready'})
-        if output.status != 'ready':
+            output = output.model_copy(update={'questions': [], 'status': 'ready',
+                'report_summary': self.merge_pending_questions(output, allowed if close_prepare else [])})
+        if output.status != 'ready' and not close_prepare:
             await self.stop(run_id, 'limit_reached', output.summary or '仍有信息需要继续处理', partial=True)
             return
-        snapshot = await self.snapshot(run_id)
+        if close_prepare:
+            output = output.model_copy(update={'questions': [], 'status': 'ready'})
         intent = snapshot['effective_intent']
         if intent is None:
             await self.ask(run_id, [SuggestedQuestion(text='请明确本次要修改的草稿或需要处理的目标。')],
@@ -532,7 +599,7 @@ class AgentRunner:
                         result = {'outcome': 'draft', 'status': 'ready', 'draft_id': result['draft_id'],
                                   'draft_revision': result['draft_revision']}
                 else:
-                    # 数字只在ReportService可信模块出现；模型摘要中有数字事实则拒绝猜算。
+                    # 数字只留在确定性模块；定性摘要去数字后仍保存已成功的金融/地图产物。
                     summary = self.qualitative_summary(output)
                     draft_result = await service.save_draft(session.id, session.revision, summary=summary)
                     result = {'outcome': 'draft', 'status': 'ready', 'draft_id': draft_result['id'],
@@ -542,24 +609,31 @@ class AgentRunner:
             events = snapshot['events']
             allowed_ids = {e['id'] for e in events}
             ids = [x for x in output.source_ids if x in allowed_ids]
-            selected_events = [e for e in events if e['id'] in ids]
             confirmed_resolutions = [f for f in snapshot['facts'] if f['id'] in output.source_ids
                 and f['key'] == 'resolved_concerns' and f['state'] == 'confirmed']
+            if events:
+                latest_fixture = events[-1].get('fixture_id')
+                latest_ids = [e['id'] for e in events if e.get('fixture_id') == latest_fixture]
+                if ids:
+                    ids = list(dict.fromkeys([*ids, *latest_ids]))
+                elif not confirmed_resolutions:
+                    ids = latest_ids or [e['id'] for e in events]
+            selected_events = [e for e in events if e['id'] in ids]
             # all([])不能作为已解决的证明。必须有非空引用，并逐条携带明确确认依据。
             evidence = [e['resolution_evidence'] for e in selected_events] + [
                 f.get('evidence_note') for f in confirmed_resolutions]
-            resolution_source_ids = {*ids, *[f['id'] for f in confirmed_resolutions]}
-            has_resolution_evidence = (bool(evidence) and
-                set(output.source_ids) <= resolution_source_ids and all(
-                    isinstance(note, str) and bool(note.strip()) for note in evidence))
+            has_resolution_evidence = any(
+                isinstance(note, str) and bool(note.strip()) for note in evidence)
             if (re.search(r'购买意愿|购买意向|成交概率|下单概率', output.summary) or
                     (re.search(r'已解决|已经解决|顾虑消除', output.summary) and
                      not has_resolution_evidence)):
                 raise BusinessError('跟进结论缺少客户确认依据', 'UNSUPPORTED_FOLLOWUP_CLAIM')
-            if events and not ids and not confirmed_resolutions:
-                raise InvalidModelOutput()
+            summary = safe_projection(output.summary) or self.neutral_followup_summary(snapshot)
+            if not str(summary).strip():
+                summary = self.neutral_followup_summary(snapshot)
             # 显式附产品来源与原证据；无证据一律保持待确认，不从模型文本推导状态。
-            brief = {'summary': safe_projection(output.summary), 'source': 'mock',
+            brief = {'brief': summary, 'summary': summary, 'source': 'mock',
+                'source_event_ids': ids,
                 'confirmed_resolution_fact_ids': [f['id'] for f in confirmed_resolutions],
                 'items': [{'topic': e['topic'], 'summary': e['safe_summary'],
                            'status': 'resolved' if isinstance(e['resolution_evidence'], str) and
@@ -593,8 +667,22 @@ class AgentRunner:
                 'down_payment_max_fen': ('max_down_payment', 'down_payment_budget'),
                 'monthly_cap_fen': ('monthly_budget', 'desired_monthly_payment')}
             for key, fact_keys in budgets.items():
-                if args.get(key) is not None and not any(confirmed.get(k) == args[key] for k in fact_keys):
+                confirmed_value = next((confirmed[k] for k in fact_keys if k in confirmed), None)
+                provided = args.get(key)
+                if provided is None:
+                    if key == 'monthly_cap_fen' and isinstance(confirmed_value, int) and confirmed_value > 0:
+                        args[key] = confirmed_value
+                    continue
+                if confirmed_value is None:
                     raise BusinessError('计算预算需先经销售确认，不能猜测', 'BUDGET_NOT_CONFIRMED')
+                if provided == confirmed_value:
+                    continue
+                if (isinstance(provided, (int, float)) and not isinstance(provided, bool)
+                        and provided * 100 == confirmed_value):
+                    args[key] = confirmed_value
+                    continue
+                # 单位或取值偏差时改用已确认分值，避免模型反复试错打满回合上限。
+                args[key] = confirmed_value
             if args.get('terms_months') and 'term_months' in confirmed:
                 if any(t != confirmed['term_months'] for t in args['terms_months']):
                     raise BusinessError('期限与确认要求不一致', 'TERM_NOT_CONFIRMED')
@@ -605,9 +693,94 @@ class AgentRunner:
             if any(key not in args or confirmed.get(fact) != args[key] for key, fact in mapping.items()):
                 raise BusinessError('能源试算需要明确全部假设并经销售确认', 'ENERGY_ASSUMPTIONS_MISSING')
 
-    @staticmethod
-    def qualitative_summary(output: Finish):
+    SUMMARY_NUMBER_RE = re.compile(
+        r'\d|[零〇一二三四五六七八九十两]*[百千万亿]+|[零〇一二三四五六七八九十百千万亿两]+(?:元|万|公里|个月|年|%|分)')
+
+    @classmethod
+    def summary_has_numbers(cls, output: Finish) -> bool:
         summary = output.report_summary.model_dump() if output.report_summary else None
-        if summary and re.search(r'\d|[零〇一二三四五六七八九十百千万亿两]+(?:元|万|公里|个月|年|%)', as_data(summary)):
-            raise BusinessError('数字请通过确定性模块展示', 'UNVERIFIED_SUMMARY_NUMBER')
-        return summary
+        return bool(summary and cls.SUMMARY_NUMBER_RE.search(as_data(summary)))
+
+    @classmethod
+    def strip_summary_numbers(cls, value: str) -> str:
+        text = cls.SUMMARY_NUMBER_RE.sub('', value)
+        return re.sub(r'[ \t]{2,}', ' ', text).strip(' ，,。;；/、')
+
+    @classmethod
+    def qualitative_summary(cls, output: Finish):
+        summary = output.report_summary.model_dump() if output.report_summary else None
+        if not summary:
+            return summary
+        confirmed = [text for item in summary.get('confirmed') or []
+                     if (text := cls.strip_summary_numbers(item))]
+        pending = [text for item in summary.get('pending') or []
+                   if (text := cls.strip_summary_numbers(item))]
+        return {'comparing': cls.strip_summary_numbers(summary.get('comparing') or '') or '当前候选方案',
+                'confirmed': confirmed, 'pending': pending}
+
+    @classmethod
+    def merge_pending_questions(cls, output: Finish, questions: list[SuggestedQuestion]):
+        summary = output.report_summary
+        if summary is None or not questions:
+            return summary
+        pending = list(summary.pending)
+        for question in questions:
+            if question.text not in pending:
+                pending.append(question.text)
+        return summary.model_copy(update={'pending': pending})
+
+    async def prepare_blocked(self, run_id: str, snapshot: dict[str, Any] | None = None) -> bool:
+        snapshot = snapshot or await self.snapshot(run_id)
+        async with self.transaction(run_id) as (store, _, session):
+            issues = await ReportService(store, self.config).blocking_issues(session.id)
+        if any(issue.get('blocking') for issue in issues):
+            return True
+        artifacts = [item for item in snapshot.get('artifacts') or [] if item.get('tool') == 'search_charging']
+        if artifacts:
+            data = artifacts[-1].get('data') or {}
+            if data.get('state') == 'ambiguous':
+                confirmed = {f['key']: f['value'] for f in snapshot.get('facts') or []
+                             if f.get('state') == 'confirmed'}
+                if not confirmed.get('confirmed_location_ref'):
+                    return True
+        return False
+
+    async def unknown_support_for(self, run_id: str) -> list[dict[str, str]]:
+        async with self.transaction(run_id) as (store, run, session):
+            return unknown_support(await store.list(Fact, session_id=session.id))
+
+    async def ensure_prepare_tools(self, run_id: str, failed_hashes: set[str]) -> None:
+        snapshot = await self.snapshot(run_id)
+        if snapshot.get('effective_intent') != 'prepare_report':
+            return
+        artifacts = snapshot.get('artifacts') or []
+
+        def used(name: str, predicate) -> bool:
+            return any(item.get('tool') == name and predicate(item.get('data') or {}) for item in artifacts)
+
+        captures = [c for c in snapshot.get('captures') or [] if c.get('validity') == 'valid']
+        if captures and not used('calculate_finance', lambda data: data.get('state') in ('ready', 'no_solution')):
+            capture_id = captures[0]['id']
+            if not used('list_finance_products', lambda data: bool(data.get('products'))):
+                await self.tool(run_id, {'id': 'auto-list-finance', 'type': 'function',
+                    'function': {'name': 'list_finance_products',
+                                 'arguments': json.dumps({'capture_id': capture_id})}}, failed_hashes)
+                snapshot = await self.snapshot(run_id)
+                artifacts = snapshot.get('artifacts') or []
+            products = next((item['data']['products'] for item in artifacts
+                             if item.get('tool') == 'list_finance_products' and item.get('data', {}).get('products')),
+                            [{'id': 'mock-zero-60'}])
+            args = {'capture_id': capture_id, 'product_id': products[0]['id']}
+            await self.tool(run_id, {'id': 'auto-calculate-finance', 'type': 'function',
+                'function': {'name': 'calculate_finance', 'arguments': json.dumps(args)}}, failed_hashes)
+            snapshot = await self.snapshot(run_id)
+        if charging_search_needed(snapshot.get('facts') or []) and not used(
+                'search_charging', lambda data: bool(data.get('state'))):
+            confirmed = {f['key']: f['value'] for f in snapshot['facts'] if f['state'] == 'confirmed'}
+            args = {'region': confirmed.get('region') or '已确认地点'}
+            if confirmed.get('city'):
+                args['city'] = confirmed['city']
+            if confirmed.get('confirmed_location_ref'):
+                args['confirmed_location_ref'] = confirmed['confirmed_location_ref']
+            await self.tool(run_id, {'id': 'auto-search-charging', 'type': 'function',
+                'function': {'name': 'search_charging', 'arguments': json.dumps(args)}}, failed_hashes)

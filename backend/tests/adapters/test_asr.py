@@ -264,3 +264,34 @@ def test_expired_and_wrong_session_do_not_open_provider(client):
         ):
             pass
     assert error.value.status_code == 403 and app.state.asr_provider.upstream is None
+
+
+def test_cancel_unconnected_reservation_retry_and_ownership(client):
+    client, app, session = client
+    data = allocate(client, session).json()["data"]
+    assert allocate(client, session).status_code == 409
+    path = f"/api/sessions/{session}/audio/{data['asr_session_id']}"
+    headers = {"Origin": "http://127.0.0.1:5199", "Content-Type": "application/json"}
+    assert client.delete(path.replace(session, str(uuid4())), headers=headers).status_code == 404
+    assert allocate(client, session).status_code == 409
+    assert client.delete(path, headers=headers).json()["data"]["state"] == "discarded"
+    assert client.delete(path, headers=headers).status_code == 200
+    assert allocate(client, session).status_code == 201
+    assert app.state.asr_provider.upstream is None
+
+
+def test_cancel_does_not_steal_connected_recording(client):
+    client, app, session = client
+    data = allocate(client, session).json()["data"]
+    path = f"/api/sessions/{session}/audio/{data['asr_session_id']}"
+    with client.websocket_connect(
+        data["ws_path"], headers={"host": "127.0.0.1:8099", "origin": "http://127.0.0.1:5199"}
+    ) as ws:
+        assert ws.receive_json()["type"] == "ready"
+        assert client.delete(path, headers={"Origin": "http://127.0.0.1:5199", "Content-Type": "application/json"}).status_code == 409
+        assert allocate(client, session).status_code == 409
+        ws.send_bytes(b"\0" * 3200)
+        assert ws.receive_json()["type"] == "partial"
+        assert ws.receive_json()["type"] == "final"
+        ws.send_json({"type": "finish"})
+        assert ws.receive_json()["type"] == "finished"

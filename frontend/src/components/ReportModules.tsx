@@ -85,7 +85,7 @@ export function OptionsModule({
               </div>
               <p className="eyebrow">
                 OPTION {String.fromCharCode(65 + index)}
-                {option.preference ? ` · ${option.preference}` : ""}
+                {option.preference ? ` · ${["个人", "家庭", "有孩子家庭"].includes(option.preference) ? "客户类型：" : ""}${option.preference}` : ""}
               </p>
               <h3>
                 {display(value("model"))} {display(value("variant"))}

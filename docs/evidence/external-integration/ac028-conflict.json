@@ -1,0 +1,88 @@
+{
+  "conflict_run": {
+    "run_id": "ede84c0d-ea8c-47b2-8ae6-8e6f056e8cb2",
+    "session_id": "d826634b-cca5-4f0f-8037-12f3170d4d6d",
+    "status": "needs_confirmation",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "needs_confirmation",
+        "label": "等待销售确认后继续",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 2,
+    "result": {
+      "outcome": "clarification",
+      "status": "needs_confirmation",
+      "questions": [
+        {
+          "id": "cddac71e-40bd-4b84-8841-64fc48506b1a",
+          "text": "请确认desired_monthly_payment：客户现在说月供八千，和以前五千的说法不一样",
+          "required": true,
+          "fact_ids": [
+            "44102ff3-d1ec-4054-8598-312f7a79b5d9"
+          ],
+          "origin_run_id": "ede84c0d-ea8c-47b2-8ae6-8e6f056e8cb2",
+          "state": "open"
+        },
+        {
+          "id": "b0bb9fe6-198b-47c7-80e5-517a0410b70e",
+          "text": "您确认本次购车的目标月供是8000元吗？",
+          "required": false,
+          "fact_ids": [],
+          "origin_run_id": "ede84c0d-ea8c-47b2-8ae6-8e6f056e8cb2",
+          "state": "open"
+        }
+      ]
+    },
+    "error": null,
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "ede84c0d-ea8c-47b2-8ae6-8e6f056e8cb2",
+      "effective_intent": "extract_context"
+    },
+    "continuation": {
+      "reason": "questions",
+      "can_continue": true,
+      "continued_by_run_id": null
+    }
+  },
+  "c1": {
+    "id": "a8c8a147-d453-4266-9081-78eae034fe3a",
+    "key": "monthly_budget",
+    "value": 400000,
+    "unit": "CNY_fen",
+    "state": "confirmed",
+    "source_kind": "sales_input",
+    "source_id": "5d37a9f1-5af5-45df-97b7-1592adbc7827",
+    "observed_at": "2026-09-20T03:48:09.448140+00:00",
+    "scope": "session",
+    "subject_id": null,
+    "evidence_note": "T008 QA 确认",
+    "supersedes": []
+  },
+  "c2": {
+    "id": "6d1fa1c3-de42-4644-b542-eb2e950ea1a5",
+    "key": "monthly_budget",
+    "value": 800000,
+    "unit": "CNY_fen",
+    "state": "confirmed",
+    "source_kind": "sales_input",
+    "source_id": "d826634b-cca5-4f0f-8037-12f3170d4d6d",
+    "observed_at": "2026-09-20T03:48:13.594700+00:00",
+    "scope": "session",
+    "subject_id": null,
+    "evidence_note": "T008 QA 确认",
+    "supersedes": []
+  },
+  "publish_blocked": null
+}

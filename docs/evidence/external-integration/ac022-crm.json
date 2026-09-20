@@ -1,0 +1,69 @@
+{
+  "preview": {
+    "extraction_id": "80e087de-3821-4158-8b3a-f25f4f0b776b",
+    "proposed": {
+      "nickname": "QA甲",
+      "phone": "[REDACTED]",
+      "email": "[REDACTED]"
+    },
+    "historical_facts": [
+      {
+        "id": "dfd66daf-57bd-4c0d-9d6c-34f7a8a92e14",
+        "key": "desired_monthly_payment",
+        "value": "4000",
+        "unit": "CNY",
+        "state": "proposed",
+        "source_kind": "crm_paste",
+        "source_id": "crm-preview",
+        "observed_at": "2026-09-20T03:46:22.175210+00:00",
+        "scope": "historical",
+        "subject_id": null,
+        "evidence_note": "此前沟通月供目标四千左右",
+        "supersedes": []
+      },
+      {
+        "id": "f1032374-b4a2-47ea-a44a-80a2e4c82f43",
+        "key": "concerns",
+        "value": "后排体验",
+        "unit": null,
+        "state": "proposed",
+        "source_kind": "crm_paste",
+        "source_id": "crm-preview",
+        "observed_at": "2026-09-20T03:46:22.175227+00:00",
+        "scope": "historical",
+        "subject_id": null,
+        "evidence_note": "关注后排体验",
+        "supersedes": []
+      }
+    ],
+    "missing": []
+  },
+  "missing": {
+    "extraction_id": "2770812b-d91d-4eff-a178-d7297744fc53",
+    "proposed": {
+      "nickname": "QA乙",
+      "phone": null,
+      "email": null
+    },
+    "historical_facts": [
+      {
+        "id": "f474bf4b-0146-43b4-b01f-c93c6cb5b8d5",
+        "key": "preference",
+        "value": "Model Y",
+        "unit": null,
+        "state": "proposed",
+        "source_kind": "crm_paste",
+        "source_id": "crm-preview",
+        "observed_at": "2026-09-20T03:46:24.359431+00:00",
+        "scope": "historical",
+        "subject_id": null,
+        "evidence_note": "最近在看 Model Y",
+        "supersedes": []
+      }
+    ],
+    "missing": [
+      "contact"
+    ]
+  },
+  "created_id": "348b7164-b98c-4bf3-9ae9-58e53a3344e9"
+}

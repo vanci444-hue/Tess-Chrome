@@ -1,0 +1,98 @@
+{
+  "first": {
+    "status": "needs_confirmation",
+    "questions": [
+      {
+        "id": "2f402295-3645-48cc-a1a3-3107099e8440",
+        "text": "请确认monthly_budget：月供希望四千左右",
+        "required": true,
+        "fact_ids": [
+          "0fee8b2c-1194-4512-8c17-9a225f3f51fd"
+        ],
+        "origin_run_id": "5f8ce198-10ab-4941-90c6-0eddd89ac5ea",
+        "state": "open"
+      },
+      {
+        "id": "7673ffeb-71be-4107-a8a4-d8ba1268a2eb",
+        "text": "请确认has_fixed_parking：客户没有固定车位",
+        "required": false,
+        "fact_ids": [
+          "f94323cf-bb00-4313-9a74-f8cfa423dc4c"
+        ],
+        "origin_run_id": "5f8ce198-10ab-4941-90c6-0eddd89ac5ea",
+        "state": "open"
+      },
+      {
+        "id": "75c6a904-bb39-4d22-a9f0-6a7a98dfd1eb",
+        "text": "请确认region：常用区域在望京地铁站附近",
+        "required": false,
+        "fact_ids": [
+          "9e21b435-a167-4b67-a219-d99dd7adc7f5"
+        ],
+        "origin_run_id": "5f8ce198-10ab-4941-90c6-0eddd89ac5ea",
+        "state": "open"
+      }
+    ]
+  },
+  "second": {
+    "run_id": "2052fb3d-fb82-4ef6-a765-195dc2ab667f",
+    "session_id": "33563357-f24c-418e-8354-a2cd033db208",
+    "status": "succeeded",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "completed",
+        "label": "本次处理已完成，请查看结果",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 2,
+    "result": {
+      "outcome": "context",
+      "status": "ready",
+      "proposed_fact_ids": [],
+      "questions": [],
+      "unknown_support": [
+        {
+          "key": "home_charging",
+          "message": "补充家充条件后，可以判断是否需要查询周边超充，以及能否做家庭充电成本对照。"
+        },
+        {
+          "key": "trial_variant",
+          "message": "补充实际试驾版本后，体验反馈会正确归属，不会沿用候选配置。"
+        }
+      ]
+    },
+    "error": null,
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "2052fb3d-fb82-4ef6-a765-195dc2ab667f",
+      "effective_intent": "extract_context"
+    },
+    "continuation": null
+  },
+  "inputs": [
+    {
+      "id": "b9435e53-de6a-40b6-b0e7-a88691fa398c",
+      "corrected_text": "客户没有固定车位，常用区域在望京地铁站附近。实际试驾的是后轮驱动，具体版本客户说不太确定。月供希望四千左右。公司充电条件客户说不知道。",
+      "asr_session_id": null,
+      "source": "sales_text",
+      "created_at": "2026-09-20T04:25:51.660862+00:00"
+    },
+    {
+      "id": "668ea046-8313-428b-be67-890d57ab9faa",
+      "corrected_text": "公司充电条件还是不知道，请不要再问同一件事。",
+      "asr_session_id": null,
+      "source": "sales_text",
+      "created_at": "2026-09-20T04:25:57.794477+00:00"
+    }
+  ]
+}

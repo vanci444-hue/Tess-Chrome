@@ -1,0 +1,61 @@
+{
+  "task_id": "T-010",
+  "round": "v2.0-remaining-browser",
+  "date": "2026-09-20",
+  "browser": "cursor-ide-browser",
+  "official_side_panel": "not_operated",
+  "extension_id_expected": "ejbpocfjkdofijfgehnnhdnnhigkekdn",
+  "backend": "http://127.0.0.1:8099",
+  "health": {
+    "status": "ready",
+    "llm": "configured",
+    "asr": "configured",
+    "maps": "configured",
+    "request_id": "4ca9dd4e-90f6-4e9b-b228-d020a98ed052"
+  },
+  "prod_db": {
+    "path": "backend/data/tess-chrome.db",
+    "size": 364544,
+    "customers": 0,
+    "sessions": 0,
+    "reports": 0,
+    "asr_sessions": 0,
+    "cleared_by_tester": false
+  },
+  "fingerprints": {
+    "frontend/dist/manifest.json": "552b73cf24921653259f7844a4fc16d6e060a519ceefa15e2c20dd9dadf49da7",
+    "frontend/dist/capture.js": "7369786e84535aa6c3239863965551bff0591383bcd5b3a3a69400ab4af51794",
+    "frontend/dist/assets/index-D1KO8qkF.js": "8a7308d0264b72e19f262740c8c5f18a3f30b8444eb6f0d25103dee6f7c06a30",
+    "frontend/dist/assets/index-BZnLhKzb.css": "9cb08a19181f17a453ffc854ef67a02be35d5b35cda75fbe585c83f4b94b6418",
+    "frontend/src/hooks/useRealtimeAsr.ts": "87ee25ba4ba28ead0626e5f9214437fac9423ee96a384d2dc2281c88579c143f",
+    "frontend/src/components/Composer.tsx": "87c31ec072405b47e5d6e5fa70dea49785de0cd28fb1c734226a724ad4f209e9"
+  },
+  "frozen_manifest_match": true,
+  "frozen_capture_js_match": false,
+  "mock_report": "http://127.0.0.1:8099/?mock=1#/reports/862a289c-137f-419b-ab16-ae3f18f6e574",
+  "mock_sessions": [
+    "26633c73-8227-4243-bd8f-589489b839e7",
+    "b4f6d485-b3af-4ee2-9cf2-ef9c06b6d1ec"
+  ],
+  "widths": {
+    "360": {
+      "overflowX": 0,
+      "introPad": "16px"
+    },
+    "420": {
+      "overflowX": 0
+    },
+    "480": {
+      "overflowX": 0,
+      "introPad": "20px"
+    },
+    "1024": {
+      "overflowX": 0
+    },
+    "1440": {
+      "overflowX": 0,
+      "h1": "44px",
+      "threeQuestions": "330.664px x3"
+    }
+  }
+}

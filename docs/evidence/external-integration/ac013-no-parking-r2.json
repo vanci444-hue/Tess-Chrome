@@ -1,0 +1,50 @@
+{
+  "run": {
+    "status": "succeeded",
+    "tools": [
+      "search_charging",
+      "search_charging",
+      "search_charging",
+      "search_charging",
+      "list_finance_products",
+      "list_finance_products",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance",
+      "calculate_finance"
+    ],
+    "error": null,
+    "result": {
+      "outcome": "draft",
+      "status": "ready",
+      "draft_id": "d502d956-811e-4a3f-a8c5-e6164ffe94f9",
+      "draft_revision": 1
+    }
+  },
+  "charging": {
+    "state": null,
+    "station_count": 0,
+    "station_names": [],
+    "map_status": null,
+    "external_search": null,
+    "distance_basis": []
+  },
+  "draft": true,
+  "summary": {
+    "comparing": "基于官网快照的长续航全轮驱动版配置与客户预算进行比对，页面显示零息方案月供略高于客户预期",
+    "confirmed": [
+      "车型为 Model Y",
+      "城市为北京",
+      "常用区域为望京地铁站附近",
+      "无固定车位",
+      "月供预算约为元"
+    ],
+    "pending": [
+      "望京地铁站具体定位以查询充电站",
+      "家用充电条件",
+      "实际试驾版本",
+      "金融方案详细试算需销售确认预算参数"
+    ]
+  },
+  "loops": []
+}

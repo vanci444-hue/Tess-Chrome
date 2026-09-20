@@ -1,0 +1,30 @@
+{
+  "candidate_count": 20,
+  "candidate_names": [
+    "望京(地铁站)",
+    "地铁望京站(公交站)",
+    "望京地铁站A西北口",
+    "望京西(地铁站)",
+    "望京南(地铁站)"
+  ],
+  "center_city": "北京市",
+  "station_count": 0,
+  "stations": [],
+  "routes": [],
+  "image": {
+    "ok": true,
+    "mime": "image/png",
+    "bytes": 55963,
+    "path": "/Users/zhaojiaqi/Documents/evanSDDKit/Projects_Repo/tess-chrome/docs/evidence/external-integration/amap-static-wangjing.png",
+    "png_signature": true
+  },
+  "external_search": {
+    "label": "在高德继续搜索",
+    "url": "https://uri.amap.com/search?keyword=%E6%9C%9B%E4%BA%AC%E5%9C%B0%E9%93%81%E7%AB%99+%E7%89%B9%E6%96%AF%E6%8B%89%E5%85%85%E7%94%B5%E7%AB%99&view=map&src=tess-chrome&callnative=0&city=%E5%8C%97%E4%BA%AC"
+  },
+  "url_host": "uri.amap.com",
+  "url_keyword": "望京地铁站 特斯拉充电站",
+  "url_city": "北京",
+  "url_has_key": false,
+  "url_has_phone": false
+}

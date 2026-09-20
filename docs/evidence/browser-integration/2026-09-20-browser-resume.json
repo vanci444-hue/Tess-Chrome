@@ -1,0 +1,612 @@
+{
+  "date": "2026-09-20",
+  "method": "CUA native Chrome actual UI, then readonly API persistence verification",
+  "extension_id": "ejbpocfjkdofijfgehnnhdnnhigkekdn",
+  "extension_version": "0.2.0",
+  "session_id": "c34be5f9-0aa6-4fcc-93d8-0ac1e21da5fd",
+  "captures": [
+    {
+      "id": "83309382-63bd-4dc6-911b-b35fd2418191",
+      "validity": "valid",
+      "payload": {
+        "source_url": "https://www.tesla.cn/modely/design#overview",
+        "captured_at": "2026-09-20T02:06:18.748000Z",
+        "adapter_version": "tesla-cn-modely-dom/0.1.1",
+        "page_fingerprint": "3caca0ef72a98e5d03f4afbd01d45b579925058cb76eb26243eaf6af8629323a",
+        "readiness": "ready",
+        "fields": [
+          {
+            "key": "model",
+            "value": "Model Y",
+            "unit": null,
+            "raw_text": "长续航全轮驱动版 ¥313,500 查看功能",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": ".group-COMBINED_TRIMS input:checked + label"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "variant",
+            "value": "长续航全轮驱动版",
+            "unit": null,
+            "raw_text": "长续航全轮驱动版 ¥313,500 查看功能",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input[name=\"trim-category-COMBINED_TRIMS\"]:checked labels"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "paint",
+            "value": "珍珠白（多涂层）车漆 - ¥8,000",
+            "unit": null,
+            "raw_text": "珍珠白（多涂层）车漆",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"PAINT\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "wheels",
+            "value": "19 英寸交互风暴轮毂 - 包括",
+            "unit": null,
+            "raw_text": "19 英寸交互风暴轮毂",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"WHEELS\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "interior",
+            "value": "深色高级内饰 - 包括",
+            "unit": null,
+            "raw_text": "深色高级内饰",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"PREMIUM_PACKAGE\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "autopilot",
+            "value": "基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。",
+            "unit": null,
+            "raw_text": "基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"OptionGroup:AUTOPILOT_PACKAGE\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "seats",
+            "value": "五座",
+            "unit": null,
+            "raw_text": "五座版",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": ".group-REAR_SEATS[class*=group--selected_]"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "accessories",
+            "value": [],
+            "unit": null,
+            "raw_text": "轮胎修理工具包 3.0 ¥779: 未选",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "#RECOMMENDED_ACCESSORIES, #CHARGING_ACCESSORIES"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "vehicle_price",
+            "value": 31350000,
+            "unit": "CNY_fen",
+            "raw_text": "车辆价格 ¥313,500",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": ".aside-footer--container"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "price_basis",
+            "value": "当前页面标明的车辆价格",
+            "unit": null,
+            "raw_text": "车辆价格 ¥313,500",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": ".aside-footer--container"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "range_cltc",
+            "value": 750,
+            "unit": "km",
+            "raw_text": "750公里 续航",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "top_speed",
+            "value": 201,
+            "unit": "km/h",
+            "raw_text": "201公里/小时",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "zero_to_hundred",
+            "value": 4.3,
+            "unit": "s",
+            "raw_text": "4.3秒 百公里",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          },
+          {
+            "key": "delivery",
+            "value": "预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车",
+            "unit": null,
+            "raw_text": "预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:18.748000Z"
+          }
+        ],
+        "issues": [
+          {
+            "code": "FINANCE_NOT_VISIBLE",
+            "field": null,
+            "blocking": false,
+            "message": "金融面板未展开；金融字段保持缺失。展开贷款面板后可重新 Capture。"
+          }
+        ]
+      }
+    },
+    {
+      "id": "7361c2f7-6c99-4490-a43f-016003499476",
+      "validity": "valid",
+      "payload": {
+        "source_url": "https://www.tesla.cn/modely/design#overview",
+        "captured_at": "2026-09-20T02:06:36.351000Z",
+        "adapter_version": "tesla-cn-modely-dom/0.1.1",
+        "page_fingerprint": "50a88c38bae1f7e2aa3f5c980fee550cb8dde854a2f466c86ba537ef373f4205",
+        "readiness": "ready",
+        "fields": [
+          {
+            "key": "model",
+            "value": "Model Y",
+            "unit": null,
+            "raw_text": "长续航全轮驱动版 ¥313,500 查看功能",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": ".group-COMBINED_TRIMS input:checked + label"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "variant",
+            "value": "长续航全轮驱动版",
+            "unit": null,
+            "raw_text": "长续航全轮驱动版 ¥313,500 查看功能",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input[name=\"trim-category-COMBINED_TRIMS\"]:checked labels"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "paint",
+            "value": "珍珠白（多涂层）车漆 - ¥8,000",
+            "unit": null,
+            "raw_text": "珍珠白（多涂层）车漆",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"PAINT\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "wheels",
+            "value": "20 英寸螺旋风暴轮毂 - ¥8,000",
+            "unit": null,
+            "raw_text": "20 英寸螺旋风暴轮毂",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"WHEELS\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "interior",
+            "value": "深色高级内饰 - 包括",
+            "unit": null,
+            "raw_text": "深色高级内饰",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"PREMIUM_PACKAGE\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "autopilot",
+            "value": "基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。",
+            "unit": null,
+            "raw_text": "基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"OptionGroup:AUTOPILOT_PACKAGE\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "seats",
+            "value": "五座",
+            "unit": null,
+            "raw_text": "五座版",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": ".group-REAR_SEATS[class*=group--selected_]"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "accessories",
+            "value": [],
+            "unit": null,
+            "raw_text": "轮胎修理工具包 3.0 ¥779: 未选",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "#RECOMMENDED_ACCESSORIES, #CHARGING_ACCESSORIES"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "vehicle_price",
+            "value": 32150000,
+            "unit": "CNY_fen",
+            "raw_text": "车辆价格 ¥321,500",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": ".aside-footer--container"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "price_basis",
+            "value": "当前页面标明的车辆价格",
+            "unit": null,
+            "raw_text": "车辆价格 ¥321,500",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": ".aside-footer--container"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "range_cltc",
+            "value": 690,
+            "unit": "km",
+            "raw_text": "690公里 续航",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "top_speed",
+            "value": 201,
+            "unit": "km/h",
+            "raw_text": "201公里/小时",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "zero_to_hundred",
+            "value": 4.3,
+            "unit": "s",
+            "raw_text": "4.3秒 百公里",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          },
+          {
+            "key": "delivery",
+            "value": "预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车",
+            "unit": null,
+            "raw_text": "预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:36.351000Z"
+          }
+        ],
+        "issues": [
+          {
+            "code": "FINANCE_NOT_VISIBLE",
+            "field": null,
+            "blocking": false,
+            "message": "金融面板未展开；金融字段保持缺失。展开贷款面板后可重新 Capture。"
+          }
+        ]
+      }
+    },
+    {
+      "id": "24db1536-3d64-4e05-9362-6ef9c8834738",
+      "validity": "valid",
+      "payload": {
+        "source_url": "https://www.tesla.cn/modely/design#overview",
+        "captured_at": "2026-09-20T02:06:58.103000Z",
+        "adapter_version": "tesla-cn-modely-dom/0.1.1",
+        "page_fingerprint": "4deb420266518bf9dc75f8151098bdc441a2e185262ba41fcc5286372edeb6c6",
+        "readiness": "ready",
+        "fields": [
+          {
+            "key": "model",
+            "value": "Model Y",
+            "unit": null,
+            "raw_text": "长续航全轮驱动版 ¥313,500 查看功能",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": ".group-COMBINED_TRIMS input:checked + label"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "variant",
+            "value": "长续航全轮驱动版",
+            "unit": null,
+            "raw_text": "长续航全轮驱动版 ¥313,500 查看功能",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input[name=\"trim-category-COMBINED_TRIMS\"]:checked labels"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "paint",
+            "value": "珍珠白（多涂层）车漆 - ¥8,000",
+            "unit": null,
+            "raw_text": "珍珠白（多涂层）车漆",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"PAINT\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "wheels",
+            "value": "20 英寸螺旋风暴轮毂 - ¥8,000",
+            "unit": null,
+            "raw_text": "20 英寸螺旋风暴轮毂",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"WHEELS\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "interior",
+            "value": "深色高级内饰 - 包括",
+            "unit": null,
+            "raw_text": "深色高级内饰",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"PREMIUM_PACKAGE\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "autopilot",
+            "value": "基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。",
+            "unit": null,
+            "raw_text": "基础辅助驾驶 包括 包括主动巡航控制和车道内辅助转向。",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "input:checked[name=\"OptionGroup:AUTOPILOT_PACKAGE\"] labels"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "seats",
+            "value": "五座",
+            "unit": null,
+            "raw_text": "五座版",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": ".group-REAR_SEATS[class*=group--selected_]"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "accessories",
+            "value": [],
+            "unit": null,
+            "raw_text": "轮胎修理工具包 3.0 ¥779: 未选",
+            "evidence": {
+              "kind": "dom_selected",
+              "selector_hint": "#RECOMMENDED_ACCESSORIES, #CHARGING_ACCESSORIES"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "vehicle_price",
+            "value": 32150000,
+            "unit": "CNY_fen",
+            "raw_text": "车辆价格 ¥321,500",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": ".aside-footer--container"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "price_basis",
+            "value": "当前页面标明的车辆价格",
+            "unit": null,
+            "raw_text": "车辆价格 ¥321,500",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": ".aside-footer--container"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "range_cltc",
+            "value": 690,
+            "unit": "km",
+            "raw_text": "690公里 续航",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "top_speed",
+            "value": 201,
+            "unit": "km/h",
+            "raw_text": "201公里/小时",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "zero_to_hundred",
+            "value": 4.3,
+            "unit": "s",
+            "raw_text": "4.3秒 百公里",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "delivery",
+            "value": "预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车",
+            "unit": null,
+            "raw_text": "预计交付日期：5-7 周 如您希望确保在2026年9月30日前提车，请选购现车",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#main-content visible text"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "down_payment",
+            "value": 7990000,
+            "unit": "CNY_fen",
+            "raw_text": "首付金额 ¥79,900",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#downPaymentAmountInput"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "finance_product",
+            "value": "限时0息贷款方案",
+            "unit": null,
+            "raw_text": "限时0息贷款方案",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#finance_options-loan-panel select"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "principal",
+            "value": 24160000,
+            "unit": "CNY_fen",
+            "raw_text": "贷款金额 ¥241,600",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#finance_options-loan-panel"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "term_months",
+            "value": 12,
+            "unit": "month",
+            "raw_text": "期数 12 个月",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#finance_options-loan-panel"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "monthly_payment",
+            "value": 402700,
+            "unit": "CNY_fen",
+            "raw_text": "¥4,027/月",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#finance_options-loan-panel"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "rate_value",
+            "value": 0,
+            "unit": "percent",
+            "raw_text": "年化费率 % 0.00%",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#finance_options-loan-panel"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          },
+          {
+            "key": "rate_basis",
+            "value": "年化费率",
+            "unit": null,
+            "raw_text": "年化费率 % 0.00%",
+            "evidence": {
+              "kind": "dom_text",
+              "selector_hint": "#finance_options-loan-panel"
+            },
+            "observed_at": "2026-09-20T02:06:58.103000Z"
+          }
+        ],
+        "issues": []
+      }
+    }
+  ],
+  "submitted_input_preserved": true,
+  "generated_real_report": false,
+  "source_fingerprints": {
+    "frontend/dist/manifest.json": "552b73cf24921653259f7844a4fc16d6e060a519ceefa15e2c20dd9dadf49da7",
+    "frontend/dist/capture.js": "98dc7661ebbd35de59ae99c1ea04ff90c0c70ae8f6776fef7778f8971430187b",
+    "frontend/src/pages/Session.tsx": "48203e6e4c1589d3c258455e3fd10fd48d28d57cdc505fe02603f5a48e7f1bd0",
+    "docs/project-console.html": "f829d2dc517758239ddddc898d661e5c737f2bbfcd9b397191932ce04943af24"
+  }
+}

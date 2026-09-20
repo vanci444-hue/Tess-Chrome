@@ -7,7 +7,7 @@ import {
   acceptsPcm,
   type AsrEvent,
 } from "../audio/transcript";
-import { createAudio, audioSocketUrl } from "../services/audio";
+import { createAudio, cancelAudioReservation, audioSocketUrl } from "../services/audio";
 export type RecordingPhase =
   "idle" | "connecting" | "recording" | "finishing" | "finished" | "failed";
 const activePhases = new Set<RecordingPhase>([
@@ -25,6 +25,7 @@ interface Options {
 export function useRealtimeAsr({ sessionId, revision, text, onText }: Options) {
   const [phase, setPhase] = useState<RecordingPhase>("idle"),
     [notice, setNotice] = useState(""),
+    [permissionDenied, setPermissionDenied] = useState(false),
     [lateTail, setLateTail] = useState(""),
     [elapsed, setElapsed] = useState(0);
   const options = useRef({ sessionId, revision, text, onText });
@@ -38,6 +39,16 @@ export function useRealtimeAsr({ sessionId, revision, text, onText }: Options) {
     context = useRef<AudioContext | null>(null),
     processor = useRef<AudioWorkletNode | null>(null),
     source = useRef<MediaStreamAudioSourceNode | null>(null);
+  // Only this hook's unconnected reservation may be released. Never cancel another recording.
+  const reservation = useRef<{ sessionId: string; id: string } | null>(null);
+  const releasePending = useRef<Promise<unknown>>(Promise.resolve());
+  const releaseReservation = useCallback((owned: { sessionId: string; id: string }) => {
+    const pending = cancelAudioReservation(owned.sessionId, owned.id).catch(() => {
+      // Network loss is bounded by the server's 60s reservation TTL.
+    });
+    releasePending.current = pending;
+    return pending;
+  }, []);
   const timeouts = useRef<ReturnType<typeof setTimeout>[]>([]),
     ticker = useRef<ReturnType<typeof setInterval> | null>(null),
     finishSent = useRef(false);
@@ -66,7 +77,10 @@ export function useRealtimeAsr({ sessionId, revision, text, onText }: Options) {
     const ws = socket.current;
     socket.current = null;
     if (ws && ws.readyState < 2) ws.close(1000);
-  }, [clearAudio]);
+    const owned = reservation.current;
+    reservation.current = null;
+    if (owned) void releaseReservation(owned);
+  }, [clearAudio, releaseReservation]);
   const fail = useCallback(
     (message: string) => {
       if (!activePhases.has(currentPhase.current)) return;
@@ -121,22 +135,15 @@ export function useRealtimeAsr({ sessionId, revision, text, onText }: Options) {
     changePhase("connecting");
     setNotice("连接实时转写。音频会发送至百炼，文字需手动发送给 Tess。");
     setLateTail("");
+    setPermissionDenied(false);
     setElapsed(0);
     finishSent.current = false;
     asrId.current = null;
     buffer.current = null;
     try {
-      const created = await createAudio(owner.sessionId, owner.revision);
+      await releasePending.current;
       if (mine !== generation.current) return;
-      if (created.session_id !== owner.sessionId)
-        throw new Error("实时转写归属不匹配");
-      asrId.current = created.asr_session_id;
-      buffer.current = new TranscriptBuffer(
-        owner.sessionId,
-        created.asr_session_id,
-        mine,
-        baseText,
-      );
+      setNotice("正在请求麦克风权限；请在浏览器提示中允许。也可以停止连接并改用文字。");
       if (!navigator.mediaDevices?.getUserMedia)
         throw new Error(
           "当前页面无法访问麦克风，请在 Chrome 插件或本机页面使用",
@@ -156,7 +163,12 @@ export function useRealtimeAsr({ sessionId, revision, text, onText }: Options) {
       media.current = stream;
       const audio = new AudioContext();
       context.current = audio;
-      await audio.audioWorklet.addModule(workletUrl);
+      setNotice("正在初始化麦克风音频处理，请稍候。");
+      try {
+        await audio.audioWorklet.addModule(workletUrl);
+      } catch {
+        throw new Error("音频处理模块加载失败，请刷新页面或重新加载插件后重试。");
+      }
       if (mine !== generation.current) return;
       const node = new AudioWorkletNode(audio, "tess-pcm-16k");
       processor.current = node;
@@ -164,6 +176,19 @@ export function useRealtimeAsr({ sessionId, revision, text, onText }: Options) {
       silent.gain.value = 0;
       node.connect(silent);
       silent.connect(audio.destination);
+      // Allocate only after permission and the worklet succeed: local failures cannot lock a session.
+      setNotice("正在连接实时转写服务；连接成功后开始采音。");
+      const created = await createAudio(owner.sessionId, owner.revision);
+      const owned = { sessionId: owner.sessionId, id: created.asr_session_id };
+      if (mine !== generation.current) {
+        await releaseReservation(owned);
+        return;
+      }
+      reservation.current = owned;
+      if (created.session_id !== owner.sessionId)
+        throw new Error("实时转写归属不匹配");
+      asrId.current = created.asr_session_id;
+      buffer.current = new TranscriptBuffer(owner.sessionId, created.asr_session_id, mine, baseText);
       const ws = new WebSocket(audioSocketUrl(created.ws_path));
       socket.current = ws;
       node.port.onmessage = (event) => {
@@ -213,6 +238,7 @@ export function useRealtimeAsr({ sessionId, revision, text, onText }: Options) {
         if (received.asr_session_id !== created.asr_session_id) return;
         if (received.type === "ready") {
           if (currentPhase.current !== "connecting") return;
+          reservation.current = null;
           source.current = audio.createMediaStreamSource(stream);
           source.current.connect(node);
           void audio.resume().catch(() => fail("无法启动音频采集。"));
@@ -279,13 +305,18 @@ export function useRealtimeAsr({ sessionId, revision, text, onText }: Options) {
     } catch (error) {
       if (mine !== generation.current) return;
       const e = error as Error;
+      setPermissionDenied(e.name === "NotAllowedError");
       fail(
         e.name === "NotAllowedError"
           ? "麦克风权限被拒，请允许麦克风后重试或改用文字。"
-          : e.message,
+          : e.name === "NotFoundError"
+            ? "未找到可用麦克风，请连接设备后重试或改用文字。"
+            : e.name === "NotReadableError"
+              ? "麦克风无法启动，可能被其他应用占用；请检查设备后重试。"
+              : e.message,
       );
     }
-  }, [changePhase, cleanup, clearAudio, fail, finish]);
+  }, [changePhase, cleanup, clearAudio, fail, finish, releaseReservation]);
   const edit = useCallback(
     (value: string) => {
       if (activePhases.has(currentPhase.current)) {
@@ -330,6 +361,7 @@ export function useRealtimeAsr({ sessionId, revision, text, onText }: Options) {
   }, []);
   return {
     markSent,
+    permissionDenied,
     phase,
     active: activePhases.has(phase),
     notice,

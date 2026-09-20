@@ -1,0 +1,135 @@
+{
+  "run": {
+    "run_id": "733605f7-d72e-4d67-8d7c-ec6efedeacf3",
+    "session_id": "68f048b9-1bfe-40b7-83ab-b961c49191c6",
+    "status": "needs_confirmation",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "tool_started",
+        "label": "正在执行：read_session",
+        "tool_name": "read_session",
+        "artifact_id": null
+      },
+      {
+        "seq": 3,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "read_session",
+        "artifact_id": "e24829b0-8a53-4261-b83b-1a9cc8d20099"
+      },
+      {
+        "seq": 4,
+        "type": "tool_started",
+        "label": "正在执行：list_finance_products",
+        "tool_name": "list_finance_products",
+        "artifact_id": null
+      },
+      {
+        "seq": 5,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "list_finance_products",
+        "artifact_id": "4f8c6c43-65b1-4045-aa2f-01e7bc64759f"
+      },
+      {
+        "seq": 6,
+        "type": "tool_started",
+        "label": "正在执行：calculate_finance",
+        "tool_name": "calculate_finance",
+        "artifact_id": null
+      },
+      {
+        "seq": 7,
+        "type": "tool_completed",
+        "label": "查询存在缺项或失败",
+        "tool_name": "calculate_finance",
+        "artifact_id": "32592b02-e523-4016-a86c-6c151bb99a22"
+      },
+      {
+        "seq": 8,
+        "type": "tool_started",
+        "label": "正在执行：calculate_finance",
+        "tool_name": "calculate_finance",
+        "artifact_id": null
+      },
+      {
+        "seq": 9,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "calculate_finance",
+        "artifact_id": "0a1f1369-df2c-431d-9d9d-0455ea11b78a"
+      },
+      {
+        "seq": 10,
+        "type": "tool_started",
+        "label": "正在执行：calculate_finance",
+        "tool_name": "calculate_finance",
+        "artifact_id": null
+      },
+      {
+        "seq": 11,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "calculate_finance",
+        "artifact_id": "1c9058fd-c458-4782-bf1e-88d40a649ca5"
+      },
+      {
+        "seq": 12,
+        "type": "tool_started",
+        "label": "正在执行：lookup_official_knowledge",
+        "tool_name": "lookup_official_knowledge",
+        "artifact_id": null
+      },
+      {
+        "seq": 13,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "lookup_official_knowledge",
+        "artifact_id": "ea9dc92f-8d74-4081-915f-1ba9582c3157"
+      },
+      {
+        "seq": 14,
+        "type": "needs_confirmation",
+        "label": "本次处理达到保护上限，请明确继续",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 14,
+    "result": {
+      "outcome": "partial",
+      "status": "partial",
+      "completed_artifact_ids": [
+        "e24829b0-8a53-4261-b83b-1a9cc8d20099",
+        "4f8c6c43-65b1-4045-aa2f-01e7bc64759f",
+        "32592b02-e523-4016-a86c-6c151bb99a22",
+        "0a1f1369-df2c-431d-9d9d-0455ea11b78a",
+        "1c9058fd-c458-4782-bf1e-88d40a649ca5",
+        "ea9dc92f-8d74-4081-915f-1ba9582c3157"
+      ],
+      "remaining_items": [
+        "本次处理达到保护上限，请明确继续"
+      ]
+    },
+    "error": null,
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "733605f7-d72e-4d67-8d7c-ec6efedeacf3",
+      "effective_intent": "prepare_report"
+    },
+    "continuation": {
+      "reason": "limit_reached",
+      "can_continue": true,
+      "continued_by_run_id": null
+    }
+  },
+  "charging": {}
+}

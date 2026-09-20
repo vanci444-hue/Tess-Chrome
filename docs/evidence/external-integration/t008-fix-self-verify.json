@@ -1,0 +1,46 @@
+{
+  "task_id": "T-008",
+  "role": "developer-self-verify",
+  "python": "3.12",
+  "venv": "Projects_Repo/tess-chrome/.venv",
+  "production_8099": "not_killed",
+  "business_db": "not_cleared",
+  "commands": [
+    {
+      "cwd": "Projects_Repo/tess-chrome",
+      "cmd": "PYTHONPATH=harness_root:project:backend .venv/bin/python -c import runtime/facts/contracts",
+      "result": "import-ok extra=ignore"
+    },
+    {
+      "cwd": "Projects_Repo/tess-chrome",
+      "cmd": ".venv/bin/python -m pip install -r backend/requirements.txt",
+      "result": "uvicorn[standard]==0.53.0 已解析；venv 现有 websockets 17.1、httptools、uvloop、watchfiles。wsproto 因 pypi 超时未装，uvicorn 用 websockets 即可升级。"
+    },
+    {
+      "cwd": "Projects_Repo/tess-chrome",
+      "cmd": ".venv/bin/python -m pytest backend/tests/adapters/test_providers.py backend/tests/tools/test_registry.py backend/tests/tools/test_t004_location.py backend/tests/tools/test_calculations.py backend/tests/agent/test_agent.py backend/tests/core/test_core.py::test_charging_search_needed_and_unknown_support backend/tests/e2e/test_ws_upgrade.py --timeout=120 -q",
+      "result": "49 passed"
+    },
+    {
+      "cwd": "Projects_Repo/tess-chrome/frontend",
+      "cmd": "npm run type-check",
+      "result": "passed"
+    },
+    {
+      "cwd": "Projects_Repo/tess-chrome/frontend",
+      "cmd": "npm test",
+      "result": "14 passed"
+    }
+  ],
+  "real_amap": {
+    "attempted": true,
+    "result": "blocked",
+    "reason": "本开发环境出站 restapi.amap.com 被代理/沙箱拒绝（Proxy 403 / MAP_CONNECTION_ERROR）。未写 Key。关键词回归用 Mock HTTP 通过，真实望京列表需 Tester 在已连通环境复验。"
+  },
+  "real_qwen": {
+    "attempted": false,
+    "result": "not_run",
+    "reason": "金融归一、Unknown 兜底、prepare 工具补齐用 ReplayProvider 隔离库证明。不把 Mock 当真实 Qwen PASS。"
+  },
+  "key_logged": false
+}

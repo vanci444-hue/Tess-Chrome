@@ -1,0 +1,346 @@
+{
+  "extract": {
+    "run_id": "e3cca722-ed48-4e78-80a5-b9916bafcec2",
+    "session_id": "22e6ba2b-f527-424b-b0c6-b659effaf97b",
+    "status": "needs_confirmation",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "needs_confirmation",
+        "label": "等待销售确认后继续",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 2,
+    "result": {
+      "outcome": "clarification",
+      "status": "needs_confirmation",
+      "questions": [
+        {
+          "id": "6dd613f2-113a-41c9-93c7-02e6ca617236",
+          "text": "请确认desired_monthly_payment：月供希望四千左右",
+          "required": true,
+          "fact_ids": [
+            "01939377-8f9f-4362-9863-9714cc0bd4ec"
+          ],
+          "origin_run_id": "e3cca722-ed48-4e78-80a5-b9916bafcec2",
+          "state": "open"
+        },
+        {
+          "id": "d2aa031c-9778-446f-beb9-542ab58ec97e",
+          "text": "请确认has_fixed_parking：客户没有固定车位",
+          "required": false,
+          "fact_ids": [
+            "b4a342cc-1ed1-412a-88b6-d707831a47b7"
+          ],
+          "origin_run_id": "e3cca722-ed48-4e78-80a5-b9916bafcec2",
+          "state": "open"
+        },
+        {
+          "id": "1e7c0605-c5fb-4541-9d63-586293b06cc2",
+          "text": "请确认region：常用区域在望京地铁站附近",
+          "required": false,
+          "fact_ids": [
+            "05c87834-bb41-4ea5-9c57-448b3b38d0a5"
+          ],
+          "origin_run_id": "e3cca722-ed48-4e78-80a5-b9916bafcec2",
+          "state": "open"
+        }
+      ]
+    },
+    "error": null,
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "e3cca722-ed48-4e78-80a5-b9916bafcec2",
+      "effective_intent": "extract_context"
+    },
+    "continuation": {
+      "reason": "questions",
+      "can_continue": true,
+      "continued_by_run_id": null
+    }
+  },
+  "loop": {
+    "run_id": "9da3c715-2c09-44f9-9094-3ae468338f3a",
+    "session_id": "22e6ba2b-f527-424b-b0c6-b659effaf97b",
+    "status": "failed",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "failed",
+        "label": "处理未完成；已提交文字仍已保存，请检查配置或重试",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 2,
+    "result": null,
+    "error": {
+      "code": "INVALID_MODEL_OUTPUT",
+      "message": "处理未完成；已提交文字仍已保存，请检查配置或重试",
+      "retryable": true
+    },
+    "lineage": {
+      "parent_run_id": null,
+      "root_run_id": "9da3c715-2c09-44f9-9094-3ae468338f3a",
+      "effective_intent": "extract_context"
+    },
+    "continuation": null
+  },
+  "prepare": {
+    "run_id": "e115aa5f-d654-4429-8fe6-73f2f26a34db",
+    "session_id": "22e6ba2b-f527-424b-b0c6-b659effaf97b",
+    "status": "needs_confirmation",
+    "events": [
+      {
+        "seq": 1,
+        "type": "started",
+        "label": "正在处理已提交的信息",
+        "tool_name": null,
+        "artifact_id": null
+      },
+      {
+        "seq": 2,
+        "type": "tool_started",
+        "label": "正在执行：read_session",
+        "tool_name": "read_session",
+        "artifact_id": null
+      },
+      {
+        "seq": 3,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "read_session",
+        "artifact_id": "c29ed925-72c3-4207-9825-ea5c4d122504"
+      },
+      {
+        "seq": 4,
+        "type": "tool_started",
+        "label": "正在执行：list_finance_products",
+        "tool_name": "list_finance_products",
+        "artifact_id": null
+      },
+      {
+        "seq": 5,
+        "type": "tool_completed",
+        "label": "查询完成",
+        "tool_name": "list_finance_products",
+        "artifact_id": "50485f2b-a1a0-4362-b2dd-6dc8507379e3"
+      },
+      {
+        "seq": 6,
+        "type": "tool_started",
+        "label": "正在执行：calculate_finance",
+        "tool_name": "calculate_finance",
+        "artifact_id": null
+      },
+      {
+        "seq": 7,
+        "type": "tool_completed",
+        "label": "查询存在缺项或失败",
+        "tool_name": "calculate_finance",
+        "artifact_id": "906d7a49-b8fd-4fb0-a4c3-2d33c3ac699f"
+      },
+      {
+        "seq": 8,
+        "type": "tool_started",
+        "label": "正在执行：calculate_finance",
+        "tool_name": "calculate_finance",
+        "artifact_id": null
+      },
+      {
+        "seq": 9,
+        "type": "tool_completed",
+        "label": "查询存在缺项或失败",
+        "tool_name": "calculate_finance",
+        "artifact_id": "595310d5-d69c-4970-9ad3-86a2ccb6b2b2"
+      },
+      {
+        "seq": 10,
+        "type": "needs_confirmation",
+        "label": "本次处理达到保护上限，请明确继续",
+        "tool_name": null,
+        "artifact_id": null
+      }
+    ],
+    "last_seq": 10,
+    "result": {
+      "outcome": "partial",
+      "status": "partial",
+      "completed_artifact_ids": [
+        "c29ed925-72c3-4207-9825-ea5c4d122504",
+        "50485f2b-a1a0-4362-b2dd-6dc8507379e3",
+        "906d7a49-b8fd-4fb0-a4c3-2d33c3ac699f",
+        "595310d5-d69c-4970-9ad3-86a2ccb6b2b2"
+      ],
+      "remaining_items": [
+        "本次处理达到保护上限，请明确继续"
+      ]
+    },
+    "error": null,
+    "lineage": {
+      "parent_run_id": "48ac6216-ca2d-4ae0-89e2-6f810c5a1aba",
+      "root_run_id": "48ac6216-ca2d-4ae0-89e2-6f810c5a1aba",
+      "effective_intent": "prepare_report"
+    },
+    "continuation": {
+      "reason": "limit_reached",
+      "can_continue": true,
+      "continued_by_run_id": null
+    }
+  },
+  "charging": {},
+  "trial": null,
+  "facts": [
+    {
+      "id": "a10558c2-8cf4-4232-9a05-604e72e44ffe",
+      "key": "concerns",
+      "value": "能源开支",
+      "unit": null,
+      "state": "proposed",
+      "source_kind": "sales_input",
+      "source_id": "a0788186-f4a7-40af-9484-2c4ac720524b",
+      "observed_at": "2026-09-20T03:47:05.801622+00:00",
+      "scope": "session",
+      "subject_id": null,
+      "evidence_note": "也关心以后能源开支",
+      "supersedes": []
+    },
+    {
+      "id": "01939377-8f9f-4362-9863-9714cc0bd4ec",
+      "key": "desired_monthly_payment",
+      "value": 400000,
+      "unit": "CNY_fen",
+      "state": "proposed",
+      "source_kind": "sales_input",
+      "source_id": "a0788186-f4a7-40af-9484-2c4ac720524b",
+      "observed_at": "2026-09-20T03:47:05.802610+00:00",
+      "scope": "session",
+      "subject_id": null,
+      "evidence_note": "月供希望四千左右",
+      "supersedes": []
+    },
+    {
+      "id": "59afdc01-05d9-4260-9808-416cf8969678",
+      "key": "has_fixed_parking",
+      "value": false,
+      "unit": null,
+      "state": "confirmed",
+      "source_kind": "sales_input",
+      "source_id": "22e6ba2b-f527-424b-b0c6-b659effaf97b",
+      "observed_at": "2026-09-20T03:47:06.381395+00:00",
+      "scope": "session",
+      "subject_id": null,
+      "evidence_note": "T008 QA 确认",
+      "supersedes": [
+        "b4a342cc-1ed1-412a-88b6-d707831a47b7"
+      ]
+    },
+    {
+      "id": "cbe7f97a-40c3-4cf7-ba31-d827948eba3e",
+      "key": "region",
+      "value": "望京地铁站",
+      "unit": null,
+      "state": "confirmed",
+      "source_kind": "sales_input",
+      "source_id": "22e6ba2b-f527-424b-b0c6-b659effaf97b",
+      "observed_at": "2026-09-20T03:47:06.382457+00:00",
+      "scope": "session",
+      "subject_id": null,
+      "evidence_note": "T008 QA 确认",
+      "supersedes": [
+        "05c87834-bb41-4ea5-9c57-448b3b38d0a5"
+      ]
+    },
+    {
+      "id": "7f23f681-05e2-497d-a21d-e83a2480d171",
+      "key": "city",
+      "value": "北京",
+      "unit": null,
+      "state": "confirmed",
+      "source_kind": "sales_input",
+      "source_id": "22e6ba2b-f527-424b-b0c6-b659effaf97b",
+      "observed_at": "2026-09-20T03:47:06.382817+00:00",
+      "scope": "session",
+      "subject_id": null,
+      "evidence_note": "T008 QA 确认",
+      "supersedes": []
+    },
+    {
+      "id": "0d240494-212d-4f34-8d3a-c0927677d880",
+      "key": "monthly_budget",
+      "value": 400000,
+      "unit": "CNY_fen",
+      "state": "confirmed",
+      "source_kind": "sales_input",
+      "source_id": "22e6ba2b-f527-424b-b0c6-b659effaf97b",
+      "observed_at": "2026-09-20T03:47:06.383273+00:00",
+      "scope": "session",
+      "subject_id": null,
+      "evidence_note": "T008 QA 确认",
+      "supersedes": []
+    },
+    {
+      "id": "fd3ab828-7a07-46b4-9a88-1603d4c4fa88",
+      "key": "trial_model",
+      "value": "Model Y",
+      "unit": null,
+      "state": "confirmed",
+      "source_kind": "sales_input",
+      "source_id": "22e6ba2b-f527-424b-b0c6-b659effaf97b",
+      "observed_at": "2026-09-20T03:47:06.383641+00:00",
+      "scope": "session",
+      "subject_id": null,
+      "evidence_note": "T008 QA 确认",
+      "supersedes": []
+    },
+    {
+      "id": "71c40bbf-5396-4035-ba11-e878e2f7fb58",
+      "key": "trial_variant",
+      "value": null,
+      "unit": null,
+      "state": "unknown",
+      "source_kind": "sales_input",
+      "source_id": "22e6ba2b-f527-424b-b0c6-b659effaf97b",
+      "observed_at": "2026-09-20T03:47:06.384332+00:00",
+      "scope": "session",
+      "subject_id": null,
+      "evidence_note": "销售回复不知道",
+      "supersedes": [
+        "ac6d407a-82e3-4f39-af11-48f4fda397fe"
+      ]
+    },
+    {
+      "id": "a8993127-4854-4069-ba98-5d05aaf3fe77",
+      "key": "home_charging",
+      "value": null,
+      "unit": null,
+      "state": "unknown",
+      "source_kind": "sales_input",
+      "source_id": "22e6ba2b-f527-424b-b0c6-b659effaf97b",
+      "observed_at": "2026-09-20T03:47:06.385001+00:00",
+      "scope": "session",
+      "subject_id": null,
+      "evidence_note": "销售回复不知道",
+      "supersedes": [
+        "36e8844b-f12e-4ab2-b095-a3ba53e11ae2"
+      ]
+    }
+  ],
+  "pending": []
+}

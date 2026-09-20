@@ -1,0 +1,139 @@
+{
+  "started_at": "2026-09-20T03:46:16.519627+00:00",
+  "origin": "http://127.0.0.1:18099",
+  "git_head": "9b5d0d7",
+  "provider": "real",
+  "cases": {
+    "health": true,
+    "ac022": {
+      "preview_missing": [],
+      "proposed_nickname": true,
+      "has_contact": true,
+      "historical_facts": 2,
+      "incomplete_missing": [
+        "contact"
+      ],
+      "create_without_contact_status": 400,
+      "create_without_contact_code": "VALIDATION_ERROR",
+      "customer_created": true,
+      "extract_did_not_list_until_confirm": true
+    },
+    "ac029_skip": {
+      "run_status": "needs_confirmation",
+      "tools": [
+        "read_session",
+        "read_session",
+        "list_finance_products",
+        "list_finance_products",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance",
+        "lookup_official_knowledge",
+        "lookup_official_knowledge"
+      ],
+      "skipped_search_charging": true,
+      "skipped_energy": true,
+      "charging_module_status": null,
+      "no_fake_map_link": true
+    },
+    "extract_b": {
+      "run_status": "needs_confirmation",
+      "question_count": 3,
+      "questions_le_3": true,
+      "parking_related": true,
+      "question_texts": [
+        "请确认desired_monthly_payment：月供希望四千左右",
+        "请确认has_fixed_parking：客户没有固定车位",
+        "请确认region：常用区域在望京地铁站附近"
+      ],
+      "trial_vehicle": null,
+      "capture_variant": "长续航全轮驱动版",
+      "unknown_after_confirm": [
+        "trial_variant",
+        "home_charging"
+      ],
+      "repeat_unknown_optional": [],
+      "loop_question_count": 0
+    },
+    "maps_b": {
+      "prepare_status": "needs_confirmation",
+      "tools": [
+        "read_session",
+        "read_session",
+        "list_finance_products",
+        "list_finance_products",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance",
+        "calculate_finance"
+      ],
+      "used_search_charging": false,
+      "charging_status": null,
+      "station_count": 0,
+      "map_status": null,
+      "map_asset_id": null,
+      "radius_m": null,
+      "warnings": null,
+      "external_search": null,
+      "distance_notes": [],
+      "state": null
+    },
+    "ac043": {
+      "published": false,
+      "prepare_status": "needs_confirmation",
+      "blocking": null
+    },
+    "ac020": [],
+    "ac028": {
+      "historical_preview_facts": 1,
+      "c1_budget": 400000,
+      "conflict_run_status": "needs_confirmation",
+      "budget_facts_states": [],
+      "required_questions": [
+        "请确认desired_monthly_payment：客户现在说月供八千，和以前五千的说法不一样"
+      ],
+      "publish_blocked": null,
+      "prepare_status": "needs_confirmation",
+      "confirmed_c2": 800000,
+      "c1_unchanged": true,
+      "c1_id_unchanged": true
+    }
+  },
+  "config_presence": {
+    "bailian_api_key": true,
+    "bailian_base_url": true,
+    "bailian_asr_ws_url": true,
+    "amap_web_service_key": true,
+    "llm_model": "qwen3.7-plus",
+    "asr_model": "qwen3-asr-flash-realtime"
+  },
+  "prod_db_before": {
+    "exists": true,
+    "size": 364544
+  },
+  "health": {
+    "status": "ready",
+    "capabilities": {
+      "llm": "configured",
+      "asr": "configured",
+      "maps": "configured"
+    },
+    "database": true
+  },
+  "errors": [
+    {
+      "where": "main",
+      "type": "WSServerHandshakeError",
+      "message": "404, message='Invalid response status', url='ws://127.0.0.1:18099/ws/sessions/68f048b9-1bfe-40b7-83ab-b961c49191c6/audio/ef09dff8-c709-45b0-82bb-2ebe108a8f3d'"
+    }
+  ],
+  "server_stopped": true,
+  "prod_db_after": {
+    "exists": true,
+    "size": 364544
+  },
+  "finished_at": "2026-09-20T03:48:15.264350+00:00"
+}

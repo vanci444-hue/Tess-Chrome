@@ -59,9 +59,12 @@ async def test_llm_exact_model_standard_tool_calls_no_retry():
 
 
 async def test_map_relevance_filter_distance_numeric_dedup_and_image_error():
+    seen = []
+
     def handle(request):
         path = request.url.path
         if path.endswith("around"):
+            seen.append(str(request.url))
             return httpx.Response(
                 200,
                 json={
@@ -99,6 +102,8 @@ async def test_map_relevance_filter_distance_numeric_dedup_and_image_error():
 
     provider = AmapProvider(Settings(amap_web_service_key="test"), httpx.MockTransport(handle))
     stations = await provider.stations({"longitude": 116.4, "latitude": 40}, 5000)
+    assert any("特斯拉充电" in url or "%E7%89%B9%E6%96%AF%E6%8B%89%E5%85%85%E7%94%B5" in url for url in seen)
+    assert not any("keywords=Tesla&" in url or url.endswith("keywords=Tesla") for url in seen)
     assert [s["id"] for s in stations] == ["near", "far"]
     assert [s["number"] for s in stations] == [1, 2]
     with pytest.raises(ProviderError, match="图片"):

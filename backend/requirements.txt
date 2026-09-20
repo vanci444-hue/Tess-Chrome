@@ -1,6 +1,6 @@
 # 本机 Python 3.12 已验证直接依赖；PyCore 由 PYTHONPATH 引用。
 fastapi==0.141.1
-uvicorn==0.53.0
+uvicorn[standard]==0.53.0
 pydantic==2.13.5
 python-dotenv==1.2.3
 sqlalchemy[asyncio]==2.0.54

@@ -64,7 +64,7 @@ function ReportContent({ preview }: { preview: boolean }) {
       <ModeBanner />
       <header className="report-topbar">
         <span className="wordmark">
-          tess<span>·</span>
+          Tess<span>·</span>
         </span>
         <span>TEST DRIVE REPORT</span>
         <span>{preview ? "草稿预览" : "试驾后的下一步"}</span>
