@@ -17,6 +17,7 @@ import type {
   RunStatus,
   Summary,
   DraftUpdated,
+  Draft,
   ReportPublished,
   ReportSnapshot,
   Health,
@@ -56,7 +57,12 @@ export const tess = {
       "GET",
       `/customers/${customerId}/reports?cursor=${encodeURIComponent(cursor)}`,
     ),
-  session: (id: string) => request<SessionDetail>("GET", session(id)),
+  session: async (id: string) => {
+    const detail = await request<SessionDetail>("GET", session(id));
+    const { readDemoDraft } = await import("../mocks/reportScene");
+    const demo = readDemoDraft(id);
+    return demo ? { ...detail, draft: demo } : detail;
+  },
   capture: (
     id: string,
     revision: number,
@@ -111,18 +117,33 @@ export const tess = {
     ),
   runStatus: (id: string, runId: string) =>
     request<RunStatus>("GET", `${session(id)}/runs/${runId}`),
-  editDraft: (
+  editDraft: async (
     id: string,
     draftId: string,
     revision: number,
     draftRevision: number,
     summary: Summary,
-  ) =>
-    request<DraftUpdated>("PATCH", `${session(id)}/drafts/${draftId}`, {
+  ) => {
+    const { readDemoDraft, updateDemoDraftSummary } = await import(
+      "../mocks/reportScene"
+    );
+    const demo = readDemoDraft(id);
+    if (demo && demo.id === draftId) {
+      const next = updateDemoDraftSummary(id, summary);
+      if (!next) throw new Error("没有草稿");
+      return {
+        draft_id: next.id,
+        draft_revision: next.draft_revision,
+        requires_review: true,
+        blocking_issues: next.blocking_issues,
+      };
+    }
+    return request<DraftUpdated>("PATCH", `${session(id)}/drafts/${draftId}`, {
       expected_revision: revision,
       draft_revision: draftRevision,
       summary,
-    }),
+    });
+  },
   publish: (
     id: string,
     draftId: string,
@@ -142,6 +163,12 @@ export const tess = {
       key,
     ),
   report: (id: string) => request<ReportSnapshot>("GET", `/reports/${id}`),
+  /** 场景 6：纯前端 Mock 落草稿，不打后端 */
+  demoPrepareReport: async (sessionId: string) => {
+    const { seedDemoReportDraft } = await import("../mocks/reportScene");
+    const detail = await request<SessionDetail>("GET", session(sessionId));
+    return seedDemoReportDraft(detail);
+  },
   events: (id: string, revision: number, fixture_id: string) =>
     request<{ event_ids: string[]; source: "mock"; revision: number }>(
       "POST",

@@ -3,14 +3,14 @@ import type { CaptureInput } from "../types/api";
 import { mockCapture } from "../mocks/fixtures";
 import { projectCapture } from "../utils/captureProjection";
 export async function captureCurrent(): Promise<CaptureInput> {
-  if (contractMock) {
-    return mockCapture();
-  }
-  if (!isExtension)
+  // Extension always reads the live Tesla page; mock only for non-extension demo.
+  if (!isExtension) {
+    if (contractMock) return mockCapture();
     throw new ApiError(
       "真实 Capture 需要在 Chrome 插件侧栏中使用。请加载 frontend/dist，再切到 Tesla 中国 Model Y 官网。",
       "EXTENSION_REQUIRED",
     );
+  }
   const result = await chrome.runtime.sendMessage({
     type: "CAPTURE_CURRENT_CONFIGURATION",
   });
@@ -30,12 +30,13 @@ export async function captureCurrent(): Promise<CaptureInput> {
 }
 
 export async function openOfficialFinance() {
-  if (contractMock) return;
-  if (!isExtension)
+  if (!isExtension) {
+    if (contractMock) return;
     throw new ApiError(
       "打开金融方案需要在 Chrome 插件侧栏中，并切到 Tesla 中国 Model Y 官网。",
       "EXTENSION_REQUIRED",
     );
+  }
   const result = await chrome.runtime.sendMessage({
     type: "OPEN_TESLA_FINANCE",
   });

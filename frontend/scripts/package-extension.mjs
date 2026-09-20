@@ -18,6 +18,12 @@ await writeFile(
       version: "0.2.0",
       minimum_chrome_version: "116",
       description: "真实 Model Y 配置采集与试驾复盘",
+      icons: {
+        "16": "icons/icon-16.png",
+        "32": "icons/icon-32.png",
+        "48": "icons/icon-48.png",
+        "128": "icons/icon-128.png",
+      },
       permissions: ["sidePanel", "storage", "scripting"],
       host_permissions: [
         "https://www.tesla.cn/modely/design*",
@@ -25,7 +31,15 @@ await writeFile(
         "http://localhost/*",
       ],
       background: { service_worker: "service-worker.js" },
-      action: { default_title: "打开 Tess" },
+      action: {
+        default_title: "打开 Tess",
+        default_icon: {
+          "16": "icons/icon-16.png",
+          "32": "icons/icon-32.png",
+          "48": "icons/icon-48.png",
+          "128": "icons/icon-128.png",
+        },
+      },
       side_panel: { default_path: "index.html" },
       content_security_policy: {
         extension_pages: "script-src 'self'; object-src 'none'",

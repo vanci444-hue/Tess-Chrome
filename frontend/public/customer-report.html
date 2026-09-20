@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>TESLA · 试驾总结</title>
+  <meta name="description" content="Model Y 试驾复盘总结" />
+  <link rel="icon" type="image/svg+xml" href="icons/tess-mark.svg" />
+  <style>
+    :root {
+      --ink: #17191c;
+      --muted: #6d737d;
+      --line: #e2e4e8;
+      --red: #e82127;
+      --red-soft: #fff0f1;
+      --bg: #f3f4f6;
+      --surface: #fff;
+      --dark: #17191d;
+      --accent: #3e6ae1;
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      color: var(--ink);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      min-width: 320px;
+      padding-top: 64px;
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 16px;
+    }
+    .back {
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      justify-self: start;
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      font-size: 15px;
+      justify-self: center;
+    }
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 20px 120px;
+    }
+    .title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .greeting {
+      font-size: 28px;
+      margin: 0;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+    .sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 7px;
+    }
+    .share-btn {
+      flex: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border: 1.5px solid var(--ink);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .share-btn img {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+    .hero-card {
+      background: var(--dark);
+      color: #fff;
+      border-radius: 15px;
+      padding: 23px;
+      margin-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+    }
+    .hero-card .label { color: #aeb4bd; font-size: 12px; }
+    .hero-card h2 {
+      font-size: 23px;
+      margin: 7px 0;
+      font-weight: 650;
+    }
+    .hero-card p {
+      font-size: 13px;
+      color: #d2d5da;
+      margin: 0;
+    }
+    .status {
+      font-size: 12px;
+      padding: 6px 9px;
+      background: #31343a;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex: none;
+    }
+    .section-title {
+      font-size: 17px;
+      margin: 27px 0 12px;
+      font-weight: 650;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 17px;
+    }
+    .card + .card { margin-top: 10px; }
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .feedback-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 15px;
+    }
+    .feedback-card span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .feedback-card strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+    .feedback-card strong.positive {
+      color: #147a50;
+    }
+    .suggestion {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--red);
+      border-radius: 11px;
+      padding: 18px;
+    }
+    .suggestion-kicker {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+    .suggestion h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+    }
+    .suggestion > p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+    .task-list {
+      list-style: none;
+      margin: 16px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 9px;
+    }
+    .task-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--ink);
+    }
+    .task-list .num {
+      width: 23px;
+      height: 23px;
+      border-radius: 50%;
+      background: #fff1f2;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 600;
+      display: grid;
+      place-items: center;
+      flex: none;
+    }
+    .why {
+      margin-top: 12px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: left;
+    }
+    .why:hover { color: var(--ink); }
+    .why-panel {
+      display: none;
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #f7f8fa;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .why-panel.is-open { display: block; }
+    .fact-list {
+      display: grid;
+      gap: 12px;
+    }
+    .fact {
+      display: grid;
+      gap: 4px;
+    }
+    .fact .label {
+      font-size: 12px;
+      font-weight: 650;
+      color: var(--ink);
+    }
+    .fact .label.ok { color: #147a50; }
+    .fact .label.warn { color: #966323; }
+    .fact p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .pending-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+    .pending-list li {
+      display: grid;
+      grid-template-columns: 8px 1fr;
+      gap: 10px;
+      align-items: start;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .pending-list li::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      margin-top: 6px;
+      border-radius: 50%;
+      background: var(--red);
+      opacity: 0.75;
+    }
+    .q-idx {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 650;
+    }
+    .card p, .card li {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+    .card ul {
+      margin: 0;
+      padding-left: 1.15em;
+    }
+    .card li + li { margin-top: 6px; }
+    .ask-row {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid #f0f1f3;
+    }
+    .ask-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--ink);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .ask-btn .dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #000;
+      display: grid;
+      place-items: center;
+      flex: none;
+    }
+    .ask-btn .dot img {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .car-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .car-visual {
+      position: relative;
+      background: #fff;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      padding: 0;
+    }
+    .car-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 58%;
+      transform: scale(1.12);
+      transform-origin: center 60%;
+      display: block;
+    }
+    .option-badge {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      z-index: 1;
+      font-size: 11px;
+      font-weight: 650;
+      letter-spacing: 0.02em;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--line);
+      color: var(--ink);
+    }
+    .car-body {
+      padding: 14px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .car-body .who {
+      margin: 0 0 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .car-body h3 {
+      margin: 0 0 12px;
+      font-size: 16px;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+    .car-meta {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 7px;
+    }
+    .car-meta li {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12.5px;
+      line-height: 1.4;
+    }
+    .car-meta span { color: var(--muted); }
+    .car-meta b {
+      color: var(--ink);
+      font-weight: 600;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .car-meta li.total {
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px solid #f0f1f3;
+    }
+    .car-meta li.total span,
+    .car-meta li.total b {
+      font-weight: 650;
+      color: var(--ink);
+      font-size: 13px;
+    }
+    .car-note {
+      margin: 10px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .order-btn {
+      margin-top: 14px;
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--ink);
+      border-radius: 8px;
+      background: transparent;
+      color: var(--ink);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .order-btn:active {
+      background: #f7f8f9;
+    }
+    .std-lead {
+      margin: -4px 0 14px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+    .std-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .std-card {
+      background: #f4f4f4;
+      border-radius: 12px;
+      padding: 16px 14px;
+    }
+    .std-card h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      font-weight: 650;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .std-card p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: var(--muted);
+      margin-left: 4px;
+    }
+    .tag.primary {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+    .energy-result {
+      margin: 4px 0 14px;
+      padding: 14px;
+      border-radius: 10px;
+      background: #f7f8f9;
+    }
+    .energy-result p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .energy-result strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 28px;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .chart-key {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .chart-key i {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: -1px;
+    }
+    .chart-key i.electric { background: var(--accent); }
+    .chart-key i.fuel { background: #929ba7; }
+    .energy-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin: 4px 0 12px;
+    }
+    .assumption-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+    }
+    .assumption-grid div {
+      background: #f7f8f9;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .assumption-grid span {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .assumption-grid strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 13px;
+      font-weight: 650;
+    }
+    .finance-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .metric {
+      background: #f7f8f9;
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .metric span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .metric b {
+      display: block;
+      margin-top: 4px;
+      font-size: 18px;
+      font-variant-numeric: tabular-nums;
+    }
+    .actions-dock {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 55;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+    }
+    .actions-box {
+      max-width: 720px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .primary,
+    .secondary {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+    }
+    .primary {
+      background: var(--red);
+      color: #fff;
+    }
+    .secondary {
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: #fff;
+    }
+    .star-border {
+      position: relative;
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      border: 0;
+      border-radius: 8px;
+      padding: 1.2px;
+      background: #f0f1f3;
+      cursor: pointer;
+      font: inherit;
+    }
+    .star-gradient {
+      position: absolute;
+      width: 300%;
+      height: 60%;
+      opacity: 0.7;
+      border-radius: 50%;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        circle,
+        var(--star-color, #67e8f9) 0%,
+        rgba(103, 232, 249, 0.35) 18%,
+        transparent 42%
+      );
+    }
+    .star-gradient.bottom {
+      bottom: -8px;
+      right: -250%;
+      animation: star-movement-bottom var(--star-speed, 5s) linear infinite
+        alternate;
+    }
+    .star-gradient.top {
+      top: -8px;
+      left: -250%;
+      animation: star-movement-top var(--star-speed, 5s) linear infinite alternate;
+    }
+    .star-border > .star-inner {
+      position: relative;
+      z-index: 1;
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 6.5px;
+      background: #fff;
+      color: var(--ink);
+      padding: 11px 12px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    @keyframes star-movement-bottom {
+      0% {
+        transform: translate(0%, 0%);
+        opacity: 0.85;
+      }
+      100% {
+        transform: translate(-100%, 0%);
+        opacity: 0.25;
+      }
+    }
+    @keyframes star-movement-top {
+      0% {
+        transform: translate(0%, 0%);
+        opacity: 0.85;
+      }
+      100% {
+        transform: translate(100%, 0%);
+        opacity: 0.25;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .star-gradient {
+        animation: none;
+        opacity: 0.35;
+      }
+    }
+    .note {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 96px;
+      transform: translateX(-50%);
+      background: #17191d;
+      color: #fff;
+      font-size: 13px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      max-width: min(420px, calc(100vw - 32px));
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease;
+      z-index: 60;
+    }
+    .toast.is-on { opacity: 1; }
+    @media (max-width: 560px) {
+      .page { padding: 20px 16px 118px; }
+      .greeting { font-size: 24px; }
+      .hero-card {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+      }
+      .finance-row,
+      .assumption-grid,
+      .actions,
+      .feedback-grid,
+      .compare-grid,
+      .std-grid { grid-template-columns: 1fr; }
+      .share-btn span { display: none; }
+      .share-btn { padding: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <a class="back" id="back-entry" href="customer-entry.html">← 旅程</a>
+    <div class="brand">TESLA</div>
+    <span></span>
+  </header>
+
+  <main class="page">
+    <div class="title-row">
+      <div>
+        <h1 class="greeting">张先生，您好</h1>
+        <div class="sub">这是您本次 Model Y 试驾的复盘总结</div>
+      </div>
+      <button class="share-btn" type="button" id="btn-share" aria-label="分享">
+        <img src="icons/share.svg" alt="" width="16" height="16" />
+        <span>分享</span>
+      </button>
+    </div>
+
+    <section class="hero-card" aria-label="试驾总结">
+      <div>
+        <div class="label">试驾总结</div>
+        <h2>Model Y · 双方案对照</h2>
+        <p>上海体验中心 · 今天 15:30 · 由顾问整理</p>
+      </div>
+      <div class="status">可与家人共享</div>
+    </section>
+
+    <h2 class="section-title">试驾反馈</h2>
+    <div class="feedback-grid" aria-label="试驾反馈">
+      <div class="feedback-card">
+        <span>空间体验</span>
+        <strong class="positive">满足家庭使用需求</strong>
+      </div>
+      <div class="feedback-card">
+        <span>本人驾驶体验</span>
+        <strong class="positive">白色长续航更对胃口</strong>
+      </div>
+      <div class="feedback-card">
+        <span>仍想进一步确认</span>
+        <strong>小区装桩与家人拍板</strong>
+      </div>
+      <div class="feedback-card">
+        <span>当前购车计划</span>
+        <strong>与家人确认后再定</strong>
+      </div>
+    </div>
+
+    <h2 class="section-title">建议下一步</h2>
+    <section class="suggestion" aria-label="建议下一步">
+      <div class="suggestion-kicker">为你生成的试驾建议</div>
+      <h3>带家人再体验一趟，并核实小区装桩</h3>
+      <p>
+        你更有感觉的是白色长续航；太太今天没到场，后排与接送还想再确认。月供与超充已讲清楚——回家前把装桩可行性摸清，再一起拍板更稳妥。
+      </p>
+      <ul class="task-list">
+        <li><span class="num">1</span><span>家人同乘：后排与接送路线</span></li>
+        <li><span class="num">2</span><span>核实小区家充安装条件</span></li>
+        <li><span class="num">3</span><span>对照两套方案的月供与配置取舍</span></li>
+      </ul>
+    </section>
+
+    <h2 class="section-title">今天心仪的两台车</h2>
+    <div class="compare-grid">
+      <article class="car-card">
+        <div class="car-visual">
+          <span class="option-badge">Option 1</span>
+          <img src="cars/option-white.jpeg" alt="Option 1 珍珠白 Model Y" width="640" height="400" />
+        </div>
+        <div class="car-body">
+          <p class="who">你更有感觉的</p>
+          <h3>珍珠白 · 长续航方向</h3>
+          <ul class="car-meta">
+            <li><span>后轮驱动版</span><b>¥263,900</b></li>
+            <li><span>珍珠白车漆</span><b>含在车价</b></li>
+            <li><span>21″ 乌伯莱轮毂</span><b>¥12,000</b></li>
+            <li><span>辅助驾驶套件</span><b>¥32,000</b></li>
+            <li class="total"><span>购车价格</span><b>约 ¥313,900</b></li>
+            <li><span>月供示意</span><b>约 ¥3,280</b></li>
+          </ul>
+          <p class="car-note">更贴近你今天喜欢的配置；续航 CLTC 593 km。</p>
+          <button class="order-btn" type="button" data-order="1">一键下单</button>
+        </div>
+      </article>
+      <article class="car-card">
+        <div class="car-visual">
+          <span class="option-badge">Option 2</span>
+          <img src="cars/option-grey.jpeg" alt="Option 2 星空灰 Model Y" width="640" height="400" />
+        </div>
+        <div class="car-body">
+          <p class="who">压力更小的</p>
+          <h3>星空灰 · 月供更从容</h3>
+          <ul class="car-meta">
+            <li><span>后轮驱动版</span><b>¥263,900</b></li>
+            <li><span>星空灰车漆</span><b>¥8,000</b></li>
+            <li><span>19″ 双子星轮毂</span><b>含在车价</b></li>
+            <li><span>基础辅助驾驶</span><b>含在车价</b></li>
+            <li class="total"><span>购车价格</span><b>约 ¥283,900</b></li>
+            <li><span>月供示意</span><b>约 ¥2,780</b></li>
+          </ul>
+          <p class="car-note">配置做了取舍；适合回家和家人一起权衡预算。</p>
+          <button class="order-btn" type="button" data-order="2">一键下单</button>
+        </div>
+      </article>
+    </div>
+    <p class="car-note" style="margin:10px 2px 0;">
+      分项价格为试驾当日演示口径，方便回忆「选了什么、多少钱」；下单前以官网实时配置为准。
+    </p>
+
+    <h2 class="section-title">关键取舍</h2>
+    <section class="card">
+      <h3>真正影响决策的差别</h3>
+      <ul>
+        <li>保长续航与辅助驾驶，则月供更紧</li>
+        <li>预算紧时可用后驱对照方案换空间与余量，但会牺牲部分配置偏好</li>
+      </ul>
+      <div class="ask-row">
+        <button class="ask-btn" type="button" data-ask="tradeoff">
+          <span class="dot" aria-hidden="true"><img src="icons/tess-mark.svg" alt="" width="18" height="18" /></span>
+          问问 AI 助手 Tess
+        </button>
+      </div>
+    </section>
+
+    <h2 class="section-title">电比油 · 5 年能源开支</h2>
+    <section class="card">
+      <h3>长期使用，能源开支有多少差别？</h3>
+      <p>Estimate · 仅能源成本，不含购车、保险、保养与折旧</p>
+      <div class="energy-result">
+        <p>5 年累计能源成本预计节省</p>
+        <strong>¥46,000</strong>
+      </div>
+      <div class="chart-key">
+        <span><i class="electric"></i> 电车能源开支</span>
+        <span><i class="fuel"></i> 对标燃油车</span>
+      </div>
+      <!-- annual electric 3600 / fuel 12800 yuan; cumulative -->
+      <svg class="energy-svg" viewBox="0 0 360 220" role="img" aria-label="累计能源成本曲线">
+        <line x1="48" x2="348" y1="184" y2="184" stroke="#e4e6e8" />
+        <line x1="48" x2="348" y1="100" y2="100" stroke="#e4e6e8" />
+        <line x1="48" x2="348" y1="16" y2="16" stroke="#e4e6e8" />
+        <text x="42" y="188" text-anchor="end" fill="#8c949f" font-size="9">¥0</text>
+        <text x="42" y="104" text-anchor="end" fill="#8c949f" font-size="9">¥3.6万</text>
+        <text x="42" y="20" text-anchor="end" fill="#8c949f" font-size="9">¥7.2万</text>
+        <!-- fuel: 12800,25600,38400,51200,64000 -->
+        <path d="M 48 184 L 108 155.2 L 168 126.4 L 228 97.6 L 288 68.8 L 348 40" fill="none" stroke="#929ba7" stroke-width="2"/>
+        <!-- electric: 3600,7200,10800,14400,18000 -->
+        <path d="M 48 184 L 108 175.9 L 168 167.8 L 228 159.7 L 288 151.6 L 348 143.5" fill="none" stroke="#3e6ae1" stroke-width="2.5"/>
+        <circle cx="108" cy="175.9" r="3.5" fill="#3e6ae1"/><circle cx="108" cy="155.2" r="3.5" fill="#929ba7"/>
+        <circle cx="168" cy="167.8" r="3.5" fill="#3e6ae1"/><circle cx="168" cy="126.4" r="3.5" fill="#929ba7"/>
+        <circle cx="228" cy="159.7" r="3.5" fill="#3e6ae1"/><circle cx="228" cy="97.6" r="3.5" fill="#929ba7"/>
+        <circle cx="288" cy="151.6" r="3.5" fill="#3e6ae1"/><circle cx="288" cy="68.8" r="3.5" fill="#929ba7"/>
+        <circle cx="348" cy="143.5" r="3.5" fill="#3e6ae1"/><circle cx="348" cy="40" r="3.5" fill="#929ba7"/>
+        <text x="108" y="208" text-anchor="middle" fill="#8c949f" font-size="9">第 1 年</text>
+        <text x="168" y="208" text-anchor="middle" fill="#8c949f" font-size="9">第 2 年</text>
+        <text x="228" y="208" text-anchor="middle" fill="#8c949f" font-size="9">第 3 年</text>
+        <text x="288" y="208" text-anchor="middle" fill="#8c949f" font-size="9">第 4 年</text>
+        <text x="348" y="208" text-anchor="middle" fill="#8c949f" font-size="9">第 5 年</text>
+      </svg>
+      <div class="assumption-grid">
+        <div><span>年行驶里程</span><strong>20,000 km</strong></div>
+        <div><span>持有周期</span><strong>5 年</strong></div>
+        <div><span>电耗</span><strong>15 kWh/100km</strong></div>
+        <div><span>电价</span><strong>¥1.2/kWh</strong></div>
+        <div><span>对标油耗</span><strong>8 L/100km</strong></div>
+        <div><span>油价</span><strong>¥8/L</strong></div>
+      </div>
+      <p style="margin-top:12px;font-size:12px;color:var(--muted);">
+        Mock 演示假设，未经本次销售确认。家充比例、实际能耗与能源价格都会影响结果。
+      </p>
+    </section>
+
+    <h2 class="section-title">金融对照</h2>
+    <section class="card">
+      <h3>月供，放回家庭预算里看</h3>
+      <p>硬约束下已给出可落地的对照方案；差别主要在是否保留辅助驾驶与月供余量。</p>
+      <div class="finance-row">
+        <div class="metric">
+          <span>Option 1 示意月供</span>
+          <b>约 ¥3,280</b>
+        </div>
+        <div class="metric">
+          <span>月供目标参考</span>
+          <b>≤ ¥3,500</b>
+        </div>
+      </div>
+      <p style="margin-top:12px">以上为试驾当日演示口径，不代表当前官方金融产品。</p>
+      <div class="ask-row">
+        <button class="ask-btn" type="button" data-ask="finance">
+          <span class="dot" aria-hidden="true"><img src="icons/tess-mark.svg" alt="" width="18" height="18" /></span>
+          问问 AI 助手 Tess
+        </button>
+      </div>
+    </section>
+
+    <h2 class="section-title">两台都具备的 Model Y 能力</h2>
+    <p class="std-lead">无论你更倾向 Option 1 还是 Option 2，在售 Model Y 都享有这些标配能力；所有 Tesla 均享有全面的车辆质量保证。</p>
+    <div class="std-grid">
+      <article class="std-card">
+        <h3>主动安全</h3>
+        <p>标配自动紧急制动、前撞预警、盲点监测及车道偏离防避等。</p>
+      </article>
+      <article class="std-card">
+        <h3>舒适座舱</h3>
+        <p>座椅、方向盘及挡风玻璃加热；驾驶员档案可保存偏好；全车玻璃具备优异紫外线阻隔。</p>
+      </article>
+      <article class="std-card">
+        <h3>娱乐功能</h3>
+        <p>通过中控触摸屏观看剧集，或畅玩车载游戏。</p>
+      </article>
+      <article class="std-card">
+        <h3>Tesla 应用程序</h3>
+        <p>锁车、解锁、无感启动，或远程开启温度控制。</p>
+      </article>
+      <article class="std-card">
+        <h3>行车记录仪 &amp; 哨兵模式</h3>
+        <p>记录驾驶时的重要事件，停车时捕捉车辆附近的可疑行为。</p>
+      </article>
+      <article class="std-card">
+        <h3>持续更新</h3>
+        <p>通过 OTA 空中软件更新，持续推送新功能，升级使用体验。</p>
+      </article>
+    </div>
+
+    <div class="note">
+      本页仅基于销售确认过的 Explicit Context 整理；数字与配置以采集当日为准。Agent 不作为通用客服打扰客户。
+    </div>
+  </main>
+
+  <div class="actions-dock">
+    <div class="actions-box">
+      <button
+        class="star-border"
+        type="button"
+        id="btn-rebook"
+        style="--star-color: #67e8f9; --star-speed: 5s"
+      >
+        <span class="star-gradient bottom" aria-hidden="true"></span>
+        <span class="star-gradient top" aria-hidden="true"></span>
+        <span class="star-inner">再次预约试驾</span>
+      </button>
+      <button class="primary" type="button" id="btn-order">一键订购 Model Y</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const q = params.toString();
+      const entry = q ? `customer-entry.html?${q}` : "customer-entry.html";
+      const back = document.getElementById("back-entry");
+      if (back) back.setAttribute("href", entry);
+
+      const toastEl = document.getElementById("toast");
+      let toastTimer = 0;
+      function toast(message) {
+        if (!toastEl) return;
+        toastEl.textContent = message;
+        toastEl.classList.add("is-on");
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => {
+          toastEl.classList.remove("is-on");
+        }, 2800);
+      }
+
+      document.getElementById("btn-share")?.addEventListener("click", async () => {
+        const url = location.href;
+        try {
+          await navigator.clipboard.writeText(url);
+          toast("已复制分享链接");
+        } catch {
+          toast("演示：可把本页链接发给家人");
+        }
+      });
+
+      document.querySelectorAll("[data-ask]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          toast("演示：问问 AI 助手 Tess（高意图入口，不进入通用客服）");
+        });
+      });
+
+      document.querySelectorAll("[data-order]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const n = btn.getAttribute("data-order");
+          toast(`演示：已记录 Option ${n} 下单意向，顾问将协助完成。`);
+        });
+      });
+
+      document.getElementById("btn-rebook")?.addEventListener("click", () => {
+        toast("演示：已向顾问发起再次预约意向。");
+      });
+
+      document.getElementById("btn-order")?.addEventListener("click", () => {
+        toast("演示：已记录订购意向，开启车主旅程。");
+      });
+    })();
+  </script>
+</body>
+</html>

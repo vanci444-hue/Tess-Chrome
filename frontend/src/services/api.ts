@@ -53,7 +53,12 @@ export async function request<T>(
   key?: string,
   timeoutMs?: number,
 ): Promise<T> {
-  if (contractMock) {
+  // Contract mock covers CRM/session demo data only.
+  // ASR + health still hit the local backend so Bailian keys in backend/.env keep working.
+  const liveThroughBackend =
+    isExtension &&
+    (url === "/health" || url.includes("/audio"));
+  if (contractMock && !liveThroughBackend) {
     const { mockRequest } = await import("../mocks/transport");
     return (await mockRequest<T>(method, url, data, key)).data;
   }
@@ -71,4 +76,37 @@ export function reportUrl(id: string) {
     ? `${import.meta.env.VITE_EXTENSION_API_ORIGIN}/reports/${encodeURIComponent(id)}`
     : `/reports/${encodeURIComponent(id)}`;
 }
+
+/** 销售分享给客户的落地页（旅程入口，非整页长报告） */
+export function customerEntryUrl(sessionId: string) {
+  const q = new URLSearchParams();
+  q.set("id", sessionId);
+  if (contractMock) q.set("mock", "1");
+  const query = `?${q.toString()}`;
+  if (isExtension && typeof chrome !== "undefined" && chrome.runtime?.getURL) {
+    return `${chrome.runtime.getURL("customer-entry.html")}${query}`;
+  }
+  return `${location.origin}/customer-entry.html${query}`;
+}
+
+/** 试驾总结正文（客户从入口点「查看试驾总结」进入） */
+export function reportContentUrl(sessionId: string) {
+  const path = `#/preview/${encodeURIComponent(sessionId)}`;
+  if (isExtension && typeof chrome !== "undefined" && chrome.runtime?.getURL) {
+    return `${chrome.runtime.getURL("index.html")}${path}`;
+  }
+  const mock = contractMock ? "?mock=1" : "";
+  return `${location.origin}/${mock}${path}`.replace("/?", "?");
+}
+
+/** 完整客户向分享链接：默认落到客户入口页 */
+export function staticReportUrl(sessionId: string) {
+  return customerEntryUrl(sessionId);
+}
+
+/** @deprecated 使用 staticReportUrl；保留别名避免旧引用断裂 */
+export function previewSessionUrl(sessionId: string) {
+  return staticReportUrl(sessionId);
+}
+
 export const newKey = () => crypto.randomUUID();

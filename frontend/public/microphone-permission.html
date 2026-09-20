@@ -7,6 +7,21 @@
   <style>
     body { margin: 0; color: #171a20; background: #fafafa; font: 16px/1.7 system-ui, sans-serif; }
     main { max-width: 560px; margin: 12vh auto; padding: 32px; }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
+      font-weight: 650;
+      letter-spacing: -0.04em;
+      margin: 0 0 8px;
+    }
+    .brand img {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      display: block;
+    }
     h1 { font-size: 28px; font-weight: 600; }
     p { color: #5c5e62; }
     button { font: inherit; background: #171a20; color: white; border: 0; border-radius: 6px; padding: 12px 24px; cursor: pointer; }
@@ -18,7 +33,7 @@
 </head>
 <body>
   <main>
-    <p>Tess</p>
+    <p class="brand"><img src="icons/tess-mark.svg" alt="" width="28" height="28" />Tess</p>
     <h1>允许使用麦克风</h1>
     <p>Chrome 侧栏无法直接展示首次授权提示。请在此页完成授权，然后返回侧栏重新点击“实时转写”。</p>
     <p>本页只检查麦克风权限，授权后立即停止采音，不向服务端发送音频，也不发送会话消息。</p>

@@ -4,6 +4,10 @@ import type {
   KnowledgeSource,
   KnowledgeToolCall,
 } from "../mocks/knowledgeCopilot";
+import type {
+  DecisionContextToolCall,
+  DecisionSlot,
+} from "../mocks/decisionContext";
 
 const yuan = (value: number) => `¥${value.toLocaleString("zh-CN")}`;
 
@@ -129,6 +133,74 @@ export function KnowledgeToolBubble({ call }: { call: KnowledgeToolCall }) {
   );
 }
 
+export function DecisionContextToolBubble({
+  call,
+}: {
+  call: DecisionContextToolCall;
+}) {
+  return (
+    <div className="chat-row assistant process">
+      <div
+        className={`chat-process-block tool dc-tool ${call.ok ? "is-ok" : "is-fail"}`}
+      >
+        <div className="finance-tool-head">
+          <span>{call.title}</span>
+          <strong>{call.ok ? "完成" : "失败"}</strong>
+        </div>
+        <p className="kb-tool-query">action · {call.action}</p>
+        <p className="finance-tool-note">
+          {call.note}
+          {call.gaps?.length ? ` · 缺口：${call.gaps.join("、")}` : ""}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export function DecisionContextReply({
+  intro,
+  slots,
+  followup,
+  compact,
+}: {
+  intro?: string;
+  slots?: DecisionSlot[];
+  followup?: string;
+  /** 只展示增量更新项时用 */
+  compact?: boolean;
+}) {
+  return (
+    <div className="chat-row assistant">
+      <div className="chat-meta">Tess</div>
+      <div className="chat-bubble assistant conclusion">
+        {intro ? <p className="reply-block">{intro}</p> : null}
+        {slots && slots.length > 0 ? (
+          <dl className={`decision-slots ${compact ? "is-compact" : ""}`}>
+            {slots.map((slot) => (
+              <div key={slot.key} className="decision-slot">
+                <dt>{slot.label}</dt>
+                <dd>{slot.value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+        {followup
+          ? followup.split(/\n\n+/).map((block, index) => (
+              <p key={index} className="reply-block">
+                {block.split("\n").map((line, lineIndex) => (
+                  <span key={lineIndex}>
+                    {lineIndex > 0 ? <br /> : null}
+                    {line}
+                  </span>
+                ))}
+              </p>
+            ))
+          : null}
+      </div>
+    </div>
+  );
+}
+
 export function ProcessTrail({
   done,
   children,
@@ -165,15 +237,19 @@ export function FinanceConclusion({
   result: FinanceCaseAResult;
   onAction: (id: "apply_a" | "apply_b") => void;
 }) {
+  const bothOk = result.optionA.ok && result.optionB.ok;
   return (
     <div className="chat-row assistant">
       <div className="chat-meta">Tess</div>
       <div className="chat-bubble assistant conclusion">
         <p>
-          <strong>{result.optionLabel} 不满足。</strong>
+          <strong>{result.optionLabel} 现配置不满足。</strong>
           车款首付 {yuan(result.downYuan)}，月供 {yuan(result.currentMonthly)}
           （提车现金上限 {yuan(result.optionA.cashYuan)}，其中税险牌估算{" "}
           {yuan(result.taxInsPlateYuan)}）。
+          {bothOk
+            ? "下面两个方案都能满足硬约束，请按客户取舍选择："
+            : null}
         </p>
 
         <section
@@ -187,6 +263,18 @@ export function FinanceConclusion({
             {result.optionA.summary}。车款首付 {yuan(result.optionA.downYuan)}
             ，月供 {yuan(result.optionA.monthlyYuan)}。
           </p>
+          {result.optionA.pros ? (
+            <p className="finance-tradeoff">
+              <strong>优势：</strong>
+              {result.optionA.pros}
+            </p>
+          ) : null}
+          {result.optionA.cons ? (
+            <p className="finance-tradeoff">
+              <strong>代价：</strong>
+              {result.optionA.cons}
+            </p>
+          ) : null}
         </section>
 
         <section
@@ -201,6 +289,18 @@ export function FinanceConclusion({
             ，月供 {yuan(result.optionB.monthlyYuan)}
             {result.optionB.ok ? "。" : "，仍超出月供上限。"}
           </p>
+          {result.optionB.pros ? (
+            <p className="finance-tradeoff">
+              <strong>优势：</strong>
+              {result.optionB.pros}
+            </p>
+          ) : null}
+          {result.optionB.cons ? (
+            <p className="finance-tradeoff">
+              <strong>代价：</strong>
+              {result.optionB.cons}
+            </p>
+          ) : null}
         </section>
 
         <p className="finance-recommend">
@@ -209,18 +309,29 @@ export function FinanceConclusion({
         </p>
 
         <div className="finance-actions">
-          {result.actions.map((action) => (
-            <button
-              key={action.id}
-              type="button"
-              className={
-                action.id === "apply_a" ? "secondary compact" : "text-button"
-              }
-              onClick={() => onAction(action.id)}
-            >
-              {action.label}
-            </button>
-          ))}
+          {result.actions.map((action) => {
+            const isRecommend =
+              (action.id === "apply_a" && result.recommend === "A") ||
+              (action.id === "apply_b" && result.recommend === "B");
+            return (
+              <button
+                key={action.id}
+                type="button"
+                className={
+                  bothOk
+                    ? isRecommend
+                      ? "secondary compact"
+                      : "text-button"
+                    : action.id === "apply_a"
+                      ? "secondary compact"
+                      : "text-button"
+                }
+                onClick={() => onAction(action.id)}
+              >
+                {action.label}
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>

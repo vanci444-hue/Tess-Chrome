@@ -7,18 +7,14 @@ import { DEMO_CRM_TEXT, profileFromCrm } from "../mocks/demoCrm";
 export default function Home() {
   const navigate = useNavigate();
   const [crm, setCrm] = useState("");
-  const [copied, setCopied] = useState("");
+  const [filled, setFilled] = useState("");
   const [error, setError] = useState("");
 
-  async function copyDemo() {
+  function fillDemo() {
     setError("");
-    try {
-      await navigator.clipboard.writeText(DEMO_CRM_TEXT);
-      setCopied("已复制演示资料");
-      window.setTimeout(() => setCopied(""), 2000);
-    } catch {
-      setError("复制失败，请长按选中后手动复制。");
-    }
+    setCrm(DEMO_CRM_TEXT);
+    setFilled("已填入演示资料");
+    window.setTimeout(() => setFilled(""), 2000);
   }
 
   function submit() {
@@ -48,7 +44,7 @@ export default function Home() {
             setCrm(e.target.value);
             setError("");
           }}
-          placeholder="粘贴客户资料"
+          placeholder="粘贴客户资料或截屏"
         />
         <button
           type="button"
@@ -62,11 +58,11 @@ export default function Home() {
       </div>
       <ErrorNotice message={error} />
       <div className="demo-copy-row">
-        <button type="button" className="demo-copy" onClick={() => void copyDemo()}>
-          {copied || "复制演示 CRM"}
+        <button type="button" className="demo-copy" onClick={fillDemo}>
+          {filled || "复制演示 CRM"}
         </button>
         <p className="muted micro">
-          仅 Demo：假装已经从 CRM 拷好资料，再贴进上面的区域。
+          仅 Demo：一点即填入客户甲资料，无需再走剪贴板。
         </p>
       </div>
     </div>

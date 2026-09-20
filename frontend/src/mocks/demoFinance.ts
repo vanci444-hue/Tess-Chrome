@@ -29,6 +29,10 @@ const MONTHLY_CAP_YUAN = 3_500;
 const VEHICLE_DOWN_YUAN = 79_900;
 const TAX_INS_PLATE_YUAN = CASH_MAX_YUAN - VEHICLE_DOWN_YUAN;
 const TERM_MONTHS = 60;
+/** 演示用标配底价：保证「砍光加装」与「只留辅助驾驶」都能压进月供上限 */
+const DEMO_BASE_YUAN = 259_900;
+/** 演示用辅助驾驶加价：现配置仍破月供，但「留 AP 砍外观」可满足 */
+const DEMO_AUTOPILOT_YUAN = 28_000;
 
 export type FinanceToolCall = {
   id: string;
@@ -51,6 +55,10 @@ export type FinancePlanOption = {
   cashYuan: number;
   ok: boolean;
   summary: string;
+  /** 相对另一方案的优势 */
+  pros: string;
+  /** 相对另一方案的代价 */
+  cons: string;
 };
 
 export type FinanceCaseAResult = {
@@ -175,10 +183,10 @@ function makeFields(
   }));
 }
 
-/** Option 1：含辅助驾驶+加装，现方案必然破月供 3500 */
+/** Option 1：含辅助驾驶+加装，现方案破月供；优化后 A/B 均可满足 */
 export function financeSceneOption1Input(): CaptureInput {
   const now = new Date().toISOString();
-  const price = 347_500;
+  const price = DEMO_BASE_YUAN + 8_000 + 12_000 + DEMO_AUTOPILOT_YUAN;
   const monthly = monthlyPayment(price, VEHICLE_DOWN_YUAN);
   return {
     source_url: "https://www.tesla.cn/modely/design#overview",
@@ -225,7 +233,7 @@ export function financeSceneOption1Input(): CaptureInput {
           {
             group: "autopilot",
             name: "特斯拉辅助驾驶套件",
-            amount: fen(64_000),
+            amount: fen(DEMO_AUTOPILOT_YUAN),
             included: false,
           },
         ],
@@ -246,11 +254,10 @@ export function financeSceneOption1Input(): CaptureInput {
   };
 }
 
-/** Option 2：多轮 Case B 用——含辅助驾驶；硬月供 3000 时「留 AP」不行，砍光加装刚好卡在 3000 */
+/** Option 2：多轮 Case B 用——现配置破月供；澄清后 A/B 均可满足硬约束 */
 export function financeSceneOption2Input(): CaptureInput {
   const now = new Date().toISOString();
-  // 标配底价 259900 + 白漆 8k + 20寸 8k + 辅助驾驶 64k
-  const price = 339_900;
+  const price = DEMO_BASE_YUAN + 8_000 + 8_000 + DEMO_AUTOPILOT_YUAN;
   const monthly = monthlyPayment(price, VEHICLE_DOWN_YUAN);
   return {
     source_url: "https://www.tesla.cn/modely/design#overview",
@@ -297,7 +304,7 @@ export function financeSceneOption2Input(): CaptureInput {
           {
             group: "autopilot",
             name: "特斯拉辅助驾驶套件",
-            amount: fen(64_000),
+            amount: fen(DEMO_AUTOPILOT_YUAN),
             included: false,
           },
         ],
@@ -354,10 +361,10 @@ export function buildFinanceCaseA(
     autopilot = {
       group: "autopilot",
       name: "特斯拉辅助驾驶套件",
-      amountYuan: 64_000,
+      amountYuan: DEMO_AUTOPILOT_YUAN,
     };
   }
-  if (others.reduce((sum, item) => sum + item.amountYuan, 0) < 20_000) {
+  if (others.reduce((sum, item) => sum + item.amountYuan, 0) < 16_000) {
     others = [
       { group: "paint", name: "纯黑车漆", amountYuan: 8_000 },
       { group: "wheels", name: "21 英寸乌伯莱轮毂", amountYuan: 12_000 },
@@ -370,27 +377,26 @@ export function buildFinanceCaseA(
     others.reduce((sum, item) => sum + item.amountYuan, 0);
   const baseYuan =
     priceFromCapture != null
-      ? Math.max(priceFromCapture - extrasTotal, 200_000)
-      : 263_500;
+      ? Math.max(priceFromCapture - extrasTotal, DEMO_BASE_YUAN)
+      : DEMO_BASE_YUAN;
   const currentPrice = baseYuan + extrasTotal;
   const currentMonthly = monthlyPayment(currentPrice, downYuan);
 
-  const withoutApPrice = currentPrice - autopilot.amountYuan;
   const sortedOthers = [...others].sort(
     (a, b) => b.amountYuan - a.amountYuan,
   );
   const cutExtras = sortedOthers.slice(0, Math.min(2, sortedOthers.length));
+  // 方案 A：砍辅助驾驶 + 外观加装 → 月供更低
   const planAPrice =
-    withoutApPrice - cutExtras.reduce((sum, item) => sum + item.amountYuan, 0);
+    currentPrice -
+    autopilot.amountYuan -
+    cutExtras.reduce((sum, item) => sum + item.amountYuan, 0);
   const planAMonthly = monthlyPayment(planAPrice, downYuan);
-
-  const planBPrice = Math.max(
-    baseYuan + autopilot.amountYuan,
-    downYuan + MONTHLY_CAP_YUAN * TERM_MONTHS + 1,
-  );
+  // 方案 B：保留辅助驾驶，只砍外观 → 仍压进月供上限
+  const planBPrice = baseYuan + autopilot.amountYuan;
   const planBMonthly = monthlyPayment(planBPrice, downYuan);
-  const planBOk = planBMonthly <= MONTHLY_CAP_YUAN;
   const planAOk = planAMonthly <= MONTHLY_CAP_YUAN;
+  const planBOk = planBMonthly <= MONTHLY_CAP_YUAN;
 
   // 两次工具调用：现配置一次，A/B 对照一次（避免刷屏）
   const tools: FinanceToolCall[] = [
@@ -412,22 +418,25 @@ export function buildFinanceCaseA(
       priceYuan: planAPrice,
       downYuan,
       monthlyYuan: planAMonthly,
-      ok: planAOk,
-      note: `A：去掉${[autopilot.name, ...cutExtras.map((i) => i.name)].join("、")} → 月供 ${formatYuan(planAMonthly)}（${planAOk ? "满足" : "不满足"}）；B：保留${autopilot.name} → 月供 ${formatYuan(planBMonthly)}（${planBOk ? "满足" : "不满足"}）`,
+      ok: planAOk && planBOk,
+      note: `A：去掉${[autopilot.name, ...cutExtras.map((i) => i.name)].join("、")} → 月供 ${formatYuan(planAMonthly)}（满足）；B：保留${autopilot.name}、去掉外观加装 → 月供 ${formatYuan(planBMonthly)}（满足）`,
     },
   ];
 
+  const cutExtraNames = cutExtras.map((item) => item.name);
   const optionA: FinancePlanOption = {
     id: "A",
     title: "方案 A",
-    cuts: [autopilot.name, ...cutExtras.map((item) => item.name)],
+    cuts: [autopilot.name, ...cutExtraNames],
     keep: [],
     priceYuan: planAPrice,
     monthlyYuan: planAMonthly,
     downYuan,
     cashYuan: CASH_MAX_YUAN,
     ok: planAOk,
-    summary: `去掉 ${[autopilot.name, ...cutExtras.map((i) => i.name)].join("、")}`,
+    summary: `去掉 ${[autopilot.name, ...cutExtraNames].join("、")}`,
+    pros: `月供更低（${formatYuan(planAMonthly)}），月供压力更小，后续加装空间更大`,
+    cons: "放弃辅助驾驶与当前外观加装，驾驶辅助能力回到基础版",
   };
   const optionB: FinancePlanOption = {
     id: "B",
@@ -440,6 +449,8 @@ export function buildFinanceCaseA(
     cashYuan: CASH_MAX_YUAN,
     ok: planBOk,
     summary: `保留 ${autopilot.name}，去掉其他加装`,
+    pros: "保留辅助驾驶，通勤辅助体验更完整",
+    cons: `月供更高（${formatYuan(planBMonthly)}），外观回到更素的配置，月供余量更薄`,
   };
 
   return {
@@ -451,9 +462,9 @@ export function buildFinanceCaseA(
       `月供 ≤ ${formatYuan(MONTHLY_CAP_YUAN)}`,
     ],
     planSteps: [
-      "先按 Option 1 现配置试算",
-      "不满足 → 优先去掉辅助驾驶，再砍其他加装（方案 A）",
-      "对照：保留辅助驾驶、只砍其他加装（方案 B）",
+      "先按现配置试算",
+      "不满足 → 生成两个都可满足硬约束的方案",
+      "对照优劣，给出推荐，由销售/客户选择落地",
     ],
     tools,
     currentPriceYuan: currentPrice,
@@ -463,9 +474,7 @@ export function buildFinanceCaseA(
     optionA,
     optionB,
     recommend: "A",
-    recommendReason: planBOk
-      ? `更推荐方案 A：月供 ${formatYuan(planAMonthly)}，低于方案 B 的 ${formatYuan(planBMonthly)}，且不必在订单里保留辅助驾驶加价。`
-      : `更推荐方案 A：方案 B 保留辅助驾驶后月供仍为 ${formatYuan(planBMonthly)}，不满足 ${MONTHLY_CAP_YUAN}；方案 A 去掉辅助驾驶与 ${cutExtras.map((i) => i.name).join("、")} 后，月供 ${formatYuan(planAMonthly)}，可同时满足总现金与月供。`,
+    recommendReason: `两个方案都能同时满足提车现金与月供。更推荐方案 A：月供 ${formatYuan(planAMonthly)}，比方案 B 的 ${formatYuan(planBMonthly)} 更宽裕；若客户更在意辅助驾驶，再选方案 B 即可。`,
     actions: [
       { id: "apply_a", label: `按方案 A 更改 ${optionLabelText}` },
       { id: "apply_b", label: `按方案 B 更改 ${optionLabelText}` },

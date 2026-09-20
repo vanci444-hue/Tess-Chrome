@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>试驾报告</title>
+    <style>
+      :root {
+        --ink: #171a20;
+        --muted: #5c6169;
+        --line: #e5e7ea;
+        --bg: #eceef1;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--bg);
+        font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
+          "Helvetica Neue", sans-serif;
+      }
+      .viewer-chrome {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        justify-content: center;
+        padding: 12px 16px;
+        background: rgba(236, 238, 241, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+      }
+      .view-tabs {
+        display: inline-flex;
+        padding: 3px;
+        border-radius: 999px;
+        background: #ffffff;
+        border: 1px solid var(--line);
+        box-shadow: 0 1px 2px rgba(23, 26, 32, 0.04);
+      }
+      .view-tabs button {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        font: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        padding: 8px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        min-width: 72px;
+      }
+      .view-tabs button.is-active {
+        background: var(--ink);
+        color: #fff;
+      }
+      #report-stage {
+        padding: 16px 16px 40px;
+      }
+      #report-root {
+        margin: 0 auto;
+      }
+      .layout-web #report-root {
+        max-width: 1080px;
+      }
+      .layout-phone #report-root {
+        max-width: 430px;
+      }
+      .layout-web #report-root .report-sheet {
+        width: 100%;
+        max-width: none;
+        min-height: auto;
+        padding: 36px 48px 56px;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(23, 26, 32, 0.06);
+      }
+      .layout-phone #report-root .report-sheet {
+        width: 100%;
+        max-width: 430px;
+        min-height: calc(100vh - 80px);
+        padding: 20px 20px 48px;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      .layout-web #report-root .questions {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0 28px;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .layout-web #report-root .questions section {
+        border-bottom: 0;
+        padding: 24px 0;
+      }
+      .layout-web #report-root .questions section + section {
+        border-left: 1px solid var(--line);
+        padding-left: 28px;
+      }
+      .layout-web #report-root .option-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .layout-web #report-root .parameter-charts {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .layout-web #report-root .assumption-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .layout-web #report-root .hero h1 {
+        font-size: 44px;
+      }
+      .layout-web #report-root .energy-svg {
+        max-width: 720px;
+      }
+      .error {
+        max-width: 430px;
+        margin: 48px auto;
+        padding: 24px;
+        color: var(--ink);
+        line-height: 1.6;
+        background: #fff;
+        border-radius: 16px;
+      }
+      .error h1 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      .error p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="viewer-chrome">
+      <div class="view-tabs" role="tablist" aria-label="报告视图">
+        <button type="button" role="tab" data-view="web" class="is-active" aria-selected="true">
+          Web
+        </button>
+        <button type="button" role="tab" data-view="phone" aria-selected="false">
+          Phone
+        </button>
+      </div>
+    </div>
+    <div id="report-stage" class="layout-web">
+      <div id="report-root"></div>
+    </div>
+    <script src="./report-boot.js"></script>
+  </body>
+</html>

@@ -9,7 +9,6 @@ import {
   surchargeLines,
   chargeText,
 } from "../utils/display";
-import { contractMock } from "../services/api";
 import { openOfficialFinance } from "../services/capture";
 import BorderGlow from "./BorderGlow";
 
@@ -131,10 +130,6 @@ export default function CaptureCard({
 
   async function openFinance() {
     setFinanceOpen(true);
-    if (contractMock) {
-      setFinanceNote("演示版不打开官网。点右侧确认，会按当前 Mock 金融数据写回这张卡。");
-      return;
-    }
     try {
       await openOfficialFinance();
       setFinanceNote("在官网改完方案后，点右侧确认，抓取当前贷款月供、首付和期数。");

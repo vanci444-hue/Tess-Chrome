@@ -5,6 +5,8 @@ import { Icon } from "./Icon";
 import { ensureJiaSession } from "../mocks/demoScenes";
 import { prepareFinanceScene } from "../mocks/demoFinance";
 import { prepareKnowledgeScene } from "../mocks/knowledgeCopilot";
+import { prepareDecisionScene } from "../mocks/decisionContext";
+import { prepareReportScene } from "../mocks/reportScene";
 
 export function ResetDemoButton({ className = "text-button" }: { className?: string }) {
   const [resetting, setResetting] = useState(false);
@@ -24,6 +26,8 @@ export function ResetDemoButton({ className = "text-button" }: { className?: str
         if (
           key.startsWith("tess.unsent.v1.") ||
           key.startsWith("tess.publish.") ||
+          key.startsWith("tess.demo.draft.v1.") ||
+          key.startsWith("tess.demo.report.html.") ||
           (contractMock && key === "tess-contract-mock-v2")
         )
           localStorage.removeItem(key);
@@ -50,6 +54,15 @@ export function ResetDemoButton({ className = "text-button" }: { className?: str
     </button>
   );
 }
+
+const SCENE_HOVER: Record<number, string> = {
+  1: "预录入",
+  2: "Capture",
+  3: "金融",
+  4: "Knowledge",
+  5: "语音",
+  6: "导出报告",
+};
 
 export function Brand() {
   const navigate = useNavigate();
@@ -102,72 +115,149 @@ export function Brand() {
     }
   }
 
+  async function openScene5() {
+    if (opening) return;
+    setOpening(true);
+    try {
+      const id = await ensureJiaSession();
+      await prepareDecisionScene(id);
+      navigate(`/sessions/${id}`, {
+        state: { decisionSceneAt: Date.now() },
+        replace: false,
+      });
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : "无法打开场景 5");
+    } finally {
+      setOpening(false);
+    }
+  }
+
+  async function openScene6() {
+    if (opening) return;
+    setOpening(true);
+    try {
+      const id = await ensureJiaSession();
+      await prepareReportScene(id);
+      navigate(`/sessions/${id}`, {
+        state: { reportSceneAt: Date.now() },
+        replace: false,
+      });
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : "无法打开场景 6");
+    } finally {
+      setOpening(false);
+    }
+  }
+
   return (
     <div className="brand-row">
-      <Link className="wordmark" to="/">
-        Tess<span>·</span>
+      <Link className="wordmark" to="/" aria-label="Tess">
+        Tess
       </Link>
       <div className="brand-tools">
         <ResetDemoButton className="demo-reset-icon" />
-        {[1, 2, 3, 4, 5, 6].map((n) =>
-          n === 1 ? (
-            <Link
-              key={n}
-              className="brand-tool-num"
-              to="/"
-              aria-label="场景 1 工作台"
-              title="场景 1 工作台"
-            >
-              {n}
-            </Link>
-          ) : n === 2 ? (
+        {[1, 2, 3, 4, 5, 6].map((n) => {
+          const label = SCENE_HOVER[n];
+          if (n === 1) {
+            return (
+              <Link
+                key={n}
+                className="brand-tool-num"
+                to="/"
+                aria-label={label}
+                data-tip={label}
+              >
+                {n}
+              </Link>
+            );
+          }
+          if (n === 2) {
+            return (
+              <button
+                key={n}
+                type="button"
+                className="brand-tool-num"
+                aria-label={label}
+                data-tip={label}
+                disabled={opening}
+                onClick={() => void openScene2()}
+              >
+                {n}
+              </button>
+            );
+          }
+          if (n === 3) {
+            return (
+              <button
+                key={n}
+                type="button"
+                className="brand-tool-num"
+                aria-label={label}
+                data-tip={label}
+                disabled={opening}
+                onClick={() => void openScene3()}
+              >
+                {n}
+              </button>
+            );
+          }
+          if (n === 4) {
+            return (
+              <button
+                key={n}
+                type="button"
+                className="brand-tool-num"
+                aria-label={label}
+                data-tip={label}
+                disabled={opening}
+                onClick={() => void openScene4()}
+              >
+                {n}
+              </button>
+            );
+          }
+          if (n === 5) {
+            return (
+              <button
+                key={n}
+                type="button"
+                className="brand-tool-num"
+                aria-label={label}
+                data-tip={label}
+                disabled={opening}
+                onClick={() => void openScene5()}
+              >
+                {n}
+              </button>
+            );
+          }
+          if (n === 6) {
+            return (
+              <button
+                key={n}
+                type="button"
+                className="brand-tool-num"
+                aria-label={label}
+                data-tip={label}
+                disabled={opening}
+                onClick={() => void openScene6()}
+              >
+                {n}
+              </button>
+            );
+          }
+          return (
             <button
               key={n}
               type="button"
               className="brand-tool-num"
-              aria-label="场景 2 试驾会话"
-              title="场景 2 试驾会话"
-              disabled={opening}
-              onClick={() => void openScene2()}
+              aria-label={label}
+              data-tip={label}
             >
               {n}
             </button>
-          ) : n === 3 ? (
-            <button
-              key={n}
-              type="button"
-              className="brand-tool-num"
-              aria-label="场景 3 金融规划"
-              title="场景 3 金融规划"
-              disabled={opening}
-              onClick={() => void openScene3()}
-            >
-              {n}
-            </button>
-          ) : n === 4 ? (
-            <button
-              key={n}
-              type="button"
-              className="brand-tool-num"
-              aria-label="场景 4 知识助手"
-              title="场景 4 知识助手"
-              disabled={opening}
-              onClick={() => void openScene4()}
-            >
-              {n}
-            </button>
-          ) : (
-            <button
-              key={n}
-              type="button"
-              className="brand-tool-num"
-              aria-label={`场景 ${n}`}
-              title={`场景 ${n}`}
-            >
-              {n}
-            </button>
-          ),
-        )}
+          );
+        })}
       </div>
       <div className="advisor">
         <span className="avatar">A</span>
@@ -261,11 +351,7 @@ export function Loading() {
   );
 }
 export function ModeBanner() {
-  return contractMock ? (
-    <div className="mode-banner">
-      Mock · 前端契约演示，未调用真实官网、模型或地图
-    </div>
-  ) : null;
+  return null;
 }
 export function SourceTag({
   children,

@@ -70,7 +70,7 @@ export function OptionsModule({
   return (
     <section className="report-section" id="options">
       <div className="section-heading">
-        <p className="eyebrow">YOUR OPTIONS</p>
+        <p className="eyebrow">YOUR SHORTLIST</p>
         <h2>当前考虑的方案</h2>
         <p>来自本次实际查看、配置和讨论过的候选。动态信息保留原始采集时间。</p>
       </div>

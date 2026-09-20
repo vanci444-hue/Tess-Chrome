@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>TESLA · 试驾旅程</title>
+  <meta name="description" content="试驾完成后的客户触达入口" />
+  <link rel="icon" type="image/svg+xml" href="icons/tess-mark.svg" />
+  <style>
+    :root {
+      --ink: #17191c;
+      --muted: #6d737d;
+      --line: #e2e4e8;
+      --red: #e82127;
+      --red-soft: #fff0f1;
+      --bg: #f3f4f6;
+      --surface: #fff;
+      --dark: #17191d;
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      color: var(--ink);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      min-width: 320px;
+      padding-top: 64px;
+    }
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+    }
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      font-size: 15px;
+    }
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+    .greeting {
+      font-size: 28px;
+      margin: 0;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+    }
+    .sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 7px;
+    }
+    .vehicle {
+      background: var(--dark);
+      color: #fff;
+      border-radius: 15px;
+      padding: 23px;
+      margin-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+    }
+    .vehicle-label {
+      color: #aeb4bd;
+      font-size: 12px;
+    }
+    .vehicle h2 {
+      font-size: 23px;
+      margin: 7px 0;
+      font-weight: 650;
+    }
+    .vehicle p {
+      font-size: 13px;
+      color: #d2d5da;
+      margin: 0;
+    }
+    .status {
+      font-size: 12px;
+      padding: 6px 9px;
+      background: #31343a;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex: none;
+    }
+    .section-title {
+      font-size: 17px;
+      margin: 27px 0 12px;
+      font-weight: 650;
+    }
+    .notice {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 17px;
+    }
+    .notice-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      overflow: hidden;
+      flex: none;
+      background: #000;
+    }
+    .icon img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .notice-copy { flex: 1; min-width: 0; }
+    .notice-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .notice-meta b { font-size: 15px; }
+    .notice-meta span {
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .notice p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--muted);
+      margin: 7px 0 0;
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 15px;
+    }
+    .primary,
+    .secondary,
+    .ghost-action {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 11px 12px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 0;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 600;
+    }
+    .primary {
+      background: var(--red);
+      color: #fff;
+    }
+    .secondary {
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: #fff;
+    }
+    .progress {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 17px;
+    }
+    .progress-row {
+      display: grid;
+      grid-template-columns: 24px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+    }
+    .progress-row + .progress-row {
+      border-top: 1px solid #f0f1f3;
+    }
+    .dot {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #eaf8f1;
+      color: #147a50;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+    }
+    .dot.current {
+      background: var(--red-soft);
+      color: var(--red);
+    }
+    .progress-row b { font-size: 14px; }
+    .progress-row span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .resume {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      text-decoration: none;
+      color: var(--ink);
+      width: 100%;
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+    }
+    .resume-stack {
+      display: grid;
+      gap: 10px;
+    }
+    .resume b {
+      display: block;
+      font-size: 15px;
+    }
+    .resume span {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+    .arrow {
+      font-size: 20px;
+      color: var(--muted);
+    }
+    .note {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-top: 20px;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 28px;
+      transform: translateX(-50%);
+      background: #17191d;
+      color: #fff;
+      font-size: 13px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      max-width: min(420px, calc(100vw - 32px));
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease;
+      z-index: 40;
+    }
+    .toast.is-on { opacity: 1; }
+    @media (max-width: 560px) {
+      .header { padding: 0 16px; }
+      .page { padding: 23px 16px 50px; }
+      .greeting { font-size: 25px; }
+      .vehicle {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="brand">TESLA</div>
+  </header>
+
+  <main class="page">
+    <h1 class="greeting">下午好，张先生</h1>
+    <div class="sub">您的 Model Y 试驾旅程有新进展</div>
+
+    <section class="vehicle" aria-label="最近体验">
+      <div>
+        <div class="vehicle-label">最近体验</div>
+        <h2>Model Y 长续航版</h2>
+        <p>上海体验中心 · 今天 15:30 完成</p>
+      </div>
+      <div class="status">试驾已完成</div>
+    </section>
+
+    <h2 class="section-title">最新消息</h2>
+    <section class="notice">
+      <div class="notice-top">
+        <div class="icon" aria-hidden="true"><img src="icons/tess-mark.svg" alt="" width="38" height="38" /></div>
+        <div class="notice-copy">
+          <div class="notice-meta">
+            <b>试驾助手 Tess</b>
+            <span>38分钟前</span>
+          </div>
+          <p>
+            感谢你今天体验 Model Y。除了驾驶体验，还有什么会影响你接下来的决定吗？
+          </p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="primary" type="button" id="btn-chat">和 AI 助手 Tess 聊聊</button>
+        <a class="secondary" id="btn-summary" href="customer-report.html">查看试驾总结</a>
+      </div>
+    </section>
+
+    <h2 class="section-title">购车进度</h2>
+    <section class="progress">
+      <div class="progress-row">
+        <div class="dot" aria-hidden="true">✓</div>
+        <b>留资咨询</b>
+        <span>已完成</span>
+      </div>
+      <div class="progress-row">
+        <div class="dot" aria-hidden="true">✓</div>
+        <b>到店试驾</b>
+        <span>已完成</span>
+      </div>
+      <div class="progress-row">
+        <div class="dot current" aria-hidden="true">3</div>
+        <b>确认下一步</b>
+        <span>进行中</span>
+      </div>
+    </section>
+
+    <h2 class="section-title">继续处理</h2>
+    <div class="resume-stack">
+      <button class="resume" type="button" id="btn-rebook">
+        <div>
+          <b>再次预约试驾</b>
+          <span>带家人一起体验，或换个版本再开一趟</span>
+        </div>
+        <div class="arrow" aria-hidden="true">›</div>
+      </button>
+      <button class="resume" type="button" id="btn-order">
+        <div>
+          <b>一键订购 Model Y</b>
+          <span>锁定意向配置，开启 Tesla 车主旅程</span>
+        </div>
+        <div class="arrow" aria-hidden="true">›</div>
+      </button>
+    </div>
+
+    <div class="note">
+      Agent 仅在试驾完成、查看总结或响应行动卡等高意图场景出现，不作为通用客服打扰客户。
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      let sessionId = params.get("id") || (location.hash || "").replace(/^#/, "").trim() || "";
+      try {
+        if (!sessionId) {
+          sessionId = localStorage.getItem("tess.demo.report.html.latest") || "";
+        }
+      } catch {
+        /* file:// 等环境可能禁用 localStorage */
+      }
+      const mock = params.get("mock") === "1";
+      const toastEl = document.getElementById("toast");
+      let toastTimer = 0;
+
+      function toast(message) {
+        if (!toastEl) return;
+        toastEl.textContent = message;
+        toastEl.classList.add("is-on");
+        window.clearTimeout(toastTimer);
+        toastTimer = window.setTimeout(() => {
+          toastEl.classList.remove("is-on");
+        }, 2800);
+      }
+
+      function summaryUrl() {
+        const q = new URLSearchParams();
+        if (sessionId) q.set("id", sessionId);
+        if (mock) q.set("mock", "1");
+        const query = q.toString();
+        return query ? `customer-report.html?${query}` : "customer-report.html";
+      }
+
+      const summary = document.getElementById("btn-summary");
+      if (summary) {
+        summary.setAttribute("href", summaryUrl());
+      }
+
+      document.getElementById("btn-chat")?.addEventListener("click", () => {
+        toast("演示：进入试驾助手 Tess（高意图会话，不作为通用客服）。");
+      });
+
+      document.getElementById("btn-rebook")?.addEventListener("click", () => {
+        toast("演示：已向顾问发起再次预约意向。");
+      });
+
+      document.getElementById("btn-order")?.addEventListener("click", () => {
+        toast("演示：已记录订购意向，顾问将协助完成下单。");
+      });
+    })();
+  </script>
+</body>
+</html>

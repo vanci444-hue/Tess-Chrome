@@ -15,6 +15,7 @@ import type {
 import { ApiError } from "../services/api";
 import { mockHealth } from "./fixtures";
 import { reportDemoModules } from "./reportFixtures";
+import { DEMO_REPORT_SUMMARY } from "./reportScene";
 import { currentFacts, appendConfirmation, reportFacts } from "../utils/facts";
 import { factLabels, isMoneyFact, money, display } from "../utils/display";
 interface Store {
@@ -333,7 +334,143 @@ export async function mockRequest<T>(
       "ASR_NOT_CONFIGURED",
     );
   if (path === "/health") data = { ...mockHealth };
-  else if (path === "/customers/extract") {
+  else if (
+    /^\/sessions\/[^/]+\/prepare-demo-report$/.test(path) &&
+    method === "POST"
+  ) {
+    const sid = path.split("/")[2];
+    const s = store.sessions[sid];
+    if (!s) fail("会话不存在", "SESSION_NOT_FOUND");
+    if (!s!.captures.some((c) => c.active))
+      fail("至少需要一个候选方案才能生成报告", "NO_CAPTURE");
+    const active = s!.captures.find((c) => c.active)!;
+    s!.draft = {
+      id: uid(),
+      session_id: s!.id,
+      draft_revision: 1,
+      source_revision: s!.revision,
+      customer_revision: store.customers.find((c) => c.id === s!.customer.id)!
+        .revision,
+      blocking_issues: [],
+      requires_review: true,
+      stale: false,
+      report_data: {
+        id: "",
+        schema_version: 1,
+        customer_salutation: s!.customer.nickname + "，您好",
+        generated_at: now(),
+        published_at: null,
+        summary: { ...DEMO_REPORT_SUMMARY },
+        modules: [
+          ...reportDemoModules(
+            active.id,
+            Number(
+              active.immutable_payload.fields.find(
+                (f) => f.key === "vehicle_price",
+              )?.value,
+            ),
+            s!.facts,
+          ),
+          {
+            type: "options",
+            status: "mock",
+            source_refs: [],
+            data: {
+              options: s!.captures
+                .filter((c) => c.active)
+                .map((c) => ({
+                  capture_id: c.id,
+                  validity: c.validity,
+                  fields: c.immutable_payload.fields,
+                  issues: c.issues,
+                  preference: c.preference,
+                  captured_at: c.immutable_payload.captured_at,
+                })) as unknown as Json,
+            },
+          },
+          {
+            type: "missing",
+            status: "missing",
+            source_refs: [],
+            data: { reason: "契约 Mock：未调用真实模型/地图" },
+          },
+        ],
+        sources: [],
+        asset_ids: [],
+        disclaimer:
+          "动态内容反映采集时的信息；Mock 与 Estimate 不代表 Tesla 当前官方承诺。Demo 场景 6：离店补录后生成。",
+      },
+    };
+    data = { ...s!.draft };
+  } else if (
+    /^\/demo\/sessions\/[^/]+\/prepare-report$/.test(path) &&
+    method === "POST"
+  ) {
+    const sid = path.split("/")[3];
+    const s = store.sessions[sid];
+    if (!s) fail("会话不存在", "SESSION_NOT_FOUND");
+    if (!s!.captures.some((c) => c.active))
+      fail("至少需要一个候选方案才能生成报告", "NO_CAPTURE");
+    const active = s!.captures.find((c) => c.active)!;
+    s!.draft = {
+      id: uid(),
+      session_id: s!.id,
+      draft_revision: 1,
+      source_revision: s!.revision,
+      customer_revision: store.customers.find((c) => c.id === s!.customer.id)!
+        .revision,
+      blocking_issues: [],
+      requires_review: true,
+      stale: false,
+      report_data: {
+        id: "",
+        schema_version: 1,
+        customer_salutation: s!.customer.nickname + "，您好",
+        generated_at: now(),
+        published_at: null,
+        summary: { ...DEMO_REPORT_SUMMARY },
+        modules: [
+          ...reportDemoModules(
+            active.id,
+            Number(
+              active.immutable_payload.fields.find(
+                (f) => f.key === "vehicle_price",
+              )?.value,
+            ),
+            s!.facts,
+          ),
+          {
+            type: "options",
+            status: "mock",
+            source_refs: [],
+            data: {
+              options: s!.captures
+                .filter((c) => c.active)
+                .map((c) => ({
+                  capture_id: c.id,
+                  validity: c.validity,
+                  fields: c.immutable_payload.fields,
+                  issues: c.issues,
+                  preference: c.preference,
+                  captured_at: c.immutable_payload.captured_at,
+                })) as unknown as Json,
+            },
+          },
+          {
+            type: "missing",
+            status: "missing",
+            source_refs: [],
+            data: { reason: "契约 Mock：未调用真实模型/地图" },
+          },
+        ],
+        sources: [],
+        asset_ids: [],
+        disclaimer:
+          "动态内容反映采集时的信息；Mock 与 Estimate 不代表 Tesla 当前官方承诺。Demo 场景 6：离店补录后生成。",
+      },
+    };
+    data = { ...s!.draft };
+  } else if (path === "/customers/extract") {
     const text = String(b.text || "");
     const email = text.match(/[\w.+-]+@[\w.-]+\.[a-zA-Z]+/)?.[0] || null;
     const phone = text.match(/1[3-9]\d{9}/)?.[0] || null;

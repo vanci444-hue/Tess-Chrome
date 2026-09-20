@@ -1,32 +1,58 @@
 import { useEffect, useRef, useState } from "react";
 import type { SessionDetail, Summary } from "../types/api";
 import { tess } from "../services/tess";
-import { newKey, contractMock } from "../services/api";
+import { newKey, staticReportUrl } from "../services/api";
 import { ErrorNotice } from "./Shared";
+import BorderGlow from "./BorderGlow";
+
 interface Props {
   session: SessionDetail;
   onRefresh: () => Promise<unknown>;
   onError: (message: string) => void;
+  /** 场景 6：精简报告卡，打开预览 / 复制链接 / 复制文案 */
+  previewOnly?: boolean;
 }
-export default function ReviewCard({ session, onRefresh, onError }: Props) {
+
+export default function ReviewCard({
+  session,
+  onRefresh,
+  onError,
+  previewOnly = false,
+}: Props) {
   const draft = session.draft!,
     [editing, setEditing] = useState(false),
     [summary, setSummary] = useState<Summary>(draft.report_data.summary),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
-    [reviewed, setReviewed] = useState(false);
+    [reviewed, setReviewed] = useState(false),
+    [copied, setCopied] = useState("");
   const keyStorage = `tess.publish.${session.id}.${draft.id}.${draft.draft_revision}`;
   const publishKey = useRef(localStorage.getItem(keyStorage) || newKey());
   const latestSummary = useRef(draft.report_data.summary);
   latestSummary.current = draft.report_data.summary;
+  const preview = staticReportUrl(session.id);
+  const customerName = "张先生";
+
+  function shareMessage() {
+    return `${customerName}，您好：
+这是您今天试驾后的旅程入口，可查看复盘总结或继续与助手沟通。
+
+链接：
+${preview}
+若还有疑问，随时联系我。期待您再次到店。
+—— Alex · 销售顾问 1886889092`;
+  }
+
   useEffect(() => {
     setSummary(latestSummary.current);
     setReviewed(false);
     publishKey.current = localStorage.getItem(keyStorage) || newKey();
     localStorage.setItem(keyStorage, publishKey.current);
   }, [draft.id, draft.draft_revision, keyStorage]);
+
   const changed =
     JSON.stringify(summary) !== JSON.stringify(draft.report_data.summary);
+
   async function save() {
     setBusy(true);
     setError("");
@@ -46,6 +72,7 @@ export default function ReviewCard({ session, onRefresh, onError }: Props) {
       setBusy(false);
     }
   }
+
   async function publish() {
     setBusy(true);
     setError("");
@@ -65,11 +92,89 @@ export default function ReviewCard({ session, onRefresh, onError }: Props) {
       setBusy(false);
     }
   }
+
+  function openPreview() {
+    window.open(preview, "_blank", "noopener,noreferrer");
+  }
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(preview);
+      setCopied("已复制链接");
+      window.setTimeout(() => setCopied(""), 2000);
+    } catch {
+      onError("复制失败，请重试。");
+    }
+  }
+
+  async function copyShare() {
+    try {
+      await navigator.clipboard.writeText(shareMessage());
+      setCopied("已复制发给客户的文案");
+      window.setTimeout(() => setCopied(""), 2000);
+    } catch {
+      onError("复制失败，请重试。");
+    }
+  }
+
   const block =
     draft.stale ||
     draft.source_revision !== session.revision ||
     draft.blocking_issues.some((i) => i.blocking);
-  const preview = `${location.pathname}${contractMock ? "?mock=1" : ""}#/preview/${session.id}`;
+
+  if (previewOnly) {
+    return (
+      <BorderGlow
+        className="report-ready-glow"
+        edgeSensitivity={30}
+        glowColor="40 80 80"
+        backgroundColor="#ffffff"
+        borderRadius={16}
+        glowRadius={0}
+        glowIntensity={0}
+        coneSpread={25}
+        animated={false}
+        fillOpacity={0}
+        colors={["#c084fc", "#f472b6", "#38bdf8"]}
+      >
+        <section className="report-ready-card">
+          <div className="row between">
+            <span className="eyebrow">TEST DRIVE REPORT</span>
+          </div>
+          <h2>{customerName || "客户"} · 试驾报告</h2>
+          <p className="muted micro">
+            {draft.report_data.summary.comparing || "本次候选方案已整理"}
+          </p>
+          <button
+            className="primary full"
+            type="button"
+            onClick={openPreview}
+          >
+            查看报告
+          </button>
+          <div className="row wrap report-ready-actions">
+            <button
+              className="text-button"
+              type="button"
+              onClick={() => void copyLink()}
+            >
+              {copied === "已复制链接" ? copied : "复制链接"}
+            </button>
+            <button
+              className="text-button"
+              type="button"
+              onClick={() => void copyShare()}
+            >
+              {copied === "已复制发给客户的文案"
+                ? copied
+                : "复制发给客户的文案"}
+            </button>
+          </div>
+        </section>
+      </BorderGlow>
+    );
+  }
+
   return (
     <section className="review-card">
       <div className="row between">
@@ -97,7 +202,9 @@ export default function ReviewCard({ session, onRefresh, onError }: Props) {
           <label>
             现在比较什么
             <textarea
-              readOnly={/[\d零〇一二三四五六七八九十百千万亿两]/.test(draft.report_data.summary.comparing)}
+              readOnly={/[\d零〇一二三四五六七八九十百千万亿两]/.test(
+                draft.report_data.summary.comparing,
+              )}
               value={summary.comparing}
               onChange={(e) =>
                 setSummary((v) => ({ ...v, comparing: e.target.value }))
@@ -111,7 +218,9 @@ export default function ReviewCard({ session, onRefresh, onError }: Props) {
                 <label key={index} className="summary-line">
                   <span className="micro muted">
                     第 {index + 1} 项{" "}
-                    {/[\d零〇一二三四五六七八九十百千万亿两]/.test(draft.report_data.summary[field][index] || "")
+                    {/[\d零〇一二三四五六七八九十百千万亿两]/.test(
+                      draft.report_data.summary[field][index] || "",
+                    )
                       ? "· 数字事实，只读"
                       : ""}
                   </span>
@@ -174,14 +283,14 @@ export default function ReviewCard({ session, onRefresh, onError }: Props) {
         <button className="text-button" onClick={() => setEditing(!editing)}>
           {editing ? "收起编辑" : "调整总结措辞"}
         </button>
-        <a
+        <button
           className="text-button"
-          href={preview}
-          target="_blank"
-          rel="noreferrer"
+          type="button"
+          onClick={openPreview}
+          disabled={block}
         >
           完整预览 ↗
-        </a>
+        </button>
       </div>
       <label className="checkbox">
         <input

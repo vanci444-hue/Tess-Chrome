@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && node scripts/package-extension.mjs",
+    "build": "tsc -b && VITE_CONTRACT_MOCK=true vite build && node scripts/package-extension.mjs",
     "type-check": "tsc -b --pretty false",
     "lint": "eslint src",
     "test": "node --experimental-strip-types --test src/utils/*.test.ts src/audio/*.test.ts",

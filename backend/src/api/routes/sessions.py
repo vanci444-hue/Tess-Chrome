@@ -9,6 +9,7 @@ from pycore.api.responses import APIResponse, success_response
 from src.api.deps import get_db, get_settings, idempotency_key
 from src.config.settings import Settings, settings
 from src.models.contracts import (
+    BusinessError,
     CaptureCreate,
     CaptureSaved,
     CaptureUpdate,
@@ -92,6 +93,33 @@ async def inject_events(session_id: UUID, data: EventInject, request: Request,
         return await EventService(store, config).inject(str(session_id), data)
     return success_response(await store.idempotent(key, f"events:{session_id}", data.model_dump(), action),
                             message="ok", request_id=request.state.request_id)
+
+
+@router.post("/{session_id}/prepare-demo-report")
+async def prepare_demo_report(
+    session_id: UUID,
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+    config: Settings = Depends(get_settings),
+):
+    """场景 6 Demo：按离店补录完成态落草稿，不走模型、不追问销售。"""
+    from src.api.routes.demo import DEMO_REPORT_SUMMARY
+    from src.db.models import Capture, Session
+    from src.services.reports import ReportService
+
+    store = Store(db)
+    session = await store.require(Session, str(session_id))
+    active = await store.list(Capture, session_id=str(session_id), active=True)
+    if not active:
+        raise BusinessError("至少需要一个候选方案才能生成报告", "NO_CAPTURE", 400)
+    draft = await ReportService(store, config).save_draft(
+        str(session_id), session.revision, summary=DEMO_REPORT_SUMMARY
+    )
+    return success_response(
+        draft,
+        message="演示报告草稿已就绪",
+        request_id=request.state.request_id,
+    )
 
 
 @router.get("/{session_id}/assets/{asset_id}", response_class=FileResponse)

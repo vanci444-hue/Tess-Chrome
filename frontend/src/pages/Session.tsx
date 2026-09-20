@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useParams, useBlocker, useLocation } from "react-router";
 import { tess } from "../services/tess";
 import { captureCurrent } from "../services/capture";
-import { ApiError, contractMock } from "../services/api";
+import { ApiError } from "../services/api";
 import { useDraftText, draftKey } from "../hooks/useDraftText";
 import { useSession } from "../hooks/useSession";
 import { useRealtimeAsr } from "../hooks/useRealtimeAsr";
@@ -12,6 +12,8 @@ import CaptureCard from "../components/CaptureCard";
 import Composer from "../components/Composer";
 import {
   FinanceConclusion,
+  DecisionContextReply,
+  DecisionContextToolBubble,
   KnowledgeToolBubble,
   PlanningBubble,
   ProcessTrail,
@@ -44,7 +46,23 @@ import {
   type KnowledgeSource,
   type KnowledgeToolCall,
 } from "../mocks/knowledgeCopilot";
+import {
+  DECISION_CONFIRM,
+  DECISION_INPUT_0,
+  DECISION_INPUT_1,
+  DECISION_INPUT_2,
+  DECISION_SCRIPT,
+  buildScene5CompleteThread,
+  isDecisionConfirm,
+  isDecisionInput0,
+  isDecisionInput1,
+  isDecisionInput2,
+  type DecisionContextToolCall,
+  type DecisionSlot,
+} from "../mocks/decisionContext";
+import { REPORT_SCRIPT, prepareReportScene, seedDemoReportDraft } from "../mocks/reportScene";
 import { saveAppliedPlan } from "../mocks/sessionPlans";
+import ReviewCard from "../components/ReviewCard";
 import type { Capture } from "../types/api";
 
 type DemoBubble =
@@ -66,6 +84,7 @@ type DemoBubble =
     }
   | { id: string; kind: "tool"; call: FinanceToolCall }
   | { id: string; kind: "kb_tool"; call: KnowledgeToolCall }
+  | { id: string; kind: "dc_tool"; call: DecisionContextToolCall }
   | {
       id: string;
       kind: "conclusion";
@@ -76,6 +95,14 @@ type DemoBubble =
       kind: "reply";
       text: string;
       sources?: KnowledgeSource[];
+    }
+  | {
+      id: string;
+      kind: "dc_reply";
+      intro?: string;
+      slots?: DecisionSlot[];
+      followup?: string;
+      compact?: boolean;
     }
   | {
       id: string;
@@ -92,7 +119,8 @@ function isProcessBubble(bubble: DemoBubble) {
     bubble.kind === "stage" ||
     bubble.kind === "planning" ||
     bubble.kind === "tool" ||
-    bubble.kind === "kb_tool"
+    bubble.kind === "kb_tool" ||
+    bubble.kind === "dc_tool"
   );
 }
 
@@ -100,6 +128,7 @@ function isTerminalBubble(bubble: DemoBubble) {
   return (
     bubble.kind === "conclusion" ||
     bubble.kind === "reply" ||
+    bubble.kind === "dc_reply" ||
     bubble.kind === "trial_card"
   );
 }
@@ -134,6 +163,9 @@ function renderProcessBubble(bubble: DemoBubble) {
   if (bubble.kind === "kb_tool") {
     return <KnowledgeToolBubble key={bubble.id} call={bubble.call} />;
   }
+  if (bubble.kind === "dc_tool") {
+    return <DecisionContextToolBubble key={bubble.id} call={bubble.call} />;
+  }
   return null;
 }
 
@@ -150,7 +182,11 @@ function Session({ id }: { id: string }) {
     [captureBusy, setCaptureBusy] = useState(false),
     [toast, setToast] = useState(""),
     [demoThread, setDemoThread] = useState<DemoBubble[]>([]),
-    [demoMode, setDemoMode] = useState<"finance" | "knowledge" | null>(null);
+    [demoMode, setDemoMode] = useState<
+      "finance" | "knowledge" | "decision" | "report" | null
+    >(null),
+    [decisionStep, setDecisionStep] = useState<0 | 1 | 2 | 3 | 4>(0),
+    [reportReady, setReportReady] = useState(false);
   const threadEnd = useRef<HTMLDivElement>(null);
   const audio = useRealtimeAsr({
     sessionId: id,
@@ -163,9 +199,13 @@ function Session({ id }: { id: string }) {
   const locationState = location.state as {
     financeSceneAt?: number;
     knowledgeSceneAt?: number;
+    decisionSceneAt?: number;
+    reportSceneAt?: number;
   } | null;
   const financeSceneAt = locationState?.financeSceneAt;
   const knowledgeSceneAt = locationState?.knowledgeSceneAt;
+  const decisionSceneAt = locationState?.decisionSceneAt;
+  const reportSceneAt = locationState?.reportSceneAt;
 
   useEffect(() => {
     threadEnd.current?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -174,18 +214,46 @@ function Session({ id }: { id: string }) {
   useEffect(() => {
     if (!financeSceneAt) return;
     setDemoMode("finance");
+    setDecisionStep(0);
+    setReportReady(false);
     setDemoThread([]);
     setToast("");
+    setError("");
     void refresh().catch(() => {});
-  }, [financeSceneAt, refresh]);
+  }, [financeSceneAt, refresh, setError]);
 
   useEffect(() => {
     if (!knowledgeSceneAt) return;
     setDemoMode("knowledge");
+    setDecisionStep(0);
+    setReportReady(false);
     setDemoThread([]);
     setToast("");
+    setError("");
     void refresh().catch(() => {});
-  }, [knowledgeSceneAt, refresh]);
+  }, [knowledgeSceneAt, refresh, setError]);
+
+  useEffect(() => {
+    if (!decisionSceneAt) return;
+    setDemoMode("decision");
+    setDecisionStep(0);
+    setReportReady(false);
+    setDemoThread([]);
+    setToast("");
+    setError("");
+    void refresh().catch(() => {});
+  }, [decisionSceneAt, refresh, setError]);
+
+  useEffect(() => {
+    if (!reportSceneAt) return;
+    setDemoMode("report");
+    setDecisionStep(4);
+    setReportReady(false);
+    setDemoThread(buildScene5CompleteThread());
+    setToast("");
+    setError("");
+    void refresh().catch(() => {});
+  }, [reportSceneAt, refresh, setError]);
 
   useEffect(() => {
     if (leaveAfterFinish && !audio.active && blocker.state === "blocked") {
@@ -193,6 +261,13 @@ function Session({ id }: { id: string }) {
       blocker.proceed();
     }
   }, [leaveAfterFinish, audio.active, blocker]);
+
+  // 会话已加载时的操作/刷新提示改走 Toast，避免粉条常驻挡演示
+  useEffect(() => {
+    if (!s || !error) return;
+    setToast(error);
+    setError("");
+  }, [s, error, setError]);
 
   async function action(fn: () => Promise<unknown>) {
     if (busy) return;
@@ -202,7 +277,7 @@ function Session({ id }: { id: string }) {
       await fn();
       await refresh();
     } catch (e) {
-      setError((e as Error).message);
+      setToast((e as Error).message);
       if (e instanceof ApiError && e.code === "CONFLICT")
         await refresh().catch(() => {});
     } finally {
@@ -501,6 +576,269 @@ function Session({ id }: { id: string }) {
     }
   }
 
+  async function playDecisionPipeline(args: {
+    intentTitle: string;
+    intentLines: string[];
+    routerTitle: string;
+    routerLines?: string[];
+    planSteps?: string[];
+    skipPlan?: boolean;
+    tool: DecisionContextToolCall;
+  }) {
+    const thinkingId = crypto.randomUUID();
+    setDemoThread((prev) => [
+      ...prev,
+      { id: thinkingId, kind: "thinking", label: "意图识别中…" },
+    ]);
+    await sleep(550);
+    setDemoThread((prev) => [
+      ...prev.filter((item) => item.id !== thinkingId),
+      {
+        id: crypto.randomUUID(),
+        kind: "stage",
+        label: "意图",
+        title: args.intentTitle,
+        lines: args.intentLines,
+      },
+    ]);
+    await sleep(400);
+    setDemoThread((prev) => [
+      ...prev,
+      {
+        id: crypto.randomUUID(),
+        kind: "stage",
+        label: "路由",
+        title: args.routerTitle,
+        lines: args.routerLines,
+      },
+    ]);
+    await sleep(400);
+
+    if (!args.skipPlan && args.planSteps?.length) {
+      const planId = crypto.randomUUID();
+      setDemoThread((prev) => [
+        ...prev,
+        {
+          id: planId,
+          kind: "planning",
+          steps: args.planSteps!,
+          loading: true,
+          loadingText: "正在进入 Plan…",
+        },
+      ]);
+      await sleep(800);
+      setDemoThread((prev) =>
+        prev.map((item) =>
+          item.id === planId && item.kind === "planning"
+            ? { ...item, loading: false }
+            : item,
+        ),
+      );
+      await sleep(350);
+    }
+
+    const loadingId = crypto.randomUUID();
+    setDemoThread((prev) => [
+      ...prev,
+      {
+        id: loadingId,
+        kind: "thinking",
+        label: `调用 ${args.tool.title}…`,
+      },
+    ]);
+    await sleep(500);
+    setDemoThread((prev) => [
+      ...prev.filter((item) => item.id !== loadingId),
+      { id: crypto.randomUUID(), kind: "dc_tool", call: args.tool },
+    ]);
+    await sleep(300);
+  }
+
+  async function runDecisionRound0(submitted: string) {
+    const script = DECISION_SCRIPT.round0;
+    setDemoThread((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), kind: "sales", text: submitted },
+    ]);
+    setBusy(true);
+    try {
+      await playDecisionPipeline({
+        intentTitle: script.intent.title,
+        intentLines: [...script.intent.lines],
+        routerTitle: script.router.title,
+        routerLines: [...script.router.lines],
+        planSteps: [...script.planSteps],
+        tool: script.tool(),
+      });
+      setDemoThread((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          kind: "dc_reply",
+          intro: script.intro,
+          slots: [...script.slots],
+          followup: script.followup,
+        },
+      ]);
+      setDecisionStep(1);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function runDecisionRound1(submitted: string) {
+    const script = DECISION_SCRIPT.round1;
+    setDemoThread((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), kind: "sales", text: submitted },
+    ]);
+    setBusy(true);
+    try {
+      await playDecisionPipeline({
+        intentTitle: script.intent.title,
+        intentLines: [...script.intent.lines],
+        routerTitle: script.router.title,
+        skipPlan: true,
+        tool: script.tool(),
+      });
+      setDemoThread((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          kind: "dc_reply",
+          intro: script.intro,
+          slots: [...script.updates],
+          followup: script.followup,
+          compact: true,
+        },
+      ]);
+      setDecisionStep(2);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function runDecisionRound2(submitted: string) {
+    const script = DECISION_SCRIPT.round2;
+    setDemoThread((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), kind: "sales", text: submitted },
+    ]);
+    setBusy(true);
+    try {
+      await playDecisionPipeline({
+        intentTitle: script.intent.title,
+        intentLines: [...script.intent.lines],
+        routerTitle: script.router.title,
+        skipPlan: true,
+        tool: script.tool(),
+      });
+      setDemoThread((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          kind: "dc_reply",
+          intro: script.intro,
+          slots: [...script.slots],
+          followup: script.followup,
+        },
+      ]);
+      setDecisionStep(3);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function runDecisionConfirm(submitted: string) {
+    const script = DECISION_SCRIPT.confirm;
+    setDemoThread((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), kind: "sales", text: submitted },
+    ]);
+    setBusy(true);
+    try {
+      await playDecisionPipeline({
+        intentTitle: script.intent.title,
+        intentLines: [...script.intent.lines],
+        routerTitle: script.router.title,
+        skipPlan: true,
+        tool: script.tool(),
+      });
+      setDemoThread((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          kind: "reply",
+          text: script.reply,
+        },
+      ]);
+      setDecisionStep(4);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function runReportGenerate() {
+    if (working) return;
+    setBusy(true);
+    setError("");
+    setReportReady(false);
+    try {
+      if (!session.captures.some((c) => c.active)) {
+        await prepareReportScene(id);
+        await refresh();
+      }
+      setDemoMode("report");
+      const script = REPORT_SCRIPT;
+      setDemoThread((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          kind: "sales",
+          text: script.salesQuery,
+        },
+      ]);
+      await playFinancePipeline({
+        intentTitle: script.intent.title,
+        intentLines: [...script.intent.lines],
+        routerTitle: script.router.title,
+        routerLines: [...script.router.lines],
+        planSteps: [...script.planSteps],
+        tools: [],
+        skipPlan: false,
+      });
+      setDemoThread((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          kind: "stage",
+          label: "来源",
+          title: "Explicit Context",
+          lines: [...script.sources],
+        },
+      ]);
+      await sleep(450);
+      // 纯前端落草稿，不打后端
+      const detail = await refresh();
+      if (!detail) throw new Error("无法读取当前会话");
+      seedDemoReportDraft(detail);
+      await refresh();
+      setDemoThread((prev) => [
+        ...prev,
+        {
+          id: crypto.randomUUID(),
+          kind: "reply",
+          text: script.reply,
+        },
+      ]);
+      setReportReady(true);
+    } catch (e) {
+      setToast((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function capture() {
     if (captureBusy) return;
     if (active.length >= 3) {
@@ -520,7 +858,7 @@ function Session({ id }: { id: string }) {
         e instanceof ApiError &&
         (e.code === "CANDIDATE_LIMIT" || /三个候选|3 个候选/.test(e.message));
       if (limit) setToast("最多抓取 3 个。要换方案，先去掉一个再 Capture。");
-      else setError((e as Error).message);
+      else setToast((e as Error).message);
       if (e instanceof ApiError && e.code === "CONFLICT")
         await refresh().catch(() => {});
     } finally {
@@ -550,7 +888,7 @@ function Session({ id }: { id: string }) {
       }
       await refresh();
     } catch (e) {
-      setError((e as Error).message);
+      setToast((e as Error).message);
       if (e instanceof ApiError && e.code === "CONFLICT")
         await refresh().catch(() => {});
     } finally {
@@ -588,6 +926,26 @@ function Session({ id }: { id: string }) {
     if (isKnowledgeInput(submitted)) {
       clearDraft();
       await runKnowledgeCase(submitted);
+      return;
+    }
+    if (isDecisionInput0(submitted)) {
+      clearDraft();
+      await runDecisionRound0(submitted);
+      return;
+    }
+    if (isDecisionInput1(submitted)) {
+      clearDraft();
+      await runDecisionRound1(submitted);
+      return;
+    }
+    if (isDecisionInput2(submitted)) {
+      clearDraft();
+      await runDecisionRound2(submitted);
+      return;
+    }
+    if (isDecisionConfirm(submitted)) {
+      clearDraft();
+      await runDecisionConfirm(submitted);
       return;
     }
     await action(async () => {
@@ -698,6 +1056,25 @@ function Session({ id }: { id: string }) {
         continue;
       }
 
+      if (bubble.kind === "dc_reply") {
+        nodes.push(
+          <DecisionContextReply
+            key={bubble.id}
+            intro={bubble.intro}
+            slots={bubble.slots}
+            followup={bubble.followup}
+            compact={bubble.compact}
+          />,
+        );
+        i += 1;
+        continue;
+      }
+
+      if (bubble.kind !== "trial_card") {
+        i += 1;
+        continue;
+      }
+
       nodes.push(
         <div className="chat-row assistant" key={bubble.id}>
           <div className="chat-meta">Tess</div>
@@ -762,7 +1139,7 @@ function Session({ id }: { id: string }) {
             ) : (
               <>
                 <Icon name="plus" size={16} />
-                {contractMock ? "Mock Capture" : "Capture"}
+                Capture
               </>
             )}
           </button>
@@ -797,7 +1174,14 @@ function Session({ id }: { id: string }) {
             <div ref={threadEnd} />
           </div>
         )}
-        <ErrorNotice message={error} />
+        {demoMode === "report" && reportReady && session.draft && (
+          <ReviewCard
+            session={session}
+            onRefresh={refresh}
+            onError={setToast}
+            previewOnly
+          />
+        )}
       </div>
       {blocker.state === "blocked" && (
         <div className="modal-backdrop">
@@ -844,6 +1228,18 @@ function Session({ id }: { id: string }) {
         </div>
       )}
       <div className="composer-host">
+        <div className="demo-report-action">
+          <button
+            type="button"
+            className="demo-input-script report-generate"
+            disabled={working}
+            onClick={() => void runReportGenerate()}
+          >
+            {working && demoMode === "report" && !reportReady
+              ? "正在生成…"
+              : "生成试驾报告"}
+          </button>
+        </div>
         <div className="demo-input-scripts">
           {demoMode === "knowledge" ? (
             <button
@@ -853,7 +1249,48 @@ function Session({ id }: { id: string }) {
             >
               复制知识提问
             </button>
-          ) : (
+          ) : null}
+          {demoMode === "decision" ? (
+            <>
+              {decisionStep === 0 ? (
+                <button
+                  type="button"
+                  className="demo-input-script"
+                  onClick={() => fillDemoInput(DECISION_INPUT_0)}
+                >
+                  复制决策补录
+                </button>
+              ) : null}
+              {decisionStep === 1 ? (
+                <button
+                  type="button"
+                  className="demo-input-script"
+                  onClick={() => fillDemoInput(DECISION_INPUT_1)}
+                >
+                  复制补充 · 第1轮
+                </button>
+              ) : null}
+              {decisionStep === 2 ? (
+                <button
+                  type="button"
+                  className="demo-input-script"
+                  onClick={() => fillDemoInput(DECISION_INPUT_2)}
+                >
+                  复制补充 · 第2轮
+                </button>
+              ) : null}
+              {decisionStep === 3 ? (
+                <button
+                  type="button"
+                  className="demo-input-script"
+                  onClick={() => fillDemoInput(DECISION_CONFIRM)}
+                >
+                  复制确认
+                </button>
+              ) : null}
+            </>
+          ) : null}
+          {demoMode === "finance" ? (
             <>
               <button
                 type="button"
@@ -884,7 +1321,7 @@ function Session({ id }: { id: string }) {
                 复制 B3
               </button>
             </>
-          )}
+          ) : null}
         </div>
         <Composer
           text={text}

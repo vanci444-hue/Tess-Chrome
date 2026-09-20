@@ -4,10 +4,17 @@ import { tess } from "../services/tess";
 import { PageHeader, ErrorNotice } from "../components/Shared";
 import { profileFromCrm } from "../mocks/demoCrm";
 
+function pointsToMarkdown(points: string[]) {
+  return points.map((point) => `- ${point}`).join("\n");
+}
+
 export default function NewCustomer() {
   const navigate = useNavigate();
   const crm = String((useLocation().state as { crm?: string } | null)?.crm || "");
   const profile = useMemo(() => profileFromCrm(crm), [crm]);
+  const [notes, setNotes] = useState(() =>
+    profile ? pointsToMarkdown(profile.points) : "",
+  );
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -51,7 +58,7 @@ export default function NewCustomer() {
   return (
     <>
       <PageHeader title="确认客户资料" />
-      <div className="scroll-area form-stack">
+      <div className="scroll-area form-stack confirm-customer">
         <p className="muted">已从粘贴内容整理出本次接待要用的资料，请确认。</p>
         {ride && (
           <aside className="visit-callout">
@@ -76,19 +83,21 @@ export default function NewCustomer() {
             <dd>{profile.email || "未提供"}</dd>
           </div>
         </dl>
-        {profile.points.length > 0 && (
-          <section className="profile-points">
-            <h2>重点信息</h2>
-            <ul>
-              {profile.points.map((point) => (
-                <li key={point}>{point}</li>
-              ))}
-            </ul>
-          </section>
-        )}
+        <label className="notes-field">
+          备注
+          <textarea
+            rows={8}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder={"支持 Markdown 列表，例如：\n- 月供希望控制在 3000 以内\n1. 配偶未到场"}
+            spellCheck={false}
+          />
+        </label>
         <ErrorNotice message={error} />
+      </div>
+      <div className="confirm-footer">
         <button
-          className="primary"
+          className="primary full"
           type="button"
           disabled={busy}
           onClick={() => void create()}
